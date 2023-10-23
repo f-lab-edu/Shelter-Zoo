@@ -1,0 +1,12 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
