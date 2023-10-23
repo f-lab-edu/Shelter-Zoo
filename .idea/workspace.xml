@@ -5,21 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32970fb8-1822-4104-8417-215a94c1ac1e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../batch/src/main/java/com/example/batch/job/SimpleJobConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pureJava/threads/Calculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pureJava/threads/Run.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pureJava/threads/ThreadEx.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pureJava/threads/ThreadEx1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../spring/src/main/java/com/lab/spring/config/MDCFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../spring/src/main/java/com/lab/spring/mdc/MdcController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../spring/src/main/resources/logback-local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/AController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/BController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/CController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/service/AService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/service/BService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../test/src/main/java/com/example/test/service/CService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../webflux/src/main/java/com/example/webflux/blocking/Webflux.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/config/DBConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/controller/infraTest/InfraTestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/repository/infraTest/TestRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/service/infraTest/InfraTestService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/test/testMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/groovy/com/noint/shelterzoo/test/infraTest.groovy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +24,44 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="shelter-zoo" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="shelter-zoo" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="shelter-zoo" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -44,14 +76,134 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "infra",
+    "jdk.selected.JAVA_MODULE": "11",
+    "last_opened_file_path": "C:/project/shelter-zoo/src/main/resources/mapper/test",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.32873562",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
     "spring.configuration.checksum": "bdb0c112eaa0b98916a8ef4df06c9e9f",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.ShleterZooApplication">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\shelter-zoo\src\main\resources\mapper\test" />
+      <recent name="C:\project\shelter-zoo\src\main\java\com\noint\shelterzoo" />
+      <recent name="C:\project\shelter-zoo\src\test\groovy" />
+      <recent name="C:\project\shelter-zoo\src\test" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.local">
+    <configuration name="shelter-zoo [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="test.DB연결 테스트" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.noint.shelterzoo.test.test.DB연결 테스트&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
+    <configuration name="infraTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.test" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.test.infraTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="infraTest.DB연결 테스트" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.test" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.test.infraTest" />
+      <option name="METHOD_NAME" value="DB연결 테스트" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test.DB연결 테스트" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.test" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.test.test" />
+      <option name="METHOD_NAME" value="DB연결 테스트" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ShelterZooApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="shelter-zoo.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.noint.shelterzoo.ShelterZooApplication" />
@@ -59,13 +211,32 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShleterZooApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="local" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" value="local" />
       <module name="shelter-zoo.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.noint.shleterzoo.ShleterZooApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.noint.shelterzoo.ShelterZooApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.shelter-zoo [clean]" />
+      <item itemvalue="Gradle.test.DB연결 테스트" />
+      <item itemvalue="JUnit.infraTest" />
+      <item itemvalue="JUnit.infraTest.DB연결 테스트" />
+      <item itemvalue="JUnit.test.DB연결 테스트" />
+      <item itemvalue="Spring Boot.ShelterZooApplication" />
+      <item itemvalue="Spring Boot.local" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.infraTest" />
+        <item itemvalue="JUnit.infraTest.DB연결 테스트" />
+        <item itemvalue="JUnit.test.DB연결 테스트" />
+        <item itemvalue="Gradle.shelter-zoo [clean]" />
+        <item itemvalue="Gradle.test.DB연결 테스트" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -82,5 +253,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
