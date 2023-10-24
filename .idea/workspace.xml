@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32970fb8-1822-4104-8417-215a94c1ac1e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/controller/user/UserControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/controller/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/controller/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/service/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/service/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/service/user/UserUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/service/user/UserUnitTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,22 +125,28 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserControllerTest.emailDuplicateCheck">
-    <configuration name="InfraTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shelter-zoo.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noint.shelterzoo.infraTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.infraTest" />
-      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.infraTest.InfraTest" />
-      <option name="METHOD_NAME" value="test" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+  <component name="RunManager" selected="JUnit.UserUnitTest.isExistEmailForFail">
+    <configuration name="shelter-zoo [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>false</ForceTestExec>
+      <method v="2" />
     </configuration>
     <configuration name="UserControllerTest.emailDuplicateCheck" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shelter-zoo.test" />
@@ -158,38 +164,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shelter-zoo.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noint.shelterzoo.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.user" />
-      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.user.UserIntegrationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserIntegrationTest.emailDuplicateCheck" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shelter-zoo.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.noint.shelterzoo.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.user" />
-      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.user.UserIntegrationTest" />
-      <option name="METHOD_NAME" value="emailDuplicateCheck" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserUnitTest.emailFormCheckForFalse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shelter-zoo.test" />
       <extension name="coverage">
         <pattern>
@@ -199,7 +174,40 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.user" />
       <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.user.UserUnitTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="emailFormCheckForFalse" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserUnitTest.emailFormCheckForTrue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.service.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.user" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.user.UserUnitTest" />
+      <option name="METHOD_NAME" value="emailFormCheckForTrue" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserUnitTest.isExistEmailForFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.service.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.user" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.user.UserUnitTest" />
+      <option name="METHOD_NAME" value="isExistEmailForFail" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -220,21 +228,21 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.shelter-zoo [clean]" />
       <item itemvalue="JUnit.UserControllerTest.emailDuplicateCheck" />
-      <item itemvalue="JUnit.UserUnitTest" />
-      <item itemvalue="JUnit.UserIntegrationTest" />
-      <item itemvalue="JUnit.InfraTest.test" />
-      <item itemvalue="JUnit.UserIntegrationTest.emailDuplicateCheck" />
+      <item itemvalue="JUnit.UserUnitTest.emailFormCheckForFalse" />
+      <item itemvalue="JUnit.UserUnitTest.emailFormCheckForTrue" />
+      <item itemvalue="JUnit.UserUnitTest.isExistEmailForFail" />
       <item itemvalue="Spring Boot.ShelterZooApplication" />
       <item itemvalue="Spring Boot.local" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserUnitTest.isExistEmailForFail" />
+        <item itemvalue="JUnit.UserUnitTest.emailFormCheckForTrue" />
+        <item itemvalue="JUnit.UserUnitTest.emailFormCheckForFalse" />
+        <item itemvalue="Gradle.shelter-zoo [clean]" />
         <item itemvalue="JUnit.UserControllerTest.emailDuplicateCheck" />
-        <item itemvalue="JUnit.UserUnitTest" />
-        <item itemvalue="JUnit.UserIntegrationTest.emailDuplicateCheck" />
-        <item itemvalue="JUnit.UserIntegrationTest" />
-        <item itemvalue="JUnit.InfraTest.test" />
       </list>
     </recent_temporary>
   </component>
@@ -250,23 +258,12 @@
       <workItem from="1697872344899" duration="151000" />
       <workItem from="1698092607447" duration="67000" />
       <workItem from="1698092833845" duration="2095000" />
-      <workItem from="1698151503608" duration="9305000" />
+      <workItem from="1698151503608" duration="13442000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/controller/user/UserController.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
