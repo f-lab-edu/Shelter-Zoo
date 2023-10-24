@@ -5,10 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="32970fb8-1822-4104-8417-215a94c1ac1e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/infraTest/InfraTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/controller/user/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/repository/user/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/noint/shelterzoo/service/user/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/user/userMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/service/user/UserUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/noint/shelterzoo/ShelterZooApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ShelterZooApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +64,10 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/resources/mapper/user/userMapper.xml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -78,29 +86,43 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "infra",
+    "git-widget-placeholder": "duplicateCheck",
     "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "C:/project/shelter-zoo/src/test/java/com/noint/shelterzoo",
+    "last_directory_selection": "C:/project/shelter-zoo/src/test/java/com/noint/shelterzoo",
+    "last_opened_file_path": "C:/project/shelter-zoo/src/test/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.32873562",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "spring.configuration.checksum": "bdb0c112eaa0b98916a8ef4df06c9e9f",
+    "settings.editor.selected.configurable": "SQL Dialects",
+    "spring.configuration.checksum": "1590f1d080086e0bbb6c0f7725b83894",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\shelter-zoo\src\main\resources\mapper\user" />
       <recent name="C:\project\shelter-zoo\src\test\java\com\noint\shelterzoo" />
       <recent name="C:\project\shelter-zoo\src\main\resources\mapper\test" />
       <recent name="C:\project\shelter-zoo\src\main\java\com\noint\shelterzoo" />
       <recent name="C:\project\shelter-zoo\src\test\groovy" />
-      <recent name="C:\project\shelter-zoo\src\test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value=":" />
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
@@ -109,7 +131,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.InfraTest.test">
+  <component name="RunManager" selected="JUnit.UserUnitTest">
     <configuration name="InfraTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shelter-zoo.test" />
       <extension name="coverage">
@@ -135,43 +157,48 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShelterZooApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="shelter-zoo.test" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ShelterZooApplicationTests" />
-      <option name="METHOD_NAME" value="contextLoads" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="infraTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserIntegrationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shelter-zoo.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.noint.shelterzoo.service.infraTest.*" />
+          <option name="PATTERN" value="com.noint.shelterzoo.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.infraTest" />
-      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.infraTest.infraTest" />
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.user" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.user.UserIntegrationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="infraTest.DB연결 테스트 (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserIntegrationTest.emailDuplicateCheck" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="shelter-zoo.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.noint.shelterzoo.service.infraTest.*" />
+          <option name="PATTERN" value="com.noint.shelterzoo.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.infraTest" />
-      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.infraTest.infraTest" />
-      <option name="METHOD_NAME" value="DB연결 테스트" />
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.user" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.user.UserIntegrationTest" />
+      <option name="METHOD_NAME" value="emailDuplicateCheck" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserUnitTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="shelter-zoo.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.noint.shelterzoo.service.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.noint.shelterzoo.service.user" />
+      <option name="MAIN_CLASS_NAME" value="com.noint.shelterzoo.service.user.UserUnitTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -192,21 +219,21 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.UserUnitTest" />
+      <item itemvalue="JUnit.UserIntegrationTest" />
       <item itemvalue="JUnit.InfraTest.test" />
       <item itemvalue="JUnit.ShelterZooApplicationTests" />
-      <item itemvalue="JUnit.ShelterZooApplicationTests.contextLoads" />
-      <item itemvalue="JUnit.infraTest (1)" />
-      <item itemvalue="JUnit.infraTest.DB연결 테스트 (1)" />
+      <item itemvalue="JUnit.UserIntegrationTest.emailDuplicateCheck" />
       <item itemvalue="Spring Boot.ShelterZooApplication" />
       <item itemvalue="Spring Boot.local" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.UserUnitTest" />
+        <item itemvalue="JUnit.UserIntegrationTest.emailDuplicateCheck" />
+        <item itemvalue="JUnit.UserIntegrationTest" />
         <item itemvalue="JUnit.InfraTest.test" />
         <item itemvalue="JUnit.ShelterZooApplicationTests" />
-        <item itemvalue="JUnit.ShelterZooApplicationTests.contextLoads" />
-        <item itemvalue="JUnit.infraTest.DB연결 테스트 (1)" />
-        <item itemvalue="JUnit.infraTest (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -220,6 +247,9 @@
       <updated>1697872281165</updated>
       <workItem from="1697872282212" duration="3000" />
       <workItem from="1697872344899" duration="151000" />
+      <workItem from="1698092607447" duration="67000" />
+      <workItem from="1698092833845" duration="2095000" />
+      <workItem from="1698151503608" duration="3470000" />
     </task>
     <servers />
   </component>
