@@ -6,4 +6,9 @@
         FROM user
         WHERE email = #{email};
     </select>
+    <select id="isExistNickname" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE nickname = #{nickname};
+    </select>
 </mapper>
