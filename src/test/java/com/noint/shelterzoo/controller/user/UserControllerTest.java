@@ -1,7 +1,6 @@
 package com.noint.shelterzoo.controller.user;
 
 import com.noint.shelterzoo.service.user.UserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +43,25 @@ public class UserControllerTest {
                 .andDo(print());
 
         verify(userService).isExistEmail(email);
+    }
+
+    @Test
+    @DisplayName("닉네임 중복검사 테스트")
+    void nicknameDuplicateCheck() throws Exception {
+        // given
+        String nickname = "test";
+        given(userService.isExistNickname(nickname)).willReturn(true);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get("/user/nickname/check/{nickname}", nickname)
+        );
+
+        //then
+        actions.andExpect(status().isOk())
+                .andExpect(content().string("true"))
+                .andDo(print());
+
+        verify(userService).isExistNickname(nickname);
     }
 }

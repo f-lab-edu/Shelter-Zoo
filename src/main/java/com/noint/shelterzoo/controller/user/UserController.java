@@ -16,4 +16,9 @@ public class UserController {
     public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email){
         return new ResponseEntity<>(userService.isExistEmail(email), HttpStatus.OK);
     }
+
+    @GetMapping("/nickname/check/{nickname}")
+    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname){
+        return new ResponseEntity<>(userService.isExistNickname(nickname), HttpStatus.OK);
+    }
 }
