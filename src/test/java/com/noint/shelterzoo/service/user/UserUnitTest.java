@@ -48,7 +48,7 @@ public class UserUnitTest {
         assertEquals(isExistEmail, false);
     }
     @Test
-    @DisplayName("이메일 중복검사 : form이 안맞아서 실패")
+    @DisplayName("이메일 중복검사 : 유효성 검사 실패")
     void isExistEmailForFail(){
         // given
         String email1 = "test@@email.com";
@@ -67,15 +67,16 @@ public class UserUnitTest {
         );
     }
     @Test
-    @DisplayName("이메일 폼 검사 통과")
-    void emailFormCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    @DisplayName("이메일 유효성 검사 통과")
+    void emailValidCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         // given
         String comEmail = "test@email.com";
         String netEmail = "test@email.net";
+        final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         // when
-        boolean comResult = this.invokeEmailFormCheck(comEmail);
-        boolean netResult = this.invokeEmailFormCheck(netEmail);
+        boolean comResult = this.invokeRegexMatcher(EMAIL_REGEX, comEmail);
+        boolean netResult = this.invokeRegexMatcher(EMAIL_REGEX, netEmail);
 
         // then
         assertAll(
@@ -85,31 +86,29 @@ public class UserUnitTest {
     }
 
     @Test
-    @DisplayName("이메일 폼 검사 실패")
-    void emailFormCheckForFalse() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    @DisplayName("이메일 유효성 검사 실패")
+    void emailValidCheckForFalse() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         // given
         String email1 = "test@@email.com";
         String email2 = "test@emailcom";
         String email3 = "testemail.com";
         String email4 = "testemailcom";
-        String email5 = "test1234567890423456789123456789@email.com";
-        String email6 = "test@email.comcomcn";
+        String email5 = "test@email.comcomcn";
+        final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         // when
-        boolean result1 = this.invokeEmailFormCheck(email1);
-        boolean result2 = this.invokeEmailFormCheck(email2);
-        boolean result3 = this.invokeEmailFormCheck(email3);
-        boolean result4 = this.invokeEmailFormCheck(email4);
-        boolean result5 = this.invokeEmailFormCheck(email5);
-        boolean result6 = this.invokeEmailFormCheck(email6);
+        boolean result1 = this.invokeRegexMatcher(EMAIL_REGEX, email1);
+        boolean result2 = this.invokeRegexMatcher(EMAIL_REGEX, email2);
+        boolean result3 = this.invokeRegexMatcher(EMAIL_REGEX, email3);
+        boolean result4 = this.invokeRegexMatcher(EMAIL_REGEX, email4);
+        boolean result5 = this.invokeRegexMatcher(EMAIL_REGEX, email5);
         // then
         assertAll(
                 () -> assertFalse(result1),
                 () -> assertFalse(result2),
                 () -> assertFalse(result3),
                 () -> assertFalse(result4),
-                () -> assertFalse(result5),
-                () -> assertFalse(result6)
+                () -> assertFalse(result5)
         );
     }
     @Test
@@ -202,15 +201,6 @@ public class UserUnitTest {
                 () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(oneNickname)),
                 () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(initialNickname))
         );
-    }
-
-    private boolean invokeEmailFormCheck(String email) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Class<? extends UserService> clazz = userService.getClass();
-        Method method = clazz.getDeclaredMethod("checkEmailForm", String.class);
-        method.setAccessible(true);
-        boolean invoke = (boolean) method.invoke(userService, email);
-        method.setAccessible(false);
-        return invoke;
     }
 
     private boolean invokeRegexMatcher(String regex, String target) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

@@ -13,18 +13,11 @@ public class UserService {
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     public Boolean isExistEmail(String email){
-        if (!checkEmailForm(email)){
+        int maxLength = 30;
+        if (!regexMatcher(EMAIL_REGEX, email) || email.length() > maxLength){
             throw new RuntimeException("이메일 형식 혹은 길이가 맞지 않습니다.");
         }
         return userRepository.isExistEmail(email) >= 1;
-    }
-
-    private boolean checkEmailForm(String email){
-        String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        int maxLength = 30;
-        boolean isOverMax = email.length() > maxLength;
-        boolean isRightForm = email.matches(EMAIL_REGEX);
-        return !isOverMax && isRightForm;
     }
 
     public Boolean isExistNickname(String nickname){
