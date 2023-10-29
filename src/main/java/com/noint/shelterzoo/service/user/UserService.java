@@ -11,6 +11,7 @@ public class UserService {
 
     private final static String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
 
     public Boolean isExistEmail(String email){
         int maxLength = 30;

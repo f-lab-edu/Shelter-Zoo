@@ -203,6 +203,55 @@ public class UserServiceUnitTest {
         );
     }
 
+    @Test
+    @DisplayName("비밀번호 유효성 검사 통과")
+    void passwordValidCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        // given
+        String pass1 = "passpsdf3";
+        String pass2 = "pas33333";
+        String pass3 = "3passpsdf";
+        String pass4 = "3333psdf";
+        // 영문 + 숫자 + 최소 8글자
+        final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+        // when
+        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
+        boolean result4 = this.invokeRegexMatcher(PASSWORD_REG, pass4);
+
+        // then
+        assertAll(
+                () -> assertTrue(result1),
+                () -> assertTrue(result2),
+                () -> assertTrue(result3),
+                () -> assertTrue(result4)
+        );
+    }
+    @Test
+    @DisplayName("비밀번호 유효성 검사 실패")
+    void passwordValidCheckForFalse() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        // given
+        String pass1 = "pas2";
+        String pass2 = "passwervcx";
+        String pass3 = "333333666";
+        // 영문 + 숫자 + 최소 8글자
+        final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+        // when
+        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
+
+        // then
+        assertAll(
+                () -> assertFalse(result1),
+                () -> assertFalse(result2),
+                () -> assertFalse(result3)
+        );
+    }
+
+
     private boolean invokeRegexMatcher(String regex, String target) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class<? extends UserService> clazz = userService.getClass();
         Method method = clazz.getDeclaredMethod("regexMatcher", String.class, String.class);
