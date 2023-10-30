@@ -1,7 +1,9 @@
 package com.noint.shelterzoo.vo.user;
 
-import com.noint.shelterzoo.user.dto.UserDTO;
+import com.noint.shelterzoo.dto.user.UserDTO;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 public class UserVO {
     @Data
@@ -18,5 +20,15 @@ public class UserVO {
 
             return vo;
         }
+    }
+
+    @Data
+    public static class MyInfo{
+        private Long seq;
+        private String email;
+        private String nickname;
+        private BigDecimal money;
+        private String state;
+        private String createdAt;
     }
 }

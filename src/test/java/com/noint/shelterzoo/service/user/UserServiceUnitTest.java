@@ -1,7 +1,7 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.repository.user.UserRepository;
-import com.noint.shelterzoo.user.dto.UserDTO;
+import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.vo.user.UserVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -319,5 +320,84 @@ public class UserServiceUnitTest {
         boolean invoke = (boolean) method.invoke(userService, regex, target);
         method.setAccessible(false);
         return invoke;
+    }
+
+    @Test
+    @DisplayName("로그인 실패 : 이메일 불일치")
+    void loginFailByEmail() {
+        // given
+        UserDTO.Login login = new UserDTO.Login();
+        login.setEmail("test30@email.com");
+        login.setPassword("password1");
+
+        when(userRepository.getPasswordByEmail(any())).thenReturn("");
+        // when then
+        assertThrows(RuntimeException.class, () -> userService.login(login));
+    }
+    @Test
+    @DisplayName("로그인 실패 : 패스워드 불일치")
+    void loginFailByPassword() {
+        // given
+        UserDTO.Login login = new UserDTO.Login();
+        login.setEmail("test3@email.com");
+        login.setPassword("1password1");
+
+        when(userRepository.getPasswordByEmail(any()))
+                .thenReturn("$2a$10$dRUqYhH39O9DKfmz//CAReWHAlFxKhaBdd.Lby6fYB2YE1AJ506UC");
+
+        // when then
+        assertThrows(RuntimeException.class, () -> userService.login(login));
+    }
+
+    @Test
+    @DisplayName("로그인 실패 : 가입 상태가 아닌 유저")
+    void loginFailByState() {
+        // given
+        UserDTO.Login login = new UserDTO.Login();
+        login.setEmail("test3@email.com");
+        login.setPassword("password1");
+
+        UserVO.MyInfo hopeValue = new UserVO.MyInfo();
+        hopeValue.setState("탈퇴");
+
+        when(userRepository.getPasswordByEmail(any()))
+                .thenReturn("$2a$10$dRUqYhH39O9DKfmz//CAReWHAlFxKhaBdd.Lby6fYB2YE1AJ506UC");
+        when(userRepository.myInfo(any())).thenReturn(hopeValue);
+
+        // when then
+        assertThrows(RuntimeException.class, () -> userService.login(login));
+
+        verify(userRepository, times(1)).getPasswordByEmail(any());
+        verify(userRepository, times(1)).myInfo(any());
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    void loginSuccess() {
+        // given
+        UserDTO.Login login = new UserDTO.Login();
+        login.setEmail("test3@email.com");
+        login.setPassword("password1");
+
+        UserVO.MyInfo hopeValue = new UserVO.MyInfo();
+        hopeValue.setSeq(3L);
+        hopeValue.setEmail("test3@email.com");
+        hopeValue.setMoney(BigDecimal.valueOf(0));
+        hopeValue.setCreatedAt("2023-10-30 06:46:04");
+        hopeValue.setNickname("test3");
+        hopeValue.setState("가입");
+
+        when(userRepository.getPasswordByEmail(any()))
+                .thenReturn("$2a$10$dRUqYhH39O9DKfmz//CAReWHAlFxKhaBdd.Lby6fYB2YE1AJ506UC");
+        when(userRepository.myInfo(any())).thenReturn(hopeValue);
+
+        // when
+        UserDTO.MyInfo result = userService.login(login);
+
+        //then
+        assertEquals(UserDTO.MyInfo.create(hopeValue), result);
+
+        verify(userRepository, times(1)).getPasswordByEmail(any());
+        verify(userRepository, times(1)).myInfo(any());
     }
 }

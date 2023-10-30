@@ -1,12 +1,15 @@
 package com.noint.shelterzoo.service.user;
 
+import com.noint.shelterzoo.enums.UserStateEnum;
 import com.noint.shelterzoo.repository.user.UserRepository;
-import com.noint.shelterzoo.user.dto.UserDTO;
+import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.vo.user.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +56,25 @@ public class UserService {
 
     private boolean regexMatcher(String regex, String target){
         return target.matches(regex);
+    }
+
+    public UserDTO.MyInfo login(UserDTO.Login request){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = userRepository.getPasswordByEmail(request.getEmail());
+        if (hashedPassword.isBlank() || hashedPassword.isEmpty()) {
+            throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
+        }
+
+        boolean matches = passwordEncoder.matches(request.getPassword(), hashedPassword);
+        if (!matches){
+            throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
+        }
+
+        UserVO.MyInfo myInfo = userRepository.myInfo(request.getEmail());
+        if (!UserStateEnum.isStable(myInfo.getState())) {
+            throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
+        }
+
+        return UserDTO.MyInfo.create(myInfo);
     }
 }

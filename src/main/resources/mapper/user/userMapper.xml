@@ -15,4 +15,20 @@
         INSERT INTO user(email, password, nickname)
         VALUE(#{email}, #{password}, #{nickname});
     </insert>
+    <select id="getPasswordByEmail" parameterType="long" resultType="string">
+        SELECT password
+        FROM user
+        WHERE email = #{email};
+    </select>
+    <select id="myInfo" parameterType="string" resultType="com.noint.shelterzoo.vo.user.UserVO$MyInfo">
+        SELECT
+            seq
+             , email
+             , nickname
+             , money
+             , state
+             , created_at AS createAt
+        FROM user
+        WHERE email = #{email};
+    </select>
 </mapper>
