@@ -1,17 +1,20 @@
 package com.noint.shelterzoo.service.user;
 
+import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.repository.user.UserRepository;
+import com.noint.shelterzoo.vo.user.UserVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {UserService.class})
 public class UserServiceUnitTest {
@@ -20,6 +23,63 @@ public class UserServiceUnitTest {
     @MockBean
     UserRepository userRepository;
 
+    @Test
+    @DisplayName("회원가입 : 성공")
+    void signupSuccess(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        doNothing().when(userRepository).signup(any());
+        // when
+        userService.signup(testUser);
+
+        // then
+        verify(userRepository, times(1)).signup(UserVO.Signup.create(testUser));
+    }
+    @Test
+    @DisplayName("회원가입 : 이메일 중복 실패")
+    void signupFailByDuplicateEmail(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'testEmail@email.com' for key 'user.email_UNIQUE'"))
+                .when(userRepository).signup(any());
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
+
+    @Test
+    @DisplayName("회원가입 : 이메일 중복 실패")
+    void signupFailByDuplicateNickname(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'testNick' for key 'user.nickname_UNIQUE'"))
+                .when(userRepository).signup(any());
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
+    @Test
+    @DisplayName("회원가입 : 비밀번호 유효성 검사 실패")
+    void signupFailByPasswordValid(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
     @Test
     @DisplayName("이메일 중복검사 : 중복")
     void isExistEmailForTrue(){
