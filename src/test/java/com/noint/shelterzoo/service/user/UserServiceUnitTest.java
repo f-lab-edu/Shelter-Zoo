@@ -1,17 +1,20 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.repository.user.UserRepository;
+import com.noint.shelterzoo.user.dto.UserDTO;
+import com.noint.shelterzoo.vo.user.UserVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {UserService.class})
 public class UserServiceUnitTest {
@@ -20,6 +23,63 @@ public class UserServiceUnitTest {
     @MockBean
     UserRepository userRepository;
 
+    @Test
+    @DisplayName("회원가입 : 성공")
+    void signupSuccess(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password4");
+        testUser.setNickname("testNick");
+
+        doNothing().when(userRepository).signup(any());
+        // when
+        userService.signup(testUser);
+
+        // then
+        verify(userRepository, times(1)).signup(UserVO.Signup.create(testUser));
+    }
+    @Test
+    @DisplayName("회원가입 : 이메일 중복 실패")
+    void signupFailByDuplicateEmail(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'testEmail@email.com' for key 'user.email_UNIQUE'"))
+                .when(userRepository).signup(any());
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
+
+    @Test
+    @DisplayName("회원가입 : 이메일 중복 실패")
+    void signupFailByDuplicateNickname(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'testNick' for key 'user.nickname_UNIQUE'"))
+                .when(userRepository).signup(any());
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
+    @Test
+    @DisplayName("회원가입 : 비밀번호 유효성 검사 실패")
+    void signupFailByPasswordValid(){
+        // given
+        UserDTO.Signup testUser = new UserDTO.Signup();
+        testUser.setEmail("testEmail@email.com");
+        testUser.setPassword("password");
+        testUser.setNickname("testNick");
+
+        // when&then
+        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+    }
     @Test
     @DisplayName("이메일 중복검사 : 중복")
     void isExistEmailForTrue(){
@@ -202,6 +262,55 @@ public class UserServiceUnitTest {
                 () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(initialNickname))
         );
     }
+
+    @Test
+    @DisplayName("비밀번호 유효성 검사 통과")
+    void passwordValidCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        // given
+        String pass1 = "passpsdf3";
+        String pass2 = "pas33333";
+        String pass3 = "3passpsdf";
+        String pass4 = "3333psdf";
+        // 영문 + 숫자 + 최소 8글자
+        final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+        // when
+        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
+        boolean result4 = this.invokeRegexMatcher(PASSWORD_REG, pass4);
+
+        // then
+        assertAll(
+                () -> assertTrue(result1),
+                () -> assertTrue(result2),
+                () -> assertTrue(result3),
+                () -> assertTrue(result4)
+        );
+    }
+    @Test
+    @DisplayName("비밀번호 유효성 검사 실패")
+    void passwordValidCheckForFalse() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        // given
+        String pass1 = "pas2";
+        String pass2 = "passwervcx";
+        String pass3 = "333333666";
+        // 영문 + 숫자 + 최소 8글자
+        final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+
+        // when
+        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
+
+        // then
+        assertAll(
+                () -> assertFalse(result1),
+                () -> assertFalse(result2),
+                () -> assertFalse(result3)
+        );
+    }
+
 
     private boolean invokeRegexMatcher(String regex, String target) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class<? extends UserService> clazz = userService.getClass();
