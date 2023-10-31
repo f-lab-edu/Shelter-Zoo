@@ -1,8 +1,4 @@
----
 spring:
-  config:
-    activate:
-      on-profile: local
   datasource:
     url: jdbc:mysql://localhost:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
@@ -10,10 +6,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8080
-# 개발 중 필요시 Mybatis SQL 요청 쿼리 확인용도
-#logging:
-#  level:
-#    com:
-#      noint:
-#        shelterzoo:
-#          repository: trace
+logging:
+  level:
+    com:
+      noint:
+        shelterzoo:
+          repository: trace
