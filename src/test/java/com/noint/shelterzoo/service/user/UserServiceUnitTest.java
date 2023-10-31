@@ -1,5 +1,6 @@
 package com.noint.shelterzoo.service.user;
 
+import com.noint.shelterzoo.config.PasswordEncoderConfig;
 import com.noint.shelterzoo.repository.user.UserRepository;
 import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.vo.user.UserVO;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,10 +19,13 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {UserService.class})
+@SpringBootTest(classes = {UserService.class, PasswordEncoderConfig.class})
 public class UserServiceUnitTest {
     @Autowired
     UserService userService;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+
     @MockBean
     UserRepository userRepository;
 
@@ -45,26 +50,25 @@ public class UserServiceUnitTest {
     void signupFailByDuplicateEmail(){
         // given
         UserDTO.Signup testUser = new UserDTO.Signup();
-        testUser.setEmail("testEmail@email.com");
-        testUser.setPassword("password");
-        testUser.setNickname("testNick");
-
-        doThrow(new DataIntegrityViolationException("Duplicate entry 'testEmail@email.com' for key 'user.email_UNIQUE'"))
+        testUser.setEmail("test3@email.com");
+        testUser.setPassword("password1");
+        testUser.setNickname("test3");
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'test3@email.com' for key 'user.email_UNIQUE'"))
                 .when(userRepository).signup(any());
         // when&then
         assertThrows(RuntimeException.class, () -> userService.signup(testUser));
     }
 
     @Test
-    @DisplayName("회원가입 : 이메일 중복 실패")
+    @DisplayName("회원가입 : 닉네임 중복 실패")
     void signupFailByDuplicateNickname(){
         // given
         UserDTO.Signup testUser = new UserDTO.Signup();
-        testUser.setEmail("testEmail@email.com");
-        testUser.setPassword("password");
-        testUser.setNickname("testNick");
+        testUser.setEmail("test3@email.com");
+        testUser.setPassword("password1");
+        testUser.setNickname("test3");
 
-        doThrow(new DataIntegrityViolationException("Duplicate entry 'testNick' for key 'user.nickname_UNIQUE'"))
+        doThrow(new DataIntegrityViolationException("Duplicate entry 'test3' for key 'user.nickname_UNIQUE'"))
                 .when(userRepository).signup(any());
         // when&then
         assertThrows(RuntimeException.class, () -> userService.signup(testUser));
