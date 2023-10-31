@@ -1,15 +1,13 @@
 package com.noint.shelterzoo.service.user;
 
+import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.enums.UserStateEnum;
 import com.noint.shelterzoo.repository.user.UserRepository;
-import com.noint.shelterzoo.dto.user.UserDTO;
 import com.noint.shelterzoo.vo.user.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
