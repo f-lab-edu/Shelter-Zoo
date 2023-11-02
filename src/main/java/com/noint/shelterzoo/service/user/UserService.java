@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -65,19 +66,21 @@ public class UserService {
     }
 
     public UserDTO.MyInfo login(UserDTO.Login request){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = userRepository.getPasswordByEmail(request.getEmail());
-        if (hashedPassword.isBlank() || hashedPassword.isEmpty()) {
+        if (!StringUtils.hasLength(hashedPassword)) {
+            log.warn("로그인 실패 : '{}' 해당 이메일을 가진 유저가 존재 하지 않음", request.getEmail());
             throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
         }
 
         boolean matches = passwordEncoder.matches(request.getPassword(), hashedPassword);
         if (!matches){
+            log.warn("로그인 실패 : 비밀번호 불일치");
             throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
         }
 
         UserVO.MyInfo myInfo = userRepository.myInfo(request.getEmail());
         if (!UserStateEnum.isStable(myInfo.getState())) {
+            log.warn("로그인 실패 : 유저 가입상태 - {}", myInfo.getState());
             throw new RuntimeException("로그인 실패 : 이메일 또는 패스워드를 확인해 주세요");
         }
 
