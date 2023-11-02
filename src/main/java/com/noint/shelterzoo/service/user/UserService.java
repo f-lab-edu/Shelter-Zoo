@@ -27,21 +27,25 @@ public class UserService {
         if (!regexMatcher(PASSWORD_REG, password)){
             throw new RuntimeException("패스워드 형식 불일치. 영문 + 숫자 + 최소 8글자 조합 필수");
         }
-
         request.setPassword(passwordEncoder.encode(password));
-
         try {
             userRepository.signup(UserVO.Signup.create(request));
         } catch (DataIntegrityViolationException e) {
-            String errorMsg = e.getMessage();
-            log.warn("유저 회원가입 에러. param : " + errorMsg);
-            if (Objects.requireNonNull(errorMsg).contains("nickname")){
-                log.warn("닉네임 중복 : " + request.getNickname());
-                throw new RuntimeException("닉네임 중복");
-            } else if (errorMsg.contains("email")) {
-                log.warn("이메일 중복 : " + request.getEmail());
-                throw new RuntimeException("이메일 중복");
-            }
+            log.warn("유저 회원가입 실패");
+            this.signupDuplicationExceptionHandling(e, request);
+        }
+    }
+
+    private void signupDuplicationExceptionHandling(Exception e, UserDTO.Signup request){
+        String message = e.getMessage();
+        if (Objects.requireNonNull(message).contains("nickname")){
+            log.warn("닉네임 중복 : {}", request.getNickname());
+            throw new RuntimeException("닉네임 중복");
+        } else if (message.contains("email")) {
+            log.warn("이메일 중복 : {}" , request.getEmail());
+            throw new RuntimeException("이메일 중복");
+        } else {
+            log.error("알 수 없는 에러, {} - {}", message, request);
         }
     }
 
