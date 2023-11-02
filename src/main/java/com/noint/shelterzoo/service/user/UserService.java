@@ -21,6 +21,7 @@ public class UserService {
     private final static String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+    private final static int EMAIL_MAX_LENGTH = 30;
     public void signup(UserDTO.Signup request) {
         String password = request.getPassword();
         if (!regexMatcher(PASSWORD_REG, password)){
@@ -33,20 +34,19 @@ public class UserService {
             userRepository.signup(UserVO.Signup.create(request));
         } catch (DataIntegrityViolationException e) {
             String errorMsg = e.getMessage();
-            log.error("유저 회원가입 에러. param : " + errorMsg);
+            log.warn("유저 회원가입 에러. param : " + errorMsg);
             if (Objects.requireNonNull(errorMsg).contains("nickname")){
-                log.error("닉네임 중복 : " + request.getNickname());
+                log.warn("닉네임 중복 : " + request.getNickname());
                 throw new RuntimeException("닉네임 중복");
             } else if (errorMsg.contains("email")) {
-                log.error("이메일 중복 : " + request.getEmail());
+                log.warn("이메일 중복 : " + request.getEmail());
                 throw new RuntimeException("이메일 중복");
             }
         }
     }
 
     public Boolean isExistEmail(String email){
-        int maxLength = 30;
-        if (!regexMatcher(EMAIL_REGEX, email) || email.length() > maxLength){
+        if (!regexMatcher(EMAIL_REGEX, email) || email.length() > EMAIL_MAX_LENGTH){
             throw new RuntimeException("이메일 형식 혹은 길이가 맞지 않습니다.");
         }
         return userRepository.isExistEmail(email) >= 1;
