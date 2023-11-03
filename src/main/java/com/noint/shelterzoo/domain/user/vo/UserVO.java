@@ -1,6 +1,6 @@
-package com.noint.shelterzoo.vo.user;
+package com.noint.shelterzoo.domain.user.vo;
 
-import com.noint.shelterzoo.dto.user.UserDTO;
+import com.noint.shelterzoo.domain.user.dto.UserDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
-package com.noint.shelterzoo.controller.user;
+package com.noint.shelterzoo.domain.user.controller;
 
-import com.noint.shelterzoo.service.user.UserService;
-import com.noint.shelterzoo.dto.user.UserDTO;
+import com.noint.shelterzoo.domain.user.service.UserService;
+import com.noint.shelterzoo.domain.user.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
