@@ -1,9 +1,10 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.config.PasswordEncoderConfig;
-import com.noint.shelterzoo.repository.user.UserRepository;
-import com.noint.shelterzoo.dto.user.UserDTO;
-import com.noint.shelterzoo.vo.user.UserVO;
+import com.noint.shelterzoo.domain.user.dto.UserDTO;
+import com.noint.shelterzoo.domain.user.repository.UserRepository;
+import com.noint.shelterzoo.domain.user.service.UserService;
+import com.noint.shelterzoo.domain.user.vo.UserVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
