@@ -1,9 +1,9 @@
-package com.noint.shelterzoo.service.user;
+package com.noint.shelterzoo.domain.user.service;
 
-import com.noint.shelterzoo.dto.user.UserDTO;
+import com.noint.shelterzoo.domain.user.dto.UserDTO;
+import com.noint.shelterzoo.domain.user.repository.UserRepository;
+import com.noint.shelterzoo.domain.user.vo.UserVO;
 import com.noint.shelterzoo.enums.UserStateEnum;
-import com.noint.shelterzoo.repository.user.UserRepository;
-import com.noint.shelterzoo.vo.user.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;

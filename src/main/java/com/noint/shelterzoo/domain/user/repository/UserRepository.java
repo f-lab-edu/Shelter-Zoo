@@ -1,6 +1,6 @@
-package com.noint.shelterzoo.repository.user;
+package com.noint.shelterzoo.domain.user.repository;
 
-import com.noint.shelterzoo.vo.user.UserVO;
+import com.noint.shelterzoo.domain.user.vo.UserVO;
 import org.springframework.stereotype.Repository;
 
 @Repository
