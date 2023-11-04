@@ -6,6 +6,7 @@ import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
 import com.noint.shelterzoo.domain.user.service.UserService;
+import com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO;
 import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
 import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
 import org.junit.jupiter.api.DisplayName;
@@ -438,5 +439,20 @@ public class UserServiceUnitTest {
         MyInfoResponseDTO myInfo = userService.myInfo(email);
 
         assertEquals(MyInfoResponseDTO.create(hopeValue), myInfo);
+    }
+
+    @Test
+    @DisplayName("유저 탈퇴")
+    void resign(){
+        // given
+        long seq = 3L;
+
+        // when
+        doNothing().when(userRepository).resign(any());
+
+        //then
+        userService.resign(seq);
+
+        verify(userRepository, times(1)).resign(ResignRequestVO.create(seq));
     }
 }

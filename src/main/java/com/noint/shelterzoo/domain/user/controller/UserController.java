@@ -49,4 +49,12 @@ public class UserController {
         String email = (String) session.getAttribute("email");
         return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
     }
+
+    @PatchMapping("/resign")
+    public ResponseEntity<Void>resign(){
+        Long seq = (Long) session.getAttribute("seq");
+        userService.resign(seq);
+        session.invalidate();
+        return ResponseEntity.noContent().build();
+    }
 }
