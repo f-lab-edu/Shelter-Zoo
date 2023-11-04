@@ -1,10 +1,13 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.config.PasswordEncoderConfig;
-import com.noint.shelterzoo.domain.user.dto.UserDTO;
+import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
 import com.noint.shelterzoo.domain.user.service.UserService;
-import com.noint.shelterzoo.domain.user.vo.UserVO;
+import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
+import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,7 @@ public class UserServiceUnitTest {
     @DisplayName("회원가입 : 성공")
     void signupSuccess(){
         // given
-        UserDTO.Signup testUser = new UserDTO.Signup();
+        SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("testEmail@email.com");
         testUser.setPassword("password4");
         testUser.setNickname("testNick");
@@ -44,13 +47,13 @@ public class UserServiceUnitTest {
         userService.signup(testUser);
 
         // then
-        verify(userRepository, times(1)).signup(UserVO.Signup.create(testUser));
+        verify(userRepository, times(1)).signup(SignupRequestVO.create(testUser));
     }
     @Test
     @DisplayName("회원가입 : 이메일 중복 실패")
     void signupFailByDuplicateEmail(){
         // given
-        UserDTO.Signup testUser = new UserDTO.Signup();
+        SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("test3@email.com");
         testUser.setPassword("password1");
         testUser.setNickname("test3");
@@ -64,7 +67,7 @@ public class UserServiceUnitTest {
     @DisplayName("회원가입 : 닉네임 중복 실패")
     void signupFailByDuplicateNickname(){
         // given
-        UserDTO.Signup testUser = new UserDTO.Signup();
+        SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("test3@email.com");
         testUser.setPassword("password1");
         testUser.setNickname("test3");
@@ -78,7 +81,7 @@ public class UserServiceUnitTest {
     @DisplayName("회원가입 : 비밀번호 유효성 검사 실패")
     void signupFailByPasswordValid(){
         // given
-        UserDTO.Signup testUser = new UserDTO.Signup();
+        SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("testEmail@email.com");
         testUser.setPassword("password");
         testUser.setNickname("testNick");
@@ -331,7 +334,7 @@ public class UserServiceUnitTest {
     @DisplayName("로그인 실패 : 이메일 불일치")
     void loginFailByEmail() {
         // given
-        UserDTO.Login login = new UserDTO.Login();
+        LoginRequestDTO login = new LoginRequestDTO();
         login.setEmail("test30@email.com");
         login.setPassword("password1");
 
@@ -343,7 +346,7 @@ public class UserServiceUnitTest {
     @DisplayName("로그인 실패 : 패스워드 불일치")
     void loginFailByPassword() {
         // given
-        UserDTO.Login login = new UserDTO.Login();
+        LoginRequestDTO login = new LoginRequestDTO();
         login.setEmail("test3@email.com");
         login.setPassword("1password1");
 
@@ -358,11 +361,11 @@ public class UserServiceUnitTest {
     @DisplayName("로그인 실패 : 가입 상태가 아닌 유저")
     void loginFailByState() {
         // given
-        UserDTO.Login login = new UserDTO.Login();
+        LoginRequestDTO login = new LoginRequestDTO();
         login.setEmail("test3@email.com");
         login.setPassword("password1");
 
-        UserVO.MyInfo hopeValue = new UserVO.MyInfo();
+        MyInfoResponseVO hopeValue = new MyInfoResponseVO();
         hopeValue.setState("탈퇴");
 
         when(userRepository.getPasswordByEmail(any()))
@@ -380,11 +383,11 @@ public class UserServiceUnitTest {
     @DisplayName("로그인 성공")
     void loginSuccess() {
         // given
-        UserDTO.Login login = new UserDTO.Login();
+        LoginRequestDTO login = new LoginRequestDTO();
         login.setEmail("test3@email.com");
         login.setPassword("password1");
 
-        UserVO.MyInfo hopeValue = new UserVO.MyInfo();
+        MyInfoResponseVO hopeValue = new MyInfoResponseVO();
         hopeValue.setSeq(3L);
         hopeValue.setEmail("test3@email.com");
         hopeValue.setMoney(BigDecimal.valueOf(0));
@@ -397,10 +400,10 @@ public class UserServiceUnitTest {
         when(userRepository.myInfo(any())).thenReturn(hopeValue);
 
         // when
-        UserDTO.MyInfo result = userService.login(login);
+        MyInfoResponseDTO result = userService.login(login);
 
         //then
-        assertEquals(UserDTO.MyInfo.create(hopeValue), result);
+        assertEquals(MyInfoResponseDTO.create(hopeValue), result);
 
         verify(userRepository, times(1)).getPasswordByEmail(any());
         verify(userRepository, times(1)).myInfo(any());

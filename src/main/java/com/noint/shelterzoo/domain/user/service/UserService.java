@@ -1,11 +1,14 @@
 package com.noint.shelterzoo.domain.user.service;
 
-import com.noint.shelterzoo.domain.user.dto.UserDTO;
+import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
 import com.noint.shelterzoo.domain.user.exception.UserException;
 import com.noint.shelterzoo.domain.user.enums.UserExceptionEnum;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
-import com.noint.shelterzoo.domain.user.vo.UserVO;
 import com.noint.shelterzoo.domain.user.enums.UserStateEnum;
+import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
+import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +28,7 @@ public class UserService {
     private final static String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
-    public void signup(UserDTO.Signup request) {
+    public void signup(SignupRequestDTO request) {
         String password = request.getPassword();
         if (!regexMatcher(PASSWORD_REG, password)){
             throw new UserException(UserExceptionEnum.PASSWORD_INVALID);
@@ -34,7 +37,7 @@ public class UserService {
         request.setPassword(passwordEncoder.encode(password));
 
         try {
-            userRepository.signup(UserVO.Signup.create(request));
+            userRepository.signup(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
             String errorMsg = e.getMessage();
             log.warn("유저 회원가입 에러. param : " + errorMsg);
@@ -67,7 +70,7 @@ public class UserService {
         return target.matches(regex);
     }
 
-    public UserDTO.MyInfo login(UserDTO.Login request){
+    public MyInfoResponseDTO login(LoginRequestDTO request){
         String hashedPassword = userRepository.getPasswordByEmail(request.getEmail());
         if (!StringUtils.hasLength(hashedPassword)) {
             log.warn("로그인 실패 : '{}' 해당 이메일을 가진 유저가 존재 하지 않음", request.getEmail());
@@ -80,12 +83,12 @@ public class UserService {
             throw new UserException(UserExceptionEnum.LOGIN_FAILD);
         }
 
-        UserVO.MyInfo myInfo = userRepository.myInfo(request.getEmail());
+        MyInfoResponseVO myInfo = userRepository.myInfo(request.getEmail());
         if (!UserStateEnum.isStable(myInfo.getState())) {
             log.warn("로그인 실패 : 유저 가입상태 - {}", myInfo.getState());
             throw new UserException(UserExceptionEnum.LOGIN_FAILD);
         }
 
-        return UserDTO.MyInfo.create(myInfo);
+        return MyInfoResponseDTO.create(myInfo);
     }
 }
