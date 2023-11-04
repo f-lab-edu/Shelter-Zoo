@@ -27,7 +27,7 @@
              , nickname
              , money
              , state
-             , created_at AS createAt
+             , created_at AS createdAt
         FROM user
         WHERE email = #{email};
     </select>

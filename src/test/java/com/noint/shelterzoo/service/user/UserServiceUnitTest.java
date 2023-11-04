@@ -35,7 +35,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("회원가입 : 성공")
-    void signupSuccess(){
+    void signupSuccess() {
         // given
         SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("testEmail@email.com");
@@ -49,9 +49,10 @@ public class UserServiceUnitTest {
         // then
         verify(userRepository, times(1)).signup(SignupRequestVO.create(testUser));
     }
+
     @Test
     @DisplayName("회원가입 : 이메일 중복 실패")
-    void signupFailByDuplicateEmail(){
+    void signupFailByDuplicateEmail() {
         // given
         SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("test3@email.com");
@@ -65,7 +66,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("회원가입 : 닉네임 중복 실패")
-    void signupFailByDuplicateNickname(){
+    void signupFailByDuplicateNickname() {
         // given
         SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("test3@email.com");
@@ -77,9 +78,10 @@ public class UserServiceUnitTest {
         // when&then
         assertThrows(RuntimeException.class, () -> userService.signup(testUser));
     }
+
     @Test
     @DisplayName("회원가입 : 비밀번호 유효성 검사 실패")
-    void signupFailByPasswordValid(){
+    void signupFailByPasswordValid() {
         // given
         SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("testEmail@email.com");
@@ -89,9 +91,10 @@ public class UserServiceUnitTest {
         // when&then
         assertThrows(RuntimeException.class, () -> userService.signup(testUser));
     }
+
     @Test
     @DisplayName("이메일 중복검사 : 중복")
-    void isExistEmailForTrue(){
+    void isExistEmailForTrue() {
         // given
         String email = "test@email.com";
         when(userRepository.isExistEmail(email)).thenReturn(1);
@@ -105,7 +108,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("이메일 중복검사 : 중복X")
-    void isExistEmailForFalse(){
+    void isExistEmailForFalse() {
         // given
         String email = "test@email.com";
         when(userRepository.isExistEmail(email)).thenReturn(0);
@@ -116,9 +119,10 @@ public class UserServiceUnitTest {
         // then
         assertEquals(isExistEmail, false);
     }
+
     @Test
     @DisplayName("이메일 중복검사 : 유효성 검사 실패")
-    void isExistEmailForFail(){
+    void isExistEmailForFail() {
         // given
         String email1 = "test@@email.com";
         String email2 = "test@emailcom";
@@ -128,13 +132,14 @@ public class UserServiceUnitTest {
 
         // then
         assertAll(
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistEmail(email1)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistEmail(email2)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistEmail(email3)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistEmail(email4)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistEmail(email5))
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistEmail(email1)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistEmail(email2)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistEmail(email3)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistEmail(email4)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistEmail(email5))
         );
     }
+
     @Test
     @DisplayName("이메일 유효성 검사 통과")
     void emailValidCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -180,6 +185,7 @@ public class UserServiceUnitTest {
                 () -> assertFalse(result5)
         );
     }
+
     @Test
     @DisplayName("닉네임 유효성 검사 통과")
     void nicknameValidCheckForTrue() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -230,7 +236,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("닉네임 중복검사 : 중복")
-    void isExistNicknameForTure(){
+    void isExistNicknameForTure() {
         // given
         String nickname = "test";
         when(userRepository.isExistNickname(nickname)).thenReturn(1);
@@ -244,7 +250,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("닉네임 중복검사 : 중복X")
-    void isExistNicknameForFalse(){
+    void isExistNicknameForFalse() {
         // given
         String nickname = "test";
         when(userRepository.isExistNickname(nickname)).thenReturn(0);
@@ -258,7 +264,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("닉네임 중복검사 : 유효성 검사 실패")
-    void isExistNicknameForFail(){
+    void isExistNicknameForFail() {
         // given
         String overNickname = "testNickname";
         String oneNickname = "t";
@@ -266,9 +272,9 @@ public class UserServiceUnitTest {
 
         // then
         assertAll(
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(overNickname)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(oneNickname)),
-                () -> assertThrows(RuntimeException.class, ()-> userService.isExistNickname(initialNickname))
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistNickname(overNickname)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistNickname(oneNickname)),
+                () -> assertThrows(RuntimeException.class, () -> userService.isExistNickname(initialNickname))
         );
     }
 
@@ -297,6 +303,7 @@ public class UserServiceUnitTest {
                 () -> assertTrue(result4)
         );
     }
+
     @Test
     @DisplayName("비밀번호 유효성 검사 실패")
     void passwordValidCheckForFalse() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -342,6 +349,7 @@ public class UserServiceUnitTest {
         // when then
         assertThrows(RuntimeException.class, () -> userService.login(login));
     }
+
     @Test
     @DisplayName("로그인 실패 : 패스워드 불일치")
     void loginFailByPassword() {
@@ -407,5 +415,28 @@ public class UserServiceUnitTest {
 
         verify(userRepository, times(1)).getPasswordByEmail(any());
         verify(userRepository, times(1)).myInfo(any());
+    }
+
+    @Test
+    @DisplayName("내 정보 가져오기")
+    void myInfo(){
+        // given
+        String email = "test3@email.com";
+
+        MyInfoResponseVO hopeValue = new MyInfoResponseVO();
+        hopeValue.setSeq(3L);
+        hopeValue.setEmail("test3@email.com");
+        hopeValue.setMoney(BigDecimal.valueOf(0));
+        hopeValue.setCreatedAt("2023-10-30 06:46:04");
+        hopeValue.setNickname("test3");
+        hopeValue.setState("가입");
+
+        // when
+        when(userRepository.myInfo(email)).thenReturn(hopeValue);
+
+        // then
+        MyInfoResponseDTO myInfo = userService.myInfo(email);
+
+        assertEquals(MyInfoResponseDTO.create(hopeValue), myInfo);
     }
 }

@@ -91,4 +91,8 @@ public class UserService {
 
         return MyInfoResponseDTO.create(myInfo);
     }
+
+    public MyInfoResponseDTO myInfo(String email) {
+        return MyInfoResponseDTO.create(userRepository.myInfo(email));
+    }
 }
