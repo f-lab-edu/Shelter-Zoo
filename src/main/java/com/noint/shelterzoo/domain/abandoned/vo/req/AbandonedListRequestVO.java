@@ -13,6 +13,7 @@ public class AbandonedListRequestVO extends ListPageGeneral {
     private String kind;
     private GenderEnum gender;
     private NeuterEnum neuter;
+    private long lastContentSeq;
     private int page;
 
     public static AbandonedListRequestVO create(long userSeq, AbandonedListRequestDTO dto){
@@ -22,8 +23,9 @@ public class AbandonedListRequestVO extends ListPageGeneral {
         vo.setNeuter(NeuterEnum.findEnumByFullText(dto.getNeuter()));
         vo.setKind(dto.getKind());
         vo.setLocation(dto.getLocation());
+        vo.setLastContentSeq(dto.getLastContentSeq());
         vo.setPage(pageLength + 1);
-
+        
         return vo;
     }
 }

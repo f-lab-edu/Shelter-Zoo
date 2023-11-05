@@ -13,9 +13,12 @@
             A.notice_end AS noticeEnd,
             IF(P.seq IS NULL, 0, 1) AS isPin
         FROM abandoned_pet A
-        LEFT JOIN pin_up P ON A.seq = P.pet_seq AND P.user_seq = #{userSeq}
         INNER JOIN shelter S ON S.seq = A.shelter_seq
+        LEFT JOIN pin_up P ON A.seq = P.pet_seq AND P.user_seq = #{userSeq}
         <where>
+            <if test="lastContentSeq != 0">
+                A.seq &lt; #{lastContentSeq}
+            </if>
             <if test="location != '전체'">
                 AND S.location = #{location}
             </if>
