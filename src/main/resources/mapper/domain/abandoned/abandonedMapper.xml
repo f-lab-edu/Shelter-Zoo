@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository">
+    <select id="getAbandonedList" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO">
+        SELECT
+            A.seq,
+            A.thumbnail,
+            A.kind,
+            A.kind_detail AS kindDetail,
+            A.birth,
+            A.gender,
+            A.neuter,
+            A.notice_end AS noticeEnd,
+            IF(P.seq IS NULL, 0, 1) AS isPin
+        FROM abandoned_pet A
+        LEFT JOIN pin_up P ON A.seq = P.pet_seq AND P.user_seq = #{userSeq}
+        INNER JOIN shelter S ON S.seq = A.shelter_seq
+        <where>
+            <if test="location != '전체'">
+                AND S.location = #{location}
+            </if>
+            <if test="kind != '전체'">
+                AND A.kind = #{kind}
+            </if>
+            <if test="gender.name != 'ALL'">
+                AND A.gender = #{gender.initial}
+            </if>
+            <if test="neuter.name != 'ALL'">
+                AND A.neuter = #{neuter.initial}
+            </if>
+        </where>
+        ORDER BY A.seq DESC
+        LIMIT 0, #{page}
+    </select>
+</mapper>
