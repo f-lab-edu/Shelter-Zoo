@@ -12,13 +12,13 @@ import java.io.IOException;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan({"com.noint.shelterzoo.repository.*"})
+@MapperScan(basePackages = "com.noint.shelterzoo.domain.*.repository")
 public class DBConfig {
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
-        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml"));
+        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/domain/**/*.xml"));
         return sessionFactoryBean;
     }
 }
