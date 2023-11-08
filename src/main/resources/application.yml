@@ -16,4 +16,6 @@ server:
 #    com:
 #      noint:
 #        shelterzoo:
-#          repository: trace
+#          domain:
+#            abandoned:
+#              repository: trace
