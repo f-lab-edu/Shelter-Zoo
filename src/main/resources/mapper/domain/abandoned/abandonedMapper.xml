@@ -37,23 +37,23 @@
     </select>
     <select id="abandonedPetDetail" parameterType="long" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO">
         SELECT A.seq
-             , A.happen_place AS happenPlace
+             , A.happen_place  AS happenPlace
              , A.kind
-             , A.kind_detail AS kindDetail
+             , A.kind_detail   AS kindDetail
              , A.color
              , A.birth
              , A.weight
-             , A.notice_end AS noticeEnd
+             , A.notice_end    AS noticeEnd
              , A.gender
              , A.neuter
-             , A.special_mark AS specialMark
+             , A.special_mark  AS specialMark
              , A.img
              , A.adopt_process AS adoptProcess
-             , S.name AS shelterName
-             , S.tel AS shelterTel
-             , s.addr AS shelterAddr
+             , S.name          AS shelterName
+             , S.tel           AS shelterTel
+             , s.addr          AS shelterAddr
         FROM abandoned_pet A
-        INNER JOIN shelter S ON S.seq = A.shelter_seq
+                 INNER JOIN shelter S ON S.seq = A.shelter_seq
         WHERE A.seq = #{petSeq};
     </select>
 </mapper>

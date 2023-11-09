@@ -16,7 +16,7 @@ public class AbandonedListRequestVO extends ListPageGeneral {
     private long lastContentSeq;
     private int page;
 
-    public static AbandonedListRequestVO create(long userSeq, AbandonedListRequestDTO dto){
+    public static AbandonedListRequestVO create(long userSeq, AbandonedListRequestDTO dto) {
         AbandonedListRequestVO vo = new AbandonedListRequestVO();
         vo.setUserSeq(userSeq);
         vo.setGender(GenderEnum.findEnumByFullText(dto.getGender()));
@@ -25,7 +25,7 @@ public class AbandonedListRequestVO extends ListPageGeneral {
         vo.setLocation(dto.getLocation());
         vo.setLastContentSeq(dto.getLastContentSeq());
         vo.setPage(pageLength + 1);
-        
+
         return vo;
     }
 }

@@ -24,7 +24,7 @@ public enum NeuterEnum {
                 .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_NEUTER_ID));
     }
 
-    public static NeuterEnum findEnumByInitial(String initial){
+    public static NeuterEnum findEnumByInitial(String initial) {
         return Arrays.stream(NeuterEnum.values())
                 .filter(e -> initial.equals(e.getInitial()))
                 .findAny()

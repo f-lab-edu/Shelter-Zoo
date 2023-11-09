@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface AbandonedRepository {
     List<AbandonedListResponseVO> getAbandonedList(AbandonedListRequestVO params);
+
     AbandonedDetailResponseVO abandonedPetDetail(long petSeq);
 }

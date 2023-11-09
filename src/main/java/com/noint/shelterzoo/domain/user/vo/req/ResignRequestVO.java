@@ -8,7 +8,7 @@ public class ResignRequestVO {
     private long seq;
     private final UserStateEnum stateEnum = UserStateEnum.RESIGN;
 
-    public static ResignRequestVO create(Long seq){
+    public static ResignRequestVO create(Long seq) {
         ResignRequestVO vo = new ResignRequestVO();
         vo.setSeq(seq);
         return vo;

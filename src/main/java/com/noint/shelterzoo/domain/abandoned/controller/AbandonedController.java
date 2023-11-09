@@ -19,7 +19,7 @@ public class AbandonedController {
     private final HttpSession session;
 
     @GetMapping("/list")
-    public ResponseEntity<AbandonedListResponseDTO> getAbandonedList(@ModelAttribute AbandonedListRequestDTO request){
+    public ResponseEntity<AbandonedListResponseDTO> getAbandonedList(@ModelAttribute AbandonedListRequestDTO request) {
         long userSeq = (long) session.getAttribute("seq");
         return new ResponseEntity<>(abandonedService.getAbandonedList(userSeq, request), HttpStatus.OK);
     }

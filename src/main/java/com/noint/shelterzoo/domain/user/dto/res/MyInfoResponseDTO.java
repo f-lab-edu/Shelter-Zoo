@@ -14,7 +14,7 @@ public class MyInfoResponseDTO {
     private String state;
     private String createdAt;
 
-    public static MyInfoResponseDTO create(MyInfoResponseVO vo){
+    public static MyInfoResponseDTO create(MyInfoResponseVO vo) {
         MyInfoResponseDTO dto = new MyInfoResponseDTO();
         dto.setSeq(vo.getSeq());
         dto.setEmail(vo.getEmail());

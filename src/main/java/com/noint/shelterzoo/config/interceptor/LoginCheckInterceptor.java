@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
     private final HttpSession session;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Object seq = session.getAttribute("seq");

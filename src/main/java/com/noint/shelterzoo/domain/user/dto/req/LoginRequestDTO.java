@@ -1,6 +1,7 @@
 package com.noint.shelterzoo.domain.user.dto.req;
 
 import lombok.Data;
+
 @Data
 public class LoginRequestDTO {
     private String email;

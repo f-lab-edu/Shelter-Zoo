@@ -21,7 +21,7 @@ import java.util.List;
 public class AbandonedService {
     private final AbandonedRepository abandonedRepository;
 
-    public AbandonedListResponseDTO getAbandonedList(long userSeq, AbandonedListRequestDTO request){
+    public AbandonedListResponseDTO getAbandonedList(long userSeq, AbandonedListRequestDTO request) {
         List<AbandonedListResponseVO> abandonedList = abandonedRepository.getAbandonedList(AbandonedListRequestVO.create(userSeq, request));
         if (abandonedList == null) {
             log.warn("유기동물 리스트 가져오기 실패, params : {userSeq : {}, request : {}}", userSeq, request);
@@ -30,7 +30,7 @@ public class AbandonedService {
         return AbandonedListResponseDTO.create(abandonedList);
     }
 
-    public AbandonedDetailResponseDTO abandonedPetDetail(long petSeq){
+    public AbandonedDetailResponseDTO abandonedPetDetail(long petSeq) {
         AbandonedDetailResponseVO abandonedDetail = abandonedRepository.abandonedPetDetail(petSeq);
         if (abandonedDetail == null) {
             log.warn("유기동물 상세 페이지 가져오기 실패, params : {petSeq : {}}", petSeq);

@@ -23,13 +23,14 @@ public class UserController {
         userService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
     @GetMapping("/email/check/{email}")
-    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email){
+    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email) {
         return new ResponseEntity<>(userService.isExistEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/nickname/check/{nickname}")
-    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname){
+    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname) {
         return new ResponseEntity<>(userService.isExistNickname(nickname), HttpStatus.OK);
     }
 
@@ -39,7 +40,7 @@ public class UserController {
         session.setAttribute("seq", myInfo.getSeq());
         session.setAttribute("email", myInfo.getEmail());
         session.setAttribute("nickname", myInfo.getNickname());
-        session.setMaxInactiveInterval(60*30);
+        session.setMaxInactiveInterval(60 * 30);
 
         return new ResponseEntity<>(myInfo, HttpStatus.OK);
     }
@@ -51,7 +52,7 @@ public class UserController {
     }
 
     @PatchMapping("/resign")
-    public ResponseEntity<Void>resign(){
+    public ResponseEntity<Void> resign() {
         Long seq = (Long) session.getAttribute("seq");
         userService.resign(seq);
         session.invalidate();
