@@ -8,4 +8,6 @@ public interface UserRepository {
     int isExistEmail(String email);
     int isExistNickname(String nickname);
     void signup(UserVO.Signup params);
+    String getPasswordByEmail(String email);
+    UserVO.MyInfo myInfo(String email);
 }
