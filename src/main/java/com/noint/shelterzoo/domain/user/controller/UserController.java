@@ -37,9 +37,9 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<MyInfoResponseDTO> login(@RequestBody LoginRequestDTO request) {
         MyInfoResponseDTO myInfo = userService.login(request);
-        session.setAttribute("seq", myInfo.getSeq());
-        session.setAttribute("email", myInfo.getEmail());
-        session.setAttribute("nickname", myInfo.getNickname());
+        session.setAttribute("userSeq", myInfo.getSeq());
+        session.setAttribute("userEmail", myInfo.getEmail());
+        session.setAttribute("userNickname", myInfo.getNickname());
         session.setMaxInactiveInterval(60 * 30);
 
         return new ResponseEntity<>(myInfo, HttpStatus.OK);
@@ -47,14 +47,14 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<MyInfoResponseDTO> myInfo() {
-        String email = (String) session.getAttribute("email");
+        String email = (String) session.getAttribute("userEmail");
         return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
     }
 
     @PatchMapping("/resign")
     public ResponseEntity<Void> resign() {
-        Long seq = (Long) session.getAttribute("seq");
-        userService.resign(seq);
+        Long userSeq = (Long) session.getAttribute("userSeq");
+        userService.resign(userSeq);
         session.invalidate();
         return ResponseEntity.noContent().build();
     }
