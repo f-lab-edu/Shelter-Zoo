@@ -7,6 +7,7 @@ import com.noint.shelterzoo.domain.user.enums.UserExceptionEnum;
 import com.noint.shelterzoo.domain.user.enums.UserStateEnum;
 import com.noint.shelterzoo.domain.user.exception.UserException;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
+import com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO;
 import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
 import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
 import lombok.RequiredArgsConstructor;
@@ -98,5 +99,9 @@ public class UserService {
 
     public MyInfoResponseDTO myInfo(String email) {
         return MyInfoResponseDTO.create(userRepository.myInfo(email));
+    }
+
+    public void resign(Long seq) {
+        userRepository.resign(ResignRequestVO.create(seq));
     }
 }

@@ -1,5 +1,7 @@
 package com.noint.shelterzoo.domain.user.repository;
 
+import com.noint.shelterzoo.domain.user.enums.UserStateEnum;
+import com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO;
 import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
 import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
 import org.springframework.stereotype.Repository;
@@ -11,4 +13,5 @@ public interface UserRepository {
     void signup(SignupRequestVO params);
     String getPasswordByEmail(String email);
     MyInfoResponseVO myInfo(String email);
+    void resign(ResignRequestVO param);
 }
