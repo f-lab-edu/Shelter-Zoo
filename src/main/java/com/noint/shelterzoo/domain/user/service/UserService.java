@@ -29,33 +29,36 @@ public class UserService {
     private final static String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+    private final static int EMAIL_MAX_LENGTH = 30;
 
     public void signup(SignupRequestDTO request) {
         String password = request.getPassword();
         if (!regexMatcher(PASSWORD_REG, password)) {
             throw new UserException(UserExceptionEnum.PASSWORD_INVALID);
         }
-
         request.setPassword(passwordEncoder.encode(password));
-
         try {
             userRepository.signup(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
-            String errorMsg = e.getMessage();
-            log.warn("유저 회원가입 에러. param : " + errorMsg);
-            if (Objects.requireNonNull(errorMsg).contains("nickname")) {
-                log.warn("닉네임 중복 : " + request.getNickname());
-                throw new UserException(UserExceptionEnum.NICKNAME_DUPLICATE);
-            } else if (errorMsg.contains("email")) {
-                log.warn("이메일 중복 : " + request.getEmail());
-                throw new UserException(UserExceptionEnum.EMAIL_DUPLICATE);
-            }
+            log.warn("유저 회원가입 실패");
+            this.signupDuplicationExceptionHandling(e, request);
+        }
+    }
+
+    private void signupDuplicationExceptionHandling(Exception e, SignupRequestDTO request) {
+        String errorMsg = e.getMessage();
+        log.warn("유저 회원가입 에러. param : " + errorMsg);
+        if (Objects.requireNonNull(errorMsg).contains("nickname")) {
+            log.warn("닉네임 중복 : " + request.getNickname());
+            throw new UserException(UserExceptionEnum.NICKNAME_DUPLICATE);
+        } else if (errorMsg.contains("email")) {
+            log.warn("이메일 중복 : " + request.getEmail());
+            throw new UserException(UserExceptionEnum.EMAIL_DUPLICATE);
         }
     }
 
     public Boolean isExistEmail(String email) {
-        int maxLength = 30;
-        if (!regexMatcher(EMAIL_REGEX, email) || email.length() > maxLength) {
+        if (!regexMatcher(EMAIL_REGEX, email) || email.length() > EMAIL_MAX_LENGTH) {
             throw new UserException(UserExceptionEnum.EMAIL_INVALID);
         }
         return userRepository.isExistEmail(email) >= 1;
