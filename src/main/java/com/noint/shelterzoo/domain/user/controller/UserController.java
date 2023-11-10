@@ -43,4 +43,10 @@ public class UserController {
 
         return new ResponseEntity<>(myInfo, HttpStatus.OK);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<MyInfoResponseDTO> myInfo() {
+        String email = (String) session.getAttribute("email");
+        return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
+    }
 }

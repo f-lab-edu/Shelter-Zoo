@@ -78,21 +78,25 @@ public class UserService {
         String hashedPassword = userRepository.getPasswordByEmail(request.getEmail());
         if (!StringUtils.hasLength(hashedPassword)) {
             log.warn("로그인 실패 : '{}' 해당 이메일을 가진 유저가 존재 하지 않음", request.getEmail());
-            throw new UserException(UserExceptionEnum.LOGIN_FAILD);
+            throw new UserException(UserExceptionEnum.LOGIN_FAILED);
         }
 
         boolean matches = passwordEncoder.matches(request.getPassword(), hashedPassword);
         if (!matches) {
             log.warn("로그인 실패 : 비밀번호 불일치");
-            throw new UserException(UserExceptionEnum.LOGIN_FAILD);
+            throw new UserException(UserExceptionEnum.LOGIN_FAILED);
         }
 
         MyInfoResponseVO myInfo = userRepository.myInfo(request.getEmail());
         if (!UserStateEnum.isStable(myInfo.getState())) {
             log.warn("로그인 실패 : 유저 가입상태 - {}", myInfo.getState());
-            throw new UserException(UserExceptionEnum.LOGIN_FAILD);
+            throw new UserException(UserExceptionEnum.LOGIN_FAILED);
         }
 
         return MyInfoResponseDTO.create(myInfo);
+    }
+
+    public MyInfoResponseDTO myInfo(String email) {
+        return MyInfoResponseDTO.create(userRepository.myInfo(email));
     }
 }
