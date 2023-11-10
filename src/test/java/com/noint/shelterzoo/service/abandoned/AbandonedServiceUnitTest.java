@@ -118,7 +118,7 @@ public class AbandonedServiceUnitTest {
 
     @Test
     @DisplayName("유기동물 상세 페이지")
-    void abandonedPetDetail(){
+    void abandonedPetDetail() {
         // given
         long petSeq = 955L;
 
@@ -151,7 +151,7 @@ public class AbandonedServiceUnitTest {
 
     @Test
     @DisplayName("유기동물 상세 페이지 실패 : 컨텐츠 없음")
-    void abandonedDetailFail(){
+    void abandonedDetailFail() {
         // given
         long petSeq = 0L;
 

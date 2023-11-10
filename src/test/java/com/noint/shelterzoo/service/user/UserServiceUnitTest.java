@@ -420,7 +420,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("내 정보 가져오기")
-    void myInfo(){
+    void myInfo() {
         // given
         String email = "test3@email.com";
 
@@ -443,7 +443,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("유저 탈퇴")
-    void resign(){
+    void resign() {
         // given
         long seq = 3L;
 
