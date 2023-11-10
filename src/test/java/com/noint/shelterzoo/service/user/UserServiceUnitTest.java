@@ -440,7 +440,6 @@ public class UserServiceUnitTest {
 
         assertEquals(MyInfoResponseDTO.create(hopeValue), myInfo);
     }
-
     @Test
     @DisplayName("유저 탈퇴")
     void resign(){
