@@ -1,7 +1,9 @@
-package com.noint.shelterzoo.controller.user;
+package com.noint.shelterzoo.domain.user.controller;
 
-import com.noint.shelterzoo.service.user.UserService;
-import com.noint.shelterzoo.dto.user.UserDTO;
+import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
+import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
+import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ public class UserController {
     private final HttpSession session;
 
     @PostMapping("/sign/up")
-    public ResponseEntity<Void> signup(@RequestBody UserDTO.Signup request) {
+    public ResponseEntity<Void> signup(@RequestBody SignupRequestDTO request) {
         userService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -32,8 +34,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO.MyInfo> login(@RequestBody UserDTO.Login request) {
-        UserDTO.MyInfo myInfo = userService.login(request);
+    public ResponseEntity<MyInfoResponseDTO> login(@RequestBody LoginRequestDTO request) {
+        MyInfoResponseDTO myInfo = userService.login(request);
         session.setAttribute("seq", myInfo.getSeq());
         session.setAttribute("email", myInfo.getEmail());
         session.setAttribute("nickname", myInfo.getNickname());
