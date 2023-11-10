@@ -11,4 +11,8 @@
         FROM user
         WHERE nickname = #{nickname};
     </select>
+    <insert id="signup" parameterType="com.noint.shelterzoo.vo.user.UserVO$Signup">
+        INSERT INTO user(email, password, nickname)
+        VALUE(#{email}, #{password}, #{nickname});
+    </insert>
 </mapper>
