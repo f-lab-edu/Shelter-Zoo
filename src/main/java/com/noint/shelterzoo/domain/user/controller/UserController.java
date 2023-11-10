@@ -13,23 +13,22 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    @PostMapping("/sign/up")
+    @PostMapping("/sign-up")
     public ResponseEntity<Void> signup(@RequestBody SignupRequestDTO request) {
         userService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/email/check/{email}")
+    @GetMapping("/check/email/{email}")
     public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email) {
         return new ResponseEntity<>(userService.isExistEmail(email), HttpStatus.OK);
     }
 
-    @GetMapping("/nickname/check/{nickname}")
+    @GetMapping("/check/nickname/{nickname}")
     public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname) {
         return new ResponseEntity<>(userService.isExistNickname(nickname), HttpStatus.OK);
     }
@@ -51,7 +50,7 @@ public class UserController {
         return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
     }
 
-    @PatchMapping("/resign")
+    @PutMapping("/resign")
     public ResponseEntity<Void> resign() {
         Long userSeq = (Long) session.getAttribute("userSeq");
         userService.resign(userSeq);

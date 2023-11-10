@@ -13,18 +13,17 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pet")
 public class AbandonedController {
     private final AbandonedService abandonedService;
     private final HttpSession session;
 
-    @GetMapping("/list")
+    @GetMapping("/pets")
     public ResponseEntity<AbandonedListResponseDTO> getAbandonedList(@ModelAttribute AbandonedListRequestDTO request) {
         long userSeq = (long) session.getAttribute("userSeq");
         return new ResponseEntity<>(abandonedService.getAbandonedList(userSeq, request), HttpStatus.OK);
     }
 
-    @GetMapping("/{petSeq}/detail")
+    @GetMapping("/pets/{petSeq}")
     public ResponseEntity<AbandonedDetailResponseDTO> abandonedPetDetail(@PathVariable long petSeq) {
         return new ResponseEntity<>(abandonedService.abandonedPetDetail(petSeq), HttpStatus.OK);
     }
