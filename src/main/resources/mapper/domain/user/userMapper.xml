@@ -13,7 +13,7 @@
     </select>
     <insert id="signup" parameterType="com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO">
         INSERT INTO user(email, password, nickname)
-        VALUE(#{email}, #{password}, #{nickname});
+            VALUE (#{email}, #{password}, #{nickname});
     </insert>
     <select id="getPasswordByEmail" parameterType="string" resultType="string">
         SELECT password
@@ -21,8 +21,7 @@
         WHERE email = #{email};
     </select>
     <select id="myInfo" parameterType="string" resultType="com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO">
-        SELECT
-            seq
+        SELECT seq
              , email
              , nickname
              , money

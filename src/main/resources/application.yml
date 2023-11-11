@@ -10,12 +10,22 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8080
+pagehelper:
+  helper-dialect: h2
+  auto-dialect: true
+  page-size-zero: false
+  reasonable: true
+  offset-as-page-num: false
+  row-bounds-with-count: false
+  auto-runtime-dialect: false
+  close-conn: true
+  default-count: true
 # 개발 중 필요시 Mybatis SQL 요청 쿼리 확인용도
-#logging:
-#  level:
-#    com:
-#      noint:
-#        shelterzoo:
-#          domain:
-#            abandoned:
-#              repository: trace
+logging:
+  level:
+    com:
+      noint:
+        shelterzoo:
+          domain:
+            abandoned:
+              repository: trace

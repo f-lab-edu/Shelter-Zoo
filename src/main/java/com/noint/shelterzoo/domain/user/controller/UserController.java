@@ -13,47 +13,47 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
-    @PostMapping("/sign/up")
+    @PostMapping("/sign-up")
     public ResponseEntity<Void> signup(@RequestBody SignupRequestDTO request) {
         userService.signup(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-    @GetMapping("/email/check/{email}")
-    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email){
+
+    @GetMapping("/check/email/{email}")
+    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email) {
         return new ResponseEntity<>(userService.isExistEmail(email), HttpStatus.OK);
     }
 
-    @GetMapping("/nickname/check/{nickname}")
-    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname){
+    @GetMapping("/check/nickname/{nickname}")
+    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname) {
         return new ResponseEntity<>(userService.isExistNickname(nickname), HttpStatus.OK);
     }
 
     @PostMapping("/login")
     public ResponseEntity<MyInfoResponseDTO> login(@RequestBody LoginRequestDTO request) {
         MyInfoResponseDTO myInfo = userService.login(request);
-        session.setAttribute("seq", myInfo.getSeq());
-        session.setAttribute("email", myInfo.getEmail());
-        session.setAttribute("nickname", myInfo.getNickname());
-        session.setMaxInactiveInterval(60*30);
+        session.setAttribute("userSeq", myInfo.getSeq());
+        session.setAttribute("userEmail", myInfo.getEmail());
+        session.setAttribute("userNickname", myInfo.getNickname());
+        session.setMaxInactiveInterval(60 * 30);
 
         return new ResponseEntity<>(myInfo, HttpStatus.OK);
     }
 
     @GetMapping("/me")
     public ResponseEntity<MyInfoResponseDTO> myInfo() {
-        String email = (String) session.getAttribute("email");
+        String email = (String) session.getAttribute("userEmail");
         return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
     }
 
-    @PatchMapping("/resign")
-    public ResponseEntity<Void>resign(){
-        Long seq = (Long) session.getAttribute("seq");
-        userService.resign(seq);
+    @PutMapping("/resign")
+    public ResponseEntity<Void> resign() {
+        Long userSeq = (Long) session.getAttribute("userSeq");
+        userService.resign(userSeq);
         session.invalidate();
         return ResponseEntity.noContent().build();
     }
