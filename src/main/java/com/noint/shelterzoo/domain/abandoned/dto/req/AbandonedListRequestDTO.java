@@ -4,9 +4,10 @@ import lombok.Data;
 
 @Data
 public class AbandonedListRequestDTO {
-    private long lastContentSeq = 0L;
     private String location;
     private String kind;
     private String gender;
     private String neuter;
+    private int pageNum;
+    private int pageSize;
 }
