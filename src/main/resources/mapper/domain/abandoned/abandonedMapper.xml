@@ -53,4 +53,19 @@
                  INNER JOIN shelter S ON S.seq = A.shelter_seq
         WHERE A.seq = #{petSeq};
     </select>
+    <select id="isAdoptAble" parameterType="long" resultType="boolean">
+        SELECT COUNT(*)
+        FROM abandoned_pet
+        WHERE seq = #{petSeq}
+          AND adopt_process IS NULL;
+    </select>
+    <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO">
+        INSERT INTO adopt(user_seq, pet_seq, state, visit_at)
+            VALUE(#{userSeq}, #{petSeq}, #{adoptProcess.stateStr}, #{visitDate});
+    </insert>
+    <update id="adoptProcessUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO">
+        UPDATE abandoned_pet
+        SET adopt_process = #{adoptProcess.stateStr}
+        WHERE seq = #{petSeq};
+    </update>
 </mapper>

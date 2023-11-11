@@ -10,6 +10,7 @@ public enum AbandonedExceptionEnum implements ExceptionEnum {
     UNKNOWN_GENDER_ID(404, "알 수 없는 성별 식별자"),
     UNKNOWN_NEUTER_ID(404, "알 수 없는 중성화 식별자"),
     NO_CONTENT(404, "No Content"),
+    NOT_ADOPTABLE(400, "입양 불가능"),
     ;
 
     private final int code;

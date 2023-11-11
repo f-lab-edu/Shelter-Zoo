@@ -3,17 +3,21 @@ package com.noint.shelterzoo.domain.abandoned.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AbandonedListRequestDTO;
+import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptReservationRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.enums.AbandonedExceptionEnum;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -34,5 +38,16 @@ public class AbandonedService {
             throw new AbandonedException(AbandonedExceptionEnum.NO_CONTENT);
         }
         return AbandonedDetailResponseDTO.create(abandonedDetail);
+    }
+
+    @Transactional
+    public void adoptPetForReservation(long userSeq, AdoptReservationRequestDTO request) {
+        boolean isAdoptAble = abandonedRepository.isAdoptAble(request.getPetSeq());
+        if (!isAdoptAble) {
+            log.warn("입양 예약 실패, params : {userSeq : {}, request : {}}", userSeq, request);
+            throw new AbandonedException(AbandonedExceptionEnum.NOT_ADOPTABLE);
+        }
+        abandonedRepository.adoptPetForReservation(AdoptReservationRequestVO.create(userSeq, request));
+        abandonedRepository.adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
     }
 }

@@ -2,12 +2,15 @@ package com.noint.shelterzoo.service.abandoned;
 
 import com.github.pagehelper.PageInfo;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AbandonedListRequestDTO;
+import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptReservationRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
 import com.noint.shelterzoo.domain.abandoned.service.AbandonedService;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {AbandonedService.class})
 public class AbandonedServiceUnitTest {
@@ -115,5 +119,45 @@ public class AbandonedServiceUnitTest {
 
         // then
         assertThrows(AbandonedException.class, () -> abandonedService.abandonedPetDetail(petSeq));
+    }
+
+    @Test
+    @DisplayName("입양 예약 성공")
+    void adoptReservationSuccess() {
+        // given
+        long userSeq = 17L;
+        AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
+        request.setPetSeq(955L);
+        request.setVisitDate("2023-11-20");
+
+        // when
+        when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
+        doNothing().when(abandonedRepository).adoptPetForReservation(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+
+        // then
+        abandonedService.adoptPetForReservation(userSeq, request);
+
+        verify(abandonedRepository, times(1)).isAdoptAble(request.getPetSeq());
+        verify(abandonedRepository, times(1)).adoptPetForReservation(AdoptReservationRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+    }
+
+    @Test
+    @DisplayName("입양 예약 실패")
+    void adoptReservationFail() {
+        // given
+        long userSeq = 17L;
+        AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
+        request.setPetSeq(955L);
+        request.setVisitDate("2023-11-20");
+
+        // when
+        when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.FALSE);
+        doNothing().when(abandonedRepository).adoptPetForReservation(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+
+        // then
+        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
     }
 }
