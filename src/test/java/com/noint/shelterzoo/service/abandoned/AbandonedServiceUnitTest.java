@@ -3,6 +3,7 @@ package com.noint.shelterzoo.service.abandoned;
 import com.github.pagehelper.PageInfo;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AbandonedListRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptReservationRequestDTO;
+import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptUpdateRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
@@ -11,6 +12,7 @@ import com.noint.shelterzoo.domain.abandoned.service.AbandonedService;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import org.junit.jupiter.api.DisplayName;
@@ -159,5 +161,45 @@ public class AbandonedServiceUnitTest {
 
         // then
         assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
+    }
+
+    @Test
+    @DisplayName("입양 예약 변경")
+    void adoptUpdateSuccess(){
+        // given
+        long userSeq = 17L;
+        AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
+        request.setPetSeq(955L);
+        request.setState("취소");
+
+        // when
+        when(abandonedRepository.isReservationPet(any())).thenReturn("예약");
+        doNothing().when(abandonedRepository).adoptPetUpdate(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+
+        // then
+        abandonedService.adoptPetUpdate(userSeq, request);
+
+        verify(abandonedRepository, times(1)).isReservationPet(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).adoptPetUpdate(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+    }
+
+    @Test
+    @DisplayName("입양 예약 변경 실패")
+    void adoptUpdateFail(){
+        // given
+        long userSeq = 17L;
+        AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
+        request.setPetSeq(955L);
+        request.setState("취소");
+
+        // when
+        when(abandonedRepository.isReservationPet(any())).thenReturn("취소");
+        doNothing().when(abandonedRepository).adoptPetUpdate(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+
+        // then
+        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetUpdate(userSeq, request));
     }
 }

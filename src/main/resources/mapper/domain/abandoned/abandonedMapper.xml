@@ -50,22 +50,35 @@
              , S.tel           AS shelterTel
              , s.addr          AS shelterAddr
         FROM abandoned_pet A
-                 INNER JOIN shelter S ON S.seq = A.shelter_seq
+        INNER JOIN shelter S ON S.seq = A.shelter_seq
         WHERE A.seq = #{petSeq};
     </select>
     <select id="isAdoptAble" parameterType="long" resultType="boolean">
         SELECT COUNT(*)
         FROM abandoned_pet
-        WHERE seq = #{petSeq}
-          AND adopt_process IS NULL;
+        WHERE seq = #{petSeq} AND adopt_process IS NULL;
     </select>
     <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO">
         INSERT INTO adopt(user_seq, pet_seq, state, visit_at)
-            VALUE(#{userSeq}, #{petSeq}, #{adoptProcess.stateStr}, #{visitDate});
+        VALUE(#{userSeq}, #{petSeq}, #{adoptProcess.stateStr}, #{visitDate});
     </insert>
     <update id="adoptProcessUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO">
         UPDATE abandoned_pet
-        SET adopt_process = #{adoptProcess.stateStr}
+        SET adopt_process = #{adoptProcess.stateStr}, update_at = NOW()
         WHERE seq = #{petSeq};
+    </update>
+    <select id="isReservationPet" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="string">
+        SELECT state
+        FROM adopt
+        WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq}
+        ORDER BY seq DESC
+        LIMIT 1;
+    </select>
+    <update id="adoptPetUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO">
+        UPDATE adopt
+        SET state = #{adoptProcess.stateStr}, update_at = NOW()
+        WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq}
+        ORDER BY seq DESC
+        LIMIT 1;
     </update>
 </mapper>
