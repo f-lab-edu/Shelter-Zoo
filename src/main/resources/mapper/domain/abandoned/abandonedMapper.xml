@@ -58,7 +58,8 @@
         FROM abandoned_pet
         WHERE seq = #{petSeq} AND adopt_process IS NULL;
     </select>
-    <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO">
+    <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO"
+            useGeneratedKeys="true" keyProperty="seq">
         INSERT INTO adopt(user_seq, pet_seq, state, visit_at)
         VALUE(#{userSeq}, #{petSeq}, #{adoptProcess.stateStr}, #{visitDate});
     </insert>
