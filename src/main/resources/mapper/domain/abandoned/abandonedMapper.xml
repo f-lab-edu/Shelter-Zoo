@@ -65,11 +65,19 @@
     </insert>
     <update id="adoptProcessUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO">
         UPDATE abandoned_pet
-        SET adopt_process = #{adoptProcess.stateStr}, update_at = NOW()
+        <set>
+            <if test="adoptProcess.stateStr == '취소'">
+                adopt_process = NULL, update_at = NOW()
+            </if>
+            <if test="adoptProcess.stateStr != '취소'">
+                adopt_process = #{adoptProcess.stateStr}, update_at = NOW()
+            </if>
+        </set>
         WHERE seq = #{petSeq};
     </update>
-    <select id="isReservationPet" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="string">
-        SELECT state
+    <select id="isReservationPet" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO">
+        SELECT seq AS adoptSeq
+             , state
         FROM adopt
         WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq}
         ORDER BY seq DESC
@@ -82,4 +90,12 @@
         ORDER BY seq DESC
         LIMIT 1;
     </update>
+    <select id="adoptCancelAbleCheck" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO">
+        SELECT DATEDIFF(A.create_at, NOW()) AS createdDiff
+             , DATEDIFF(AP.notice_end, NOW()) AS noticeEndDiff
+        FROM adopt A
+        INNER JOIN abandoned_pet AP ON A.pet_seq = AP.seq
+        WHERE A.user_seq = #{userSeq} AND A.pet_seq = #{petSeq}
+        ORDER BY A.seq DESC LIMIT 1;
+    </select>
 </mapper>
