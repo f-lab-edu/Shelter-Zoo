@@ -13,6 +13,8 @@ public enum AbandonedExceptionEnum implements ExceptionEnum {
     NO_CONTENT(404, "No Content"),
     NOT_ADOPTABLE(400, "입양 불가능"),
     NOT_UPDATABLE(400, "수정 불가능"),
+    LACK_OF_MONEY(400, "재화 부족"),
+    UNKNOWN_TYPE(404, "알 수 없는 타입"),
     ;
 
     private final int code;

@@ -1,11 +1,15 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.config.PasswordEncoderConfig;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
 import com.noint.shelterzoo.domain.user.service.UserService;
+import com.noint.shelterzoo.domain.user.vo.req.MoneyUpdateRequestVO;
 import com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO;
 import com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO;
 import com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO;
@@ -33,6 +37,8 @@ public class UserServiceUnitTest {
 
     @MockBean
     UserRepository userRepository;
+    @MockBean
+    MoneyLogService moneyLogService;
 
     @Test
     @DisplayName("회원가입 : 성공")
@@ -440,6 +446,7 @@ public class UserServiceUnitTest {
 
         assertEquals(MyInfoResponseDTO.create(hopeValue), myInfo);
     }
+
     @Test
     @DisplayName("유저 탈퇴")
     void resign() {
@@ -454,4 +461,42 @@ public class UserServiceUnitTest {
 
         verify(userRepository, times(1)).resign(ResignRequestVO.create(seq));
     }
+
+    @Test
+    @DisplayName("유저 재화 정보 가져오기")
+    void getUserMoney() {
+        // given
+        long userSeq = 17L;
+
+        // when
+        when(userRepository.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(10000));
+
+        // then
+        userService.getUserMoney(userSeq);
+
+        verify(userRepository, times(1)).getUserMoney(userSeq);
+    }
+
+    @Test
+    @DisplayName("유저 재화 업데이트")
+    void getUserMoneyUpdate() {
+        // given
+        long userSeq = 17L;
+        BigDecimal totalMoney = BigDecimal.valueOf(50000);
+        BigDecimal amount = BigDecimal.valueOf(50000);
+        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
+        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
+        long targetTableSeq = 11L;
+
+        // when
+        doNothing().when(userRepository).userMoneyUpdate(any());
+        doNothing().when(moneyLogService).moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+
+        // then
+        userService.userMoneyUpdate(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+
+        verify(userRepository, times(1)).userMoneyUpdate(MoneyUpdateRequestVO.create(userSeq, totalMoney));
+        verify(moneyLogService, times(1)).moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+    }
+
 }

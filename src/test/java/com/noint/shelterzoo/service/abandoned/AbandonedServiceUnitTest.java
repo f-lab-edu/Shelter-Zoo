@@ -15,12 +15,16 @@ import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
+import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
+import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
+import com.noint.shelterzoo.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,8 @@ public class AbandonedServiceUnitTest {
 
     @MockBean
     AbandonedRepository abandonedRepository;
+    @MockBean
+    UserService userService;
 
     @Test
     @DisplayName("유기동물 페이지 리스트")
@@ -136,6 +142,7 @@ public class AbandonedServiceUnitTest {
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
         doNothing().when(abandonedRepository).adoptPetForReservation(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000L));
 
         // then
         abandonedService.adoptPetForReservation(userSeq, request);
@@ -146,8 +153,27 @@ public class AbandonedServiceUnitTest {
     }
 
     @Test
-    @DisplayName("입양 예약 실패")
-    void adoptReservationFail() {
+    @DisplayName("입양 예약 실패 : 재화 부족")
+    void adoptReservationFailByLackOfMoney() {
+        // given
+        long userSeq = 17L;
+        AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
+        request.setPetSeq(955L);
+        request.setVisitDate("2023-11-20");
+
+        // when
+        when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
+        doNothing().when(abandonedRepository).adoptPetForReservation(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(10000L));
+
+        // then
+        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
+    }
+
+    @Test
+    @DisplayName("입양 예약 실패 : 입양 불가능 상태")
+    void adoptReservationFailByNotAdoptAble() {
         // given
         long userSeq = 17L;
         AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
@@ -164,18 +190,60 @@ public class AbandonedServiceUnitTest {
     }
 
     @Test
-    @DisplayName("입양 예약 변경")
-    void adoptUpdateSuccess(){
+    @DisplayName("입양 예약 TO 취소 변경")
+    void adoptUpdateSuccessToCancel() {
         // given
         long userSeq = 17L;
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setPetSeq(955L);
         request.setState("취소");
 
+        ReservationCheckResponseVO checkHopeValue = new ReservationCheckResponseVO();
+        checkHopeValue.setAdoptSeq(11L);
+        checkHopeValue.setState("예약");
+
+        AdoptCancelDateDiffResponseVO diffHopeValue = new AdoptCancelDateDiffResponseVO();
+        diffHopeValue.setCreatedDiff(-1);
+        diffHopeValue.setNoticeEndDiff(3);
+
         // when
-        when(abandonedRepository.isReservationPet(any())).thenReturn("예약");
+        when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        when(abandonedRepository.adoptCancelAbleCheck(any())).thenReturn(diffHopeValue);
+        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
+
+        // then
+        abandonedService.adoptPetUpdate(userSeq, request);
+
+        verify(abandonedRepository, times(1)).isReservationPet(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).adoptPetUpdate(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+    }
+
+    @Test
+    @DisplayName("입양 예약 TO 확정 변경")
+    void adoptUpdateSuccessToConfirm() {
+        // given
+        long userSeq = 17L;
+        AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
+        request.setPetSeq(955L);
+        request.setState("입양");
+
+        ReservationCheckResponseVO checkHopeValue = new ReservationCheckResponseVO();
+        checkHopeValue.setAdoptSeq(11L);
+        checkHopeValue.setState("예약");
+
+        AdoptCancelDateDiffResponseVO diffHopeValue = new AdoptCancelDateDiffResponseVO();
+        diffHopeValue.setCreatedDiff(-1);
+        diffHopeValue.setNoticeEndDiff(3);
+
+        // when
+        when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
+        doNothing().when(abandonedRepository).adoptPetUpdate(any());
+        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        when(abandonedRepository.adoptCancelAbleCheck(any())).thenReturn(diffHopeValue);
+        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
         abandonedService.adoptPetUpdate(userSeq, request);
@@ -187,15 +255,19 @@ public class AbandonedServiceUnitTest {
 
     @Test
     @DisplayName("입양 예약 변경 실패")
-    void adoptUpdateFail(){
+    void adoptUpdateFail() {
         // given
         long userSeq = 17L;
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setPetSeq(955L);
         request.setState("취소");
 
+        ReservationCheckResponseVO hopeValue = new ReservationCheckResponseVO();
+        hopeValue.setAdoptSeq(11L);
+        hopeValue.setState("취소");
+
         // when
-        when(abandonedRepository.isReservationPet(any())).thenReturn("취소");
+        when(abandonedRepository.isReservationPet(any())).thenReturn(hopeValue);
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
 

@@ -10,6 +10,8 @@ public class AdoptReservationRequestVO {
     private long petSeq;
     private AdoptProcessEnum adoptProcess = AdoptProcessEnum.RESERVATION;
     private String visitDate;
+    // 예약 테이블 seq
+    private long seq;
 
     public static AdoptReservationRequestVO create(long userSeq, AdoptReservationRequestDTO dto) {
         AdoptReservationRequestVO vo = new AdoptReservationRequestVO();
