@@ -17,9 +17,10 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class LoginCheckInterceptor implements HandlerInterceptor {
     private final HttpSession session;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object seq = session.getAttribute("seq");
+        Object seq = session.getAttribute("userSeq");
         if (ObjectUtils.isEmpty(seq)) {
             log.warn("로그인 정보 없음.");
             throw new UserException(UserExceptionEnum.LOGIN_INFO_EMPTY);

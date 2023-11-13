@@ -20,7 +20,7 @@ public enum UserStateEnum {
                 .orElseThrow(() -> new IllegalArgumentException("유저 가입상태를 찾을 수 없습니다."));
     }
 
-    public static boolean isStable(String state){
+    public static boolean isStable(String state) {
         return STABLE == find(state);
     }
 }

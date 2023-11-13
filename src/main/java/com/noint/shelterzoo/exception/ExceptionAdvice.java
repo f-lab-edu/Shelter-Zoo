@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class ExceptionAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {GeneralException.class})
-    public ResponseEntity<Object> exceptionResponse(GeneralException e){
+    public ResponseEntity<Object> exceptionResponse(GeneralException e) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("code", e.getCode());
         body.put("message", e.getMessage());

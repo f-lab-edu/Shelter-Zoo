@@ -15,6 +15,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginCheckInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/sign/up", "/user/login", "/user/email/check/{email}", "/user/nickname/check/{nickname}");
+                .excludePathPatterns("/sign-up", "/login", "/check/email/{email}", "/check/nickname/{nickname}");
     }
 }

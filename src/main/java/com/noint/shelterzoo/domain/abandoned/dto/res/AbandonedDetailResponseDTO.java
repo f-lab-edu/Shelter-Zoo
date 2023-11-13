@@ -24,7 +24,7 @@ public class AbandonedDetailResponseDTO {
     private String shelterTel;
     private String shelterAddr;
 
-    public static AbandonedDetailResponseDTO create(AbandonedDetailResponseVO vo){
+    public static AbandonedDetailResponseDTO create(AbandonedDetailResponseVO vo) {
         AbandonedDetailResponseDTO dto = new AbandonedDetailResponseDTO();
         dto.setSeq(vo.getSeq());
         dto.setHappenPlace(vo.getHappenPlace());

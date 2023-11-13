@@ -24,7 +24,7 @@ public enum GenderEnum {
                 .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_GENDER_ID));
     }
 
-    public static GenderEnum findEnumByInitial(String initial){
+    public static GenderEnum findEnumByInitial(String initial) {
         return Arrays.stream(GenderEnum.values())
                 .filter(e -> initial.equals(e.getInitial()))
                 .findAny()

@@ -1,5 +1,7 @@
 package com.noint.shelterzoo.domain.abandoned.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AbandonedListRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
@@ -13,24 +15,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AbandonedService {
     private final AbandonedRepository abandonedRepository;
 
-    public AbandonedListResponseDTO getAbandonedList(long userSeq, AbandonedListRequestDTO request){
-        List<AbandonedListResponseVO> abandonedList = abandonedRepository.getAbandonedList(AbandonedListRequestVO.create(userSeq, request));
-        if (abandonedList == null) {
-            log.warn("유기동물 리스트 가져오기 실패, params : {userSeq : {}, request : {}}", userSeq, request);
-            throw new AbandonedException(AbandonedExceptionEnum.NO_CONTENT);
-        }
-        return AbandonedListResponseDTO.create(abandonedList);
+    public PageInfo<AbandonedListResponseDTO> getAbandonedList(long userSeq, AbandonedListRequestDTO request) {
+        PageInfo<AbandonedListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize())
+                .doSelectPageInfo(() -> abandonedRepository.getAbandonedList(AbandonedListRequestVO.create(userSeq, request)));
+        return AbandonedListResponseDTO.create(petsPageInfo);
     }
 
-    public AbandonedDetailResponseDTO abandonedPetDetail(long petSeq){
+    public AbandonedDetailResponseDTO abandonedPetDetail(long petSeq) {
         AbandonedDetailResponseVO abandonedDetail = abandonedRepository.abandonedPetDetail(petSeq);
         if (abandonedDetail == null) {
             log.warn("유기동물 상세 페이지 가져오기 실패, params : {petSeq : {}}", petSeq);

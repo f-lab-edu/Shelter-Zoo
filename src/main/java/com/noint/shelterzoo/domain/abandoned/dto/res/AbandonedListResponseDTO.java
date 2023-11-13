@@ -1,61 +1,72 @@
 package com.noint.shelterzoo.domain.abandoned.dto.res;
 
+import com.github.pagehelper.PageInfo;
 import com.noint.shelterzoo.domain.abandoned.enums.GenderEnum;
 import com.noint.shelterzoo.domain.abandoned.enums.NeuterEnum;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
-import com.noint.shelterzoo.general.ListPageGeneral;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class AbandonedListResponseDTO extends ListPageGeneral {
-    private List<AbandonedRow> content;
-    private boolean isNext;
+public class AbandonedListResponseDTO {
+    private long seq;
+    private String thumbnail;
+    private String kind;
+    private String kindDetail;
+    private String birth;
+    private String gender;
+    private String neuter;
+    private String noticeEnd;
+    private boolean isPin;
 
-    /**
-     * 페이징은 무한 스크롤 방식으로 가정.
-     * pageLength 만큼 content 생성.
-     * voList.size()가 pageLength(20)보다 크다면 다음 페이지가 있다고 isNext로 알려줌.
-     */
-    public static AbandonedListResponseDTO create(List<AbandonedListResponseVO> voList) {
-        AbandonedListResponseDTO dto = new AbandonedListResponseDTO();
-        List<AbandonedRow> rowList = new ArrayList<>();
-        int contentLimit = Math.min(voList.size(), pageLength);
-        for (int i = 0; i < contentLimit; i++) {
-            rowList.add(AbandonedRow.create(voList.get(i)));
-        }
-        dto.setContent(rowList);
-        dto.setNext(voList.size() > pageLength);
-        return dto;
+    public static PageInfo<AbandonedListResponseDTO> create(PageInfo<AbandonedListResponseVO> voPageInfo) {
+        PageInfo<AbandonedListResponseDTO> dtoCopyPageInfo = new PageInfo<>();
+        dtoCopyPageInfo.setList(create(voPageInfo.getList()));
+        dtoCopyPageInfo.setIsFirstPage(voPageInfo.isIsFirstPage());
+        dtoCopyPageInfo.setIsLastPage(voPageInfo.isIsLastPage());
+        dtoCopyPageInfo.setPages(voPageInfo.getPages());
+        dtoCopyPageInfo.setHasNextPage(voPageInfo.isHasNextPage());
+        dtoCopyPageInfo.setEndRow(voPageInfo.getEndRow());
+        dtoCopyPageInfo.setHasPreviousPage(voPageInfo.isHasPreviousPage());
+        dtoCopyPageInfo.setNavigateFirstPage(voPageInfo.getNavigateFirstPage());
+        dtoCopyPageInfo.setNavigatepageNums(voPageInfo.getNavigatepageNums());
+        dtoCopyPageInfo.setNavigateLastPage(voPageInfo.getNavigateLastPage());
+        dtoCopyPageInfo.setNavigatePages(voPageInfo.getNavigatePages());
+        dtoCopyPageInfo.setNextPage(voPageInfo.getNextPage());
+        dtoCopyPageInfo.setPageNum(voPageInfo.getPageNum());
+        dtoCopyPageInfo.setPages(voPageInfo.getPages());
+        dtoCopyPageInfo.setPageSize(voPageInfo.getPageSize());
+        dtoCopyPageInfo.setPrePage(voPageInfo.getPrePage());
+        dtoCopyPageInfo.setSize(voPageInfo.getSize());
+        dtoCopyPageInfo.setStartRow(voPageInfo.getStartRow());
+        dtoCopyPageInfo.setTotal(voPageInfo.getTotal());
+
+        return dtoCopyPageInfo;
     }
 
-    @Data
-    private static class AbandonedRow {
-        private long seq;
-        private String thumbnail;
-        private String kind;
-        private String kindDetail;
-        private String birth;
-        private String gender;
-        private String neuter;
-        private String noticeEnd;
-        private boolean isPin;
-
-        public static AbandonedRow create(AbandonedListResponseVO vo) {
-            AbandonedRow dto = new AbandonedRow();
-            dto.setBirth(vo.getBirth());
-            dto.setSeq(vo.getSeq());
-            dto.setThumbnail(vo.getThumbnail());
-            dto.setKind(vo.getKind());
-            dto.setKindDetail(vo.getKindDetail());
-            dto.setGender(GenderEnum.findEnumByInitial(vo.getGender()).getFullText());
-            dto.setNeuter(NeuterEnum.findEnumByInitial(vo.getNeuter()).getFullText());
-            dto.setNoticeEnd(vo.getNoticeEnd());
-            dto.setPin(vo.isPin());
-
-            return dto;
+    public static List<AbandonedListResponseDTO> create(List<AbandonedListResponseVO> voList) {
+        List<AbandonedListResponseDTO> dtoList = new ArrayList<>();
+        for (var vo : voList) {
+            dtoList.add(create(vo));
         }
+
+        return dtoList;
+    }
+
+    public static AbandonedListResponseDTO create(AbandonedListResponseVO vo) {
+        AbandonedListResponseDTO dto = new AbandonedListResponseDTO();
+        dto.setBirth(vo.getBirth());
+        dto.setSeq(vo.getSeq());
+        dto.setThumbnail(vo.getThumbnail());
+        dto.setKind(vo.getKind());
+        dto.setKindDetail(vo.getKindDetail());
+        dto.setGender(GenderEnum.findEnumByInitial(vo.getGender()).getFullText());
+        dto.setNeuter(NeuterEnum.findEnumByInitial(vo.getNeuter()).getFullText());
+        dto.setNoticeEnd(vo.getNoticeEnd());
+        dto.setPin(vo.isPin());
+
+        return dto;
     }
 }

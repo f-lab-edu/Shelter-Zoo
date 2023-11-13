@@ -9,7 +9,7 @@ public class SignupRequestVO {
     private String nickname;
     private String password;
 
-    public static SignupRequestVO create(SignupRequestDTO dto){
+    public static SignupRequestVO create(SignupRequestDTO dto) {
         SignupRequestVO vo = new SignupRequestVO();
         vo.setEmail(dto.getEmail());
         vo.setPassword(dto.getPassword());
