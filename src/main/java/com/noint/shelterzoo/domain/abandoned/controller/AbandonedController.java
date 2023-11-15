@@ -48,4 +48,18 @@ public class AbandonedController {
         abandonedService.adoptPetUpdate(userSeq, request);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/pets/{petSeq}/pin")
+    public ResponseEntity<Void> pinUp(@PathVariable long petSeq) {
+        long userSeq = (long) session.getAttribute("userSeq");
+        abandonedService.pinUp(userSeq, petSeq);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/pets/{petSeq}/pin")
+    public ResponseEntity<Void> pinUpDel(@PathVariable long petSeq) {
+        long userSeq = (long) session.getAttribute("userSeq");
+        abandonedService.pinUpDel(userSeq, petSeq);
+        return ResponseEntity.noContent().build();
+    }
 }

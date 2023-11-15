@@ -12,10 +12,7 @@ import com.noint.shelterzoo.domain.abandoned.enums.AdoptCancelPayBackPenaltyEnum
 import com.noint.shelterzoo.domain.abandoned.enums.AdoptProcessEnum;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.*;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
@@ -25,6 +22,7 @@ import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -136,5 +134,18 @@ public class AbandonedService {
             return AdoptCancelPayBackPenaltyEnum.payBack(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY1);
         }
         return BigDecimal.ZERO;
+    }
+
+    public void pinUp(long userSeq, long petSeq) {
+        try {
+            abandonedRepository.pinUp(PinUpRequestVO.create(userSeq, petSeq));
+        } catch (DataIntegrityViolationException e) {
+            log.warn("관심 동물 추가 실패 : params : {userSeq : {}, petSeq : {}}", userSeq, petSeq);
+            throw new AbandonedException(AbandonedExceptionEnum.DUPLICATED_PIN);
+        }
+    }
+
+    public void pinUpDel(long userSeq, long petSeq) {
+        abandonedRepository.pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
     }
 }
