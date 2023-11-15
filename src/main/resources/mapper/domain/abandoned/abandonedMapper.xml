@@ -56,7 +56,7 @@
     <select id="isAdoptAble" parameterType="long" resultType="boolean">
         SELECT COUNT(*)
         FROM abandoned_pet
-        WHERE seq = #{petSeq} AND adopt_process IS NULL;
+        WHERE seq = #{petSeq} AND adopt_process IS NULL FOR UPDATE;
     </select>
     <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO"
             useGeneratedKeys="true" keyProperty="seq">
