@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noint.shelterzoo.domain.pin.repository.PinRepository">
+    <insert id="pinUp" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
+        INSERT INTO pin_up(user_seq, pet_seq)
+        VALUES (#{userSeq}, #{petSeq});
+    </insert>
+    <delete id="pinUpDel" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
+        DELETE
+        FROM pin_up
+        WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq};
+    </delete>
+    <select id="getPinupList" parameterType="long">
+        SELECT AA.seq
+             , AA.thumbnail
+             , AA.kind
+             , AA.kind_detail AS kindDetail
+             , AA.birth
+             , AA.gender
+             , AA.neuter AA.notice_end AS noticeEnd
+            , MAX(AA.reservation) AS isReserve
+        FROM (
+            SELECT AP.seq
+                   , AP.thumbnail
+                   , AP.kind
+                   , AP.kind_detail
+                   , AP.birth
+                   , AP.gender
+                   , AP.neuter
+                   , AP.notice_end
+                   , true AS reservation
+            FROM abandoned_pet AP
+            INNER JOIN shelter S ON S.seq = AP.shelter_seq
+            INNER JOIN adopt A ON A.user_seq = #{userSeq} AND AP.seq = A.pet_Seq AND A.state = '예약'
+            UNION ALL
+            SELECT AP.seq
+                   , AP.thumbnail
+                   , AP.kind
+                   , AP.kind_detail
+                   , AP.birth
+                   , AP.gender
+                   , AP.neuter
+                   , AP.notice_end
+                   , false AS reservation
+            FROM abandoned_pet AP
+            INNER JOIN shelter S ON S.seq = AP.shelter_seq
+            INNER JOIN pin_up P ON P.user_seq = #{userSeq} AND AP.seq = P.pet_seq
+          ) AA
+        GROUP BY AA.seq, AA.thumbnail, AA.kind, AA.kind_detail, AA.birth, AA.gender, AA.neuter, AA.notice_end;
+    </select>
+</mapper>

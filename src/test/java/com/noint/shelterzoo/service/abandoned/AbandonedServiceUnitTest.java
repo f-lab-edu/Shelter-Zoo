@@ -9,7 +9,10 @@ import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
 import com.noint.shelterzoo.domain.abandoned.service.AbandonedService;
-import com.noint.shelterzoo.domain.abandoned.vo.req.*;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
@@ -20,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -271,51 +273,5 @@ public class AbandonedServiceUnitTest {
 
         // then
         assertThrows(AbandonedException.class, () -> abandonedService.adoptPetUpdate(userSeq, request));
-    }
-
-    @Test
-    @DisplayName("관심 동물 등록")
-    void pinUp() {
-        // given
-        long userSeq = 17L;
-        long petSeq = 955L;
-
-        // when
-        doNothing().when(abandonedRepository).pinUp(any());
-
-        // then
-        abandonedService.pinUp(userSeq, petSeq);
-
-        verify(abandonedRepository, times(1)).pinUp(PinUpRequestVO.create(userSeq, petSeq));
-    }
-
-    @Test
-    @DisplayName("관심 동물 등록 실패 : 중복")
-    void pinUpFailByDuplicated() {
-        // given
-        long userSeq = 17L;
-        long petSeq = 955L;
-
-        // when
-        doThrow(new DataIntegrityViolationException("중복 msg")).when(abandonedRepository).pinUp(any());
-
-        // then
-        assertThrows(AbandonedException.class, () -> abandonedService.pinUp(userSeq, petSeq));
-    }
-
-    @Test
-    @DisplayName("관심 동물 해제")
-    void pinUpDel() {
-        // given
-        long userSeq = 17L;
-        long petSeq = 955L;
-
-        // when
-        doNothing().when(abandonedRepository).pinUpDel(any());
-
-        // then
-        abandonedService.pinUpDel(userSeq, petSeq);
-
-        verify(abandonedRepository, times(1)).pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
     }
 }

@@ -1,4 +1,4 @@
-package com.noint.shelterzoo.domain.abandoned.vo.req;
+package com.noint.shelterzoo.domain.pin.vo.req;
 
 import lombok.Data;
 
