@@ -1,9 +1,6 @@
 package com.noint.shelterzoo.domain.abandoned.repository;
 
-import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO;
-import com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO;
+import com.noint.shelterzoo.domain.abandoned.vo.req.*;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
@@ -29,4 +26,6 @@ public interface AbandonedRepository {
     void adoptPetUpdate(AdoptUpdateRequestVO params);
 
     AdoptCancelDateDiffResponseVO adoptCancelAbleCheck(AdoptUpdateRequestVO params);
+
+    void pinUp(PinUpRequestVO params);
 }

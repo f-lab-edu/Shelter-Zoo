@@ -98,4 +98,8 @@
         WHERE A.user_seq = #{userSeq} AND A.pet_seq = #{petSeq}
         ORDER BY A.seq DESC LIMIT 1;
     </select>
+    <insert id="pinUp" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.PinUpRequestVO">
+        INSERT INTO pin_up(user_seq, pet_seq)
+        VALUES (#{userSeq}, #{petSeq});
+    </insert>
 </mapper>
