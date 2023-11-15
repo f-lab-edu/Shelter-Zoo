@@ -102,4 +102,9 @@
         INSERT INTO pin_up(user_seq, pet_seq)
         VALUES (#{userSeq}, #{petSeq});
     </insert>
+    <delete id="pinUpDel" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.PinUpRequestVO">
+        DELETE
+        FROM pin_up
+        WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq};
+    </delete>
 </mapper>

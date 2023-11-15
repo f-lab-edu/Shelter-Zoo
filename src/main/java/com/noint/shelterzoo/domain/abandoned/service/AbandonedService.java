@@ -144,4 +144,8 @@ public class AbandonedService {
             throw new AbandonedException(AbandonedExceptionEnum.DUPLICATED_PIN);
         }
     }
+
+    public void pinUpDel(long userSeq, long petSeq) {
+        abandonedRepository.pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
+    }
 }

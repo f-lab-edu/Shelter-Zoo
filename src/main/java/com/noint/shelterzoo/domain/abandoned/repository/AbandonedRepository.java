@@ -28,4 +28,6 @@ public interface AbandonedRepository {
     AdoptCancelDateDiffResponseVO adoptCancelAbleCheck(AdoptUpdateRequestVO params);
 
     void pinUp(PinUpRequestVO params);
+
+    void pinUpDel(PinUpRequestVO params);
 }

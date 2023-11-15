@@ -275,7 +275,7 @@ public class AbandonedServiceUnitTest {
 
     @Test
     @DisplayName("관심 동물 등록")
-    void pinUp(){
+    void pinUp() {
         // given
         long userSeq = 17L;
         long petSeq = 955L;
@@ -301,5 +301,21 @@ public class AbandonedServiceUnitTest {
 
         // then
         assertThrows(AbandonedException.class, () -> abandonedService.pinUp(userSeq, petSeq));
+    }
+
+    @Test
+    @DisplayName("관심 동물 해제")
+    void pinUpDel() {
+        // given
+        long userSeq = 17L;
+        long petSeq = 955L;
+
+        // when
+        doNothing().when(abandonedRepository).pinUpDel(any());
+
+        // then
+        abandonedService.pinUpDel(userSeq, petSeq);
+
+        verify(abandonedRepository, times(1)).pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
     }
 }
