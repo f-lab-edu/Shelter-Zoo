@@ -10,15 +10,16 @@
         FROM pin_up
         WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq};
     </delete>
-    <select id="getPinupList" parameterType="long">
+    <select id="getPinupList" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinListRequestVO" resultType="com.noint.shelterzoo.domain.pin.vo.res.PinListResponseVO">
         SELECT AA.seq
              , AA.thumbnail
              , AA.kind
              , AA.kind_detail AS kindDetail
              , AA.birth
              , AA.gender
-             , AA.neuter AA.notice_end AS noticeEnd
-            , MAX(AA.reservation) AS isReserve
+             , AA.neuter
+             , AA.notice_end AS noticeEnd
+             , MAX(AA.isReserve) AS isReserve
         FROM (
             SELECT AP.seq
                    , AP.thumbnail
@@ -28,7 +29,7 @@
                    , AP.gender
                    , AP.neuter
                    , AP.notice_end
-                   , true AS reservation
+                   , true AS isReserve
             FROM abandoned_pet AP
             INNER JOIN shelter S ON S.seq = AP.shelter_seq
             INNER JOIN adopt A ON A.user_seq = #{userSeq} AND AP.seq = A.pet_Seq AND A.state = '예약'
@@ -41,11 +42,12 @@
                    , AP.gender
                    , AP.neuter
                    , AP.notice_end
-                   , false AS reservation
+                   , false AS isReserve
             FROM abandoned_pet AP
             INNER JOIN shelter S ON S.seq = AP.shelter_seq
             INNER JOIN pin_up P ON P.user_seq = #{userSeq} AND AP.seq = P.pet_seq
           ) AA
-        GROUP BY AA.seq, AA.thumbnail, AA.kind, AA.kind_detail, AA.birth, AA.gender, AA.neuter, AA.notice_end;
+        GROUP BY AA.seq, AA.thumbnail, AA.kind, AA.kind_detail, AA.birth, AA.gender, AA.neuter, AA.notice_end
+        ORDER BY AA.seq DESC
     </select>
 </mapper>

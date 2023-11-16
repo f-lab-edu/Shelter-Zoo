@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class PinUpRequestVO {
-    private long userSeq;
-    private long petSeq;
+    private Long userSeq;
+    private Long petSeq;
 
-    public static PinUpRequestVO create(long userSeq, long petSeq) {
+    public static PinUpRequestVO create(Long userSeq, Long petSeq) {
         PinUpRequestVO vo = new PinUpRequestVO();
         vo.setPetSeq(petSeq);
         vo.setUserSeq(userSeq);
