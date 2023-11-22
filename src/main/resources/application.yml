@@ -37,9 +37,9 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://10.41.169.108:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
-    password: admin
+    password: R7$fzeSIT<7#u.0IX
     driver-class-name: com.mysql.cj.jdbc.Driver
 pagehelper:
   helper-dialect: h2
