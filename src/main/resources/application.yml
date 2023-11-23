@@ -32,6 +32,8 @@ logging:
               repository: trace
 
 ---
+server:
+  shutdown: graceful
 spring:
   config:
     activate:
