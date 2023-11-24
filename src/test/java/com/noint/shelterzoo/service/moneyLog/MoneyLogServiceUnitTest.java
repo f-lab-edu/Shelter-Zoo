@@ -28,12 +28,12 @@ public class MoneyLogServiceUnitTest {
     @DisplayName("유기동물 입양 예약관련 재화 로그")
     void moneyLogInsertForAdoptReservation() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
         MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
-        long targetTableSeq = 11L;
+        Long targetTableSeq = 11L;
 
         // when
         doNothing().when(moneyLogRepository).moneyLogInsertForAdoptReservation(any());

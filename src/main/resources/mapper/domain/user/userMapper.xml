@@ -33,7 +33,7 @@
     <update id="resign" parameterType="com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO">
         UPDATE user
         SET state = #{stateEnum.state}
-        WHERE seq = #{seq};
+        WHERE seq = #{userSeq};
     </update>
     <select id="getUserMoneyForUpdate" parameterType="long" resultType="decimal">
         SELECT money

@@ -22,26 +22,26 @@ public class AbandonedController {
 
     @GetMapping("/pets")
     public ResponseEntity<PageInfo<AbandonedListResponseDTO>> getAbandonedList(@ModelAttribute AbandonedListRequestDTO request) {
-        long userSeq = (long) session.getAttribute("userSeq");
+        Long userSeq = (Long) session.getAttribute("userSeq");
         return new ResponseEntity<>(abandonedService.getAbandonedList(userSeq, request), HttpStatus.OK);
     }
 
     @GetMapping("/pets/{petSeq}")
-    public ResponseEntity<AbandonedDetailResponseDTO> abandonedPetDetail(@PathVariable long petSeq) {
+    public ResponseEntity<AbandonedDetailResponseDTO> abandonedPetDetail(@PathVariable Long petSeq) {
         return new ResponseEntity<>(abandonedService.abandonedPetDetail(petSeq), HttpStatus.OK);
     }
 
     @PostMapping("/adopt/pets/{petSeq}")
-    public ResponseEntity<Void> adoptPetForReservation(@PathVariable long petSeq, @RequestBody AdoptReservationRequestDTO request) {
+    public ResponseEntity<Void> adoptPetForReservation(@PathVariable Long petSeq, @RequestBody AdoptReservationRequestDTO request) {
         request.setPetSeq(petSeq);
-        long userSeq = (long) session.getAttribute("userSeq");
+        Long userSeq = (Long) session.getAttribute("userSeq");
         abandonedService.adoptPetForReservation(userSeq, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/adopt/pets/{petSeq}/{status}")
-    public ResponseEntity<Void> adoptPetUpdate(@PathVariable long petSeq, @PathVariable String status) {
-        long userSeq = (long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> adoptPetUpdate(@PathVariable Long petSeq, @PathVariable String status) {
+        Long userSeq = (Long) session.getAttribute("userSeq");
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setState(status);
         request.setPetSeq(petSeq);

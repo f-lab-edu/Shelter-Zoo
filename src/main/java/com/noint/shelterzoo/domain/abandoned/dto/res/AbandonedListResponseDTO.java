@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 public class AbandonedListResponseDTO {
-    private long seq;
+    private Long seq;
     private String thumbnail;
     private String kind;
     private String kindDetail;
@@ -19,7 +19,7 @@ public class AbandonedListResponseDTO {
     private String gender;
     private String neuter;
     private String noticeEnd;
-    private boolean isPin;
+    private Boolean isPin;
 
     public static PageInfo<AbandonedListResponseDTO> create(PageInfo<AbandonedListResponseVO> voPageInfo) {
         PageInfo<AbandonedListResponseDTO> dtoCopyPageInfo = new PageInfo<>();
@@ -65,7 +65,7 @@ public class AbandonedListResponseDTO {
         dto.setGender(GenderEnum.findEnumByInitial(vo.getGender()).getFullText());
         dto.setNeuter(NeuterEnum.findEnumByInitial(vo.getNeuter()).getFullText());
         dto.setNoticeEnd(vo.getNoticeEnd());
-        dto.setPin(vo.isPin());
+        dto.setIsPin(vo.getIsPin());
 
         return dto;
     }
