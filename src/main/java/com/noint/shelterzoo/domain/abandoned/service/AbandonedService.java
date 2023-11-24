@@ -137,17 +137,4 @@ public class AbandonedService {
     private boolean isSameDay(int createDiff) {
         return createDiff > -1;
     }
-
-    public void pinUp(long userSeq, long petSeq) {
-        try {
-            abandonedRepository.pinUp(PinUpRequestVO.create(userSeq, petSeq));
-        } catch (DataIntegrityViolationException e) {
-            log.warn("관심 동물 추가 실패 : params : {userSeq : {}, petSeq : {}}", userSeq, petSeq);
-            throw new AbandonedException(AbandonedExceptionEnum.DUPLICATED_PIN);
-        }
-    }
-
-    public void pinUpDel(long userSeq, long petSeq) {
-        abandonedRepository.pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
-    }
 }
