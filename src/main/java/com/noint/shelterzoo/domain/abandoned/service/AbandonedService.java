@@ -135,7 +135,7 @@ public class AbandonedService {
     private boolean isSameDay(int createDiff) {
         return createDiff > -1;
     }
-  
+
     public void pinUp(long userSeq, long petSeq) {
         try {
             abandonedRepository.pinUp(PinUpRequestVO.create(userSeq, petSeq));
