@@ -28,5 +28,5 @@ public interface AbandonedRepository {
 
     void adoptPetUpdate(AdoptUpdateRequestVO params);
 
-    AdoptCancelDateDiffResponseVO adoptCancelAbleCheck(AdoptUpdateRequestVO params);
+    AdoptCancelDateDiffResponseVO getDateDiffFromNow(AdoptUpdateRequestVO params);
 }
