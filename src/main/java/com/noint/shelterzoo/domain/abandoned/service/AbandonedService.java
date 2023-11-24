@@ -82,13 +82,13 @@ public class AbandonedService {
     public void adoptPetUpdate(Long userSeq, AdoptUpdateRequestDTO request) {
         AdoptUpdateRequestVO requestVO = AdoptUpdateRequestVO.create(userSeq, request);
         ReservationCheckResponseVO petReservationState = abandonedRepository.isReservationPet(requestVO);
-        if (!this.isUpdateAble(petReservationState.getState())) {
+        if (!isUpdateAble(petReservationState.getState())) {
             log.warn("입양 절차 수정 실패, params : {request : {}, nowAdoptState : {}}", request, petReservationState);
             throw new AbandonedException(AbandonedExceptionEnum.NOT_UPDATABLE);
         }
         abandonedRepository.adoptPetUpdate(requestVO);
         abandonedRepository.adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
-        this.adoptPetUpdatePayBack(requestVO, petReservationState.getAdoptSeq());
+        adoptPetUpdatePayBack(requestVO, petReservationState.getAdoptSeq());
     }
 
     private boolean isUpdateAble(String adoptState) {
@@ -110,7 +110,7 @@ public class AbandonedService {
                 log.warn("입양 절차 취소/변경 이외의 값, params : {state : {}}", requestVO.getAdoptProcess());
                 throw new AbandonedException(AbandonedExceptionEnum.UNKNOWN_TYPE);
         }
-        this.userMoneyUpdate(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
+        userMoneyUpdate(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
     }
 
     private BigDecimal payBackMoneyByAdoptCancel(AdoptUpdateRequestVO requestVO) {

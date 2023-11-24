@@ -48,7 +48,7 @@ public class UserService {
             userRepository.signup(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
             log.warn("유저 회원가입 실패");
-            this.signupDuplicationExceptionHandling(e, request);
+            signupDuplicationExceptionHandling(e, request);
         }
     }
 
