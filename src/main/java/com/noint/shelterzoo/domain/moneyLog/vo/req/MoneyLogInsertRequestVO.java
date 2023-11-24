@@ -8,16 +8,16 @@ import java.math.BigDecimal;
 
 @Data
 public class MoneyLogInsertRequestVO {
-    private long userSeq;
+    private Long userSeq;
     private MoneyTypeEnum moneyTypeEnum;
     private BigDecimal money;
     private BigDecimal totalMoney;
     private MoneyUpdatePurposeEnum purposeEnum;
-    private long adoptSeq;
-    private long supportLogSeq;
-    private long chargeLogSeq;
+    private Long adoptSeq;
+    private Long supportLogSeq;
+    private Long chargeLogSeq;
 
-    public static MoneyLogInsertRequestVO createForAdoptReservation(long userSeq, MoneyTypeEnum moneyTypeEnum, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurposeEnum purposeEnum, long adoptSeq) {
+    public static MoneyLogInsertRequestVO createForAdoptReservation(Long userSeq, MoneyTypeEnum moneyTypeEnum, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurposeEnum purposeEnum, Long adoptSeq) {
         MoneyLogInsertRequestVO vo = new MoneyLogInsertRequestVO();
         vo.setUserSeq(userSeq);
         vo.setMoneyTypeEnum(moneyTypeEnum);

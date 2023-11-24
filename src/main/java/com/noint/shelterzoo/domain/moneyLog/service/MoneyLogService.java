@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class MoneyLogService {
     private final MoneyLogRepository moneyLogRepository;
 
-    public void moneyLogInsertForAdoptReservation(long userSeq, BigDecimal totalMoney, BigDecimal amount, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
+    public void moneyLogInsertForAdoptReservation(Long userSeq, BigDecimal totalMoney, BigDecimal amount, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
         MoneyLogInsertRequestVO requestVO = MoneyLogInsertRequestVO.createForAdoptReservation(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
         moneyLogRepository.moneyLogInsertForAdoptReservation(requestVO);
     }
