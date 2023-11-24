@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 public class AdoptReservationRequestVO {
-    private long userSeq;
-    private long petSeq;
+    private Long userSeq;
+    private Long petSeq;
     private AdoptProcessEnum adoptProcess = AdoptProcessEnum.RESERVATION;
     private String visitDate;
     // 예약 테이블 seq
-    private long seq;
+    private Long seq;
 
-    public static AdoptReservationRequestVO create(long userSeq, AdoptReservationRequestDTO dto) {
+    public static AdoptReservationRequestVO create(Long userSeq, AdoptReservationRequestDTO dto) {
         AdoptReservationRequestVO vo = new AdoptReservationRequestVO();
         vo.setUserSeq(userSeq);
         vo.setPetSeq(dto.getPetSeq());

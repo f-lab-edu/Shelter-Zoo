@@ -8,6 +8,6 @@ public class AbandonedListRequestDTO {
     private String kind;
     private String gender;
     private String neuter;
-    private int pageNum;
-    private int pageSize;
+    private Integer pageNum;
+    private Integer pageSize;
 }

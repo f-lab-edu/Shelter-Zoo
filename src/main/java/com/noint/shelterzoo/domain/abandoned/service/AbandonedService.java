@@ -39,12 +39,12 @@ public class AbandonedService {
     private final UserService userService;
     private final static BigDecimal RESERVATION_AMOUNT = BigDecimal.valueOf(50000);
 
-    public PageInfo<AbandonedListResponseDTO> getAbandonedList(long userSeq, AbandonedListRequestDTO request) {
+    public PageInfo<AbandonedListResponseDTO> getAbandonedList(Long userSeq, AbandonedListRequestDTO request) {
         PageInfo<AbandonedListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize()).doSelectPageInfo(() -> abandonedRepository.getAbandonedList(AbandonedListRequestVO.create(userSeq, request)));
         return AbandonedListResponseDTO.create(petsPageInfo);
     }
 
-    public AbandonedDetailResponseDTO abandonedPetDetail(long petSeq) {
+    public AbandonedDetailResponseDTO abandonedPetDetail(Long petSeq) {
         AbandonedDetailResponseVO abandonedDetail = abandonedRepository.abandonedPetDetail(petSeq);
         if (abandonedDetail == null) {
             log.warn("유기동물 상세 페이지 가져오기 실패, params : {petSeq : {}}", petSeq);
@@ -54,7 +54,7 @@ public class AbandonedService {
     }
 
     @Transactional
-    public void adoptPetForReservation(long userSeq, AdoptReservationRequestDTO request) {
+    public void adoptPetForReservation(Long userSeq, AdoptReservationRequestDTO request) {
         boolean isAdoptAble = abandonedRepository.isAdoptAble(request.getPetSeq());
         if (!isAdoptAble) {
             log.warn("입양 예약 실패(예약 불가능한 상태), params : {userSeq : {}, request : {}}", userSeq, request);
@@ -69,7 +69,7 @@ public class AbandonedService {
         userMoneyUpdate(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
 
-    private void userMoneyUpdate(long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
+    private void userMoneyUpdate(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
         BigDecimal amount = totalMoney.subtract(userMoney);
         if (totalMoney.compareTo(BigDecimal.ZERO) < 0) {
             log.warn("입양 예약 실패(재화 부족), params : {userSeq : {}, userMoney : {}, amount : {}}", userSeq, userMoney, RESERVATION_AMOUNT);
@@ -79,7 +79,7 @@ public class AbandonedService {
     }
 
     @Transactional
-    public void adoptPetUpdate(long userSeq, AdoptUpdateRequestDTO request) {
+    public void adoptPetUpdate(Long userSeq, AdoptUpdateRequestDTO request) {
         AdoptUpdateRequestVO requestVO = AdoptUpdateRequestVO.create(userSeq, request);
         ReservationCheckResponseVO petReservationState = abandonedRepository.isReservationPet(requestVO);
         if (!this.isUpdateAble(petReservationState.getState())) {

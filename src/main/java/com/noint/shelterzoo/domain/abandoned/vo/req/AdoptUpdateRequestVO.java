@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class AdoptUpdateRequestVO {
-    private long userSeq;
-    private long petSeq;
+    private Long userSeq;
+    private Long petSeq;
     private AdoptProcessEnum adoptProcess;
 
-    public static AdoptUpdateRequestVO create(long userSeq, AdoptUpdateRequestDTO dto) {
+    public static AdoptUpdateRequestVO create(Long userSeq, AdoptUpdateRequestDTO dto) {
         AdoptUpdateRequestVO vo = new AdoptUpdateRequestVO();
         vo.setUserSeq(userSeq);
         vo.setPetSeq(dto.getPetSeq());

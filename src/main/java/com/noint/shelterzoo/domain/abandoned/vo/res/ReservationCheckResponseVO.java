@@ -6,6 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class ReservationCheckResponseVO {
-    private long adoptSeq;
+    private Long adoptSeq;
     private String state;
 }
