@@ -113,7 +113,7 @@ public class UserService {
     }
 
     public BigDecimal getUserMoney(long userSeq) {
-        return userRepository.getUserMoney(userSeq);
+        return userRepository.getUserMoneyForUpdate(userSeq);
     }
 
     @Transactional

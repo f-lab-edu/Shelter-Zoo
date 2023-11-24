@@ -66,7 +66,7 @@ public class AbandonedService {
 
         BigDecimal userMoney = userService.getUserMoney(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
-        this.userMoneyUpdate(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
+        userMoneyUpdate(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
 
     private void userMoneyUpdate(long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
@@ -103,7 +103,7 @@ public class AbandonedService {
                 updateUserMoney = userMoney.add(RESERVATION_AMOUNT);
                 break;
             case CANCEL:
-                BigDecimal penaltyPayBack = this.payBackMoneyByAdoptCancel(requestVO);
+                BigDecimal penaltyPayBack = payBackMoneyByAdoptCancel(requestVO);
                 updateUserMoney = userMoney.add(penaltyPayBack);
                 break;
             default:
