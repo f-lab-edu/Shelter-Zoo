@@ -208,7 +208,7 @@ public class AbandonedServiceUnitTest {
         when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
-        when(abandonedRepository.adoptCancelAbleCheck(any())).thenReturn(diffHopeValue);
+        when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
         when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
@@ -240,7 +240,7 @@ public class AbandonedServiceUnitTest {
         when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
-        when(abandonedRepository.adoptCancelAbleCheck(any())).thenReturn(diffHopeValue);
+        when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
         when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
