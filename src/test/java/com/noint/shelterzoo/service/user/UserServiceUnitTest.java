@@ -451,22 +451,22 @@ public class UserServiceUnitTest {
     @DisplayName("유저 탈퇴")
     void resign() {
         // given
-        long seq = 3L;
+        Long userSeq = 3L;
 
         // when
         doNothing().when(userRepository).resign(any());
 
         //then
-        userService.resign(seq);
+        userService.resign(userSeq);
 
-        verify(userRepository, times(1)).resign(ResignRequestVO.create(seq));
+        verify(userRepository, times(1)).resign(ResignRequestVO.create(userSeq));
     }
 
     @Test
     @DisplayName("유저 재화 정보 가져오기")
     void getUserMoney() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
 
         // when
         when(userRepository.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000));
@@ -481,12 +481,12 @@ public class UserServiceUnitTest {
     @DisplayName("유저 재화 업데이트")
     void getUserMoneyUpdate() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
         MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
-        long targetTableSeq = 11L;
+        Long targetTableSeq = 11L;
 
         // when
         doNothing().when(userRepository).userMoneyUpdate(any());

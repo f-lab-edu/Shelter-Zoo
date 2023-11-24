@@ -108,16 +108,16 @@ public class UserService {
         return MyInfoResponseDTO.create(userRepository.myInfo(email));
     }
 
-    public void resign(Long seq) {
-        userRepository.resign(ResignRequestVO.create(seq));
+    public void resign(Long userSeq) {
+        userRepository.resign(ResignRequestVO.create(userSeq));
     }
 
-    public BigDecimal getUserMoney(long userSeq) {
+    public BigDecimal getUserMoney(Long userSeq) {
         return userRepository.getUserMoneyForUpdate(userSeq);
     }
 
     @Transactional
-    public void userMoneyUpdate(long userSeq, BigDecimal totalMoney, BigDecimal amount, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
+    public void userMoneyUpdate(Long userSeq, BigDecimal totalMoney, BigDecimal amount, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
         userRepository.userMoneyUpdate(MoneyUpdateRequestVO.create(userSeq, totalMoney));
         moneyLogService.moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
     }

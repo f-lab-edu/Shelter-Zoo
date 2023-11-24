@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 public class ResignRequestVO {
-    private long seq;
+    private Long userSeq;
     private final UserStateEnum stateEnum = UserStateEnum.RESIGN;
 
-    public static ResignRequestVO create(Long seq) {
+    public static ResignRequestVO create(Long userSeq) {
         ResignRequestVO vo = new ResignRequestVO();
-        vo.setSeq(seq);
+        vo.setUserSeq(userSeq);
         return vo;
     }
 }
