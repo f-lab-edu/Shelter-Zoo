@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 @Getter
 @RequiredArgsConstructor
 public enum AdoptCancelPayBackPenaltyEnum {
-    DAY5(BigDecimal.valueOf(80)),
-    DAY3(BigDecimal.valueOf(50)),
-    DAY1(BigDecimal.valueOf(20)),
+    DAY5(BigDecimal.valueOf(0.8)),
+    DAY3(BigDecimal.valueOf(0.5)),
+    DAY1(BigDecimal.valueOf(0.2)),
     ;
 
     private final BigDecimal percent;
 
     public static BigDecimal payBack(BigDecimal reservation, AdoptCancelPayBackPenaltyEnum penaltyEnum) {
-        return reservation.multiply(penaltyEnum.percent.divide(BigDecimal.valueOf(100)));
+        return reservation.multiply(penaltyEnum.percent);
     }
 }
