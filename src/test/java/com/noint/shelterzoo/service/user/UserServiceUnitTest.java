@@ -469,12 +469,12 @@ public class UserServiceUnitTest {
         long userSeq = 17L;
 
         // when
-        when(userRepository.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(10000));
+        when(userRepository.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000));
 
         // then
         userService.getUserMoney(userSeq);
 
-        verify(userRepository, times(1)).getUserMoney(userSeq);
+        verify(userRepository, times(1)).getUserMoneyForUpdate(userSeq);
     }
 
     @Test

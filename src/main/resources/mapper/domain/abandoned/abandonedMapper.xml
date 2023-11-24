@@ -56,7 +56,7 @@
     <select id="isAdoptAble" parameterType="long" resultType="boolean">
         SELECT COUNT(*)
         FROM abandoned_pet
-        WHERE seq = #{petSeq} AND adopt_process IS NULL;
+        WHERE seq = #{petSeq} AND adopt_process IS NULL FOR UPDATE;
     </select>
     <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO"
             useGeneratedKeys="true" keyProperty="seq">
@@ -90,7 +90,7 @@
         ORDER BY seq DESC
         LIMIT 1;
     </update>
-    <select id="adoptCancelAbleCheck" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO">
+    <select id="getDateDiffFromNow" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO">
         SELECT DATEDIFF(A.create_at, NOW()) AS createdDiff
              , DATEDIFF(AP.notice_end, NOW()) AS noticeEndDiff
         FROM adopt A

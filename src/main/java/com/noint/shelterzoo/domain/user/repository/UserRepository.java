@@ -22,7 +22,7 @@ public interface UserRepository {
 
     void resign(ResignRequestVO param);
 
-    BigDecimal getUserMoney(long userSeq);
+    BigDecimal getUserMoneyForUpdate(long userSeq);
 
     void userMoneyUpdate(MoneyUpdateRequestVO params);
 }
