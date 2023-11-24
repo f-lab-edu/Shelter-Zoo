@@ -15,7 +15,7 @@ public enum AdoptCancelPayBackPenaltyEnum {
 
     private final BigDecimal percent;
 
-    public static BigDecimal payBack(BigDecimal reservation, AdoptCancelPayBackPenaltyEnum penaltyEnum) {
+    public static BigDecimal payBackWithPenalty(BigDecimal reservation, AdoptCancelPayBackPenaltyEnum penaltyEnum) {
         return reservation.multiply(penaltyEnum.percent);
     }
 }

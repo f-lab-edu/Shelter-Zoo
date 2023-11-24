@@ -103,7 +103,7 @@ public class AbandonedService {
                 updateUserMoney = userMoney.add(RESERVATION_AMOUNT);
                 break;
             case CANCEL:
-                BigDecimal penaltyPayBack = this.adoptCancelPayBackAmount(requestVO);
+                BigDecimal penaltyPayBack = this.payBackMoneyByAdoptCancel(requestVO);
                 updateUserMoney = userMoney.add(penaltyPayBack);
                 break;
             default:
@@ -113,28 +113,28 @@ public class AbandonedService {
         this.userMoneyUpdate(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
     }
 
-    private BigDecimal adoptCancelPayBackAmount(AdoptUpdateRequestVO requestVO) {
-        AdoptCancelDateDiffResponseVO dateDiffInfo = abandonedRepository.adoptCancelAbleCheck(requestVO);
-        if (this.isSameDay(dateDiffInfo.getCreatedDiff())) {
+    private BigDecimal payBackMoneyByAdoptCancel(AdoptUpdateRequestVO requestVO) {
+        AdoptCancelDateDiffResponseVO dateDiffInfo = abandonedRepository.getDateDiffFromNow(requestVO);
+        return payBackMoney(dateDiffInfo.getCreatedDiff(), dateDiffInfo.getNoticeEndDiff());
+    }
+
+    private BigDecimal payBackMoney(int createDiff, int noticeEndDiff) {
+        if (isSameDay(createDiff)) {
             return RESERVATION_AMOUNT;
         }
-        return this.payBackPenalty(dateDiffInfo.getNoticeEndDiff());
+        if (noticeEndDiff >= 5) {
+            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY5);
+        }
+        if (noticeEndDiff >= 3) {
+            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY3);
+        }
+        if (noticeEndDiff >= 1) {
+            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY1);
+        }
+        return BigDecimal.ZERO;
     }
 
     private boolean isSameDay(int createDiff) {
         return createDiff > -1;
-    }
-
-    private BigDecimal payBackPenalty(int noticeEndDiff) {
-        if (noticeEndDiff >= 5) {
-            return AdoptCancelPayBackPenaltyEnum.payBack(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY5);
-        }
-        if (noticeEndDiff >= 3) {
-            return AdoptCancelPayBackPenaltyEnum.payBack(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY3);
-        }
-        if (noticeEndDiff >= 1) {
-            return AdoptCancelPayBackPenaltyEnum.payBack(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY1);
-        }
-        return BigDecimal.ZERO;
     }
 }

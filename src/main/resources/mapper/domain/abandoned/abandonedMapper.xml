@@ -90,7 +90,7 @@
         ORDER BY seq DESC
         LIMIT 1;
     </update>
-    <select id="adoptCancelAbleCheck" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO">
+    <select id="getDateDiffFromNow" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO">
         SELECT DATEDIFF(A.create_at, NOW()) AS createdDiff
              , DATEDIFF(AP.notice_end, NOW()) AS noticeEndDiff
         FROM adopt A
