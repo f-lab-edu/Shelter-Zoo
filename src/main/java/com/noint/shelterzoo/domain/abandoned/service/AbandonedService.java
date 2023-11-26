@@ -22,6 +22,7 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseV
 import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,7 @@ public class AbandonedService {
             throw new AbandonedException(AbandonedExceptionEnum.LACK_OF_MONEY);
         }
         userService.updateUserMoney(userSeq, totalMoney);
-        moneyLogService.moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        moneyLogService.insertLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
     }
 
     @Transactional
