@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noint.shelterzoo.domain.charge.repository.ChargeRepository">
+    <select id="countChargeId" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM charge_log
+        WHERE charge_id = #{chargeId};
+    </select>
+    <insert id="insertChargeLog" parameterType="com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO" useGeneratedKeys="true" keyProperty="seq">
+        INSERT INTO charge_log(user_seq, charge_amount, total_money, charge_id)
+        VALUE (#{userSeq}, #{chargeAmount}, #{totalMoney}, #{chargeId});
+    </insert>
+</mapper>

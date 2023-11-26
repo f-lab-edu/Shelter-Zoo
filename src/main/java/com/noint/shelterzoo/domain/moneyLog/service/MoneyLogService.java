@@ -19,4 +19,8 @@ public class MoneyLogService {
     public void insertLogAboutAdopt(MoneyLogInsertRequestVO request) {
         moneyLogRepository.insertLogAboutAdopt(request);
     }
+
+    public void insertLogByCharge(MoneyLogInsertRequestVO request) {
+        moneyLogRepository.insertLogByCharge(request);
+    }
 }
