@@ -40,7 +40,7 @@
         FROM user
         WHERE seq = #{userSeq} FOR UPDATE;
     </select>
-    <update id="userMoneyUpdate" parameterType="com.noint.shelterzoo.domain.user.vo.req.MoneyUpdateRequestVO">
+    <update id="updateUserMoney" parameterType="com.noint.shelterzoo.domain.user.vo.req.MoneyUpdateRequestVO">
         UPDATE user
         SET money = #{totalMoney}
         WHERE seq = #{userSeq};
