@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MoneyLogRepository {
-    void moneyLogInsertForAdoptReservation(MoneyLogInsertRequestVO params);
+    void insertLogAboutAdopt(MoneyLogInsertRequestVO params);
 }

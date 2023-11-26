@@ -24,5 +24,5 @@ public interface UserRepository {
 
     BigDecimal getUserMoneyForUpdate(Long userSeq);
 
-    void userMoneyUpdate(MoneyUpdateRequestVO params);
+    void updateUserMoney(MoneyUpdateRequestVO params);
 }
