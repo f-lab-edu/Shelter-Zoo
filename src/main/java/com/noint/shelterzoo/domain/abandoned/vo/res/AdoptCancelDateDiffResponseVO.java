@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AdoptCancelDateDiffResponseVO {
-    private int createdDiff;
-    private int noticeEndDiff;
+    private Integer createdDiff;
+    private Integer noticeEndDiff;
 }

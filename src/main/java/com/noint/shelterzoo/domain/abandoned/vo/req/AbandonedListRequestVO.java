@@ -7,15 +7,15 @@ import lombok.Data;
 
 @Data
 public class AbandonedListRequestVO {
-    private long userSeq;
+    private Long userSeq;
     private String location;
     private String kind;
     private GenderEnum gender;
     private NeuterEnum neuter;
-    private int pageNum;
-    private int pageSize;
+    private Integer pageNum;
+    private Integer pageSize;
 
-    public static AbandonedListRequestVO create(long userSeq, AbandonedListRequestDTO dto) {
+    public static AbandonedListRequestVO create(Long userSeq, AbandonedListRequestDTO dto) {
         AbandonedListRequestVO vo = new AbandonedListRequestVO();
         vo.setUserSeq(userSeq);
         vo.setGender(GenderEnum.findEnumByFullText(dto.getGender()));

@@ -156,8 +156,8 @@ public class UserServiceUnitTest {
         final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         // when
-        boolean comResult = this.invokeRegexMatcher(EMAIL_REGEX, comEmail);
-        boolean netResult = this.invokeRegexMatcher(EMAIL_REGEX, netEmail);
+        boolean comResult = invokeRegexMatcher(EMAIL_REGEX, comEmail);
+        boolean netResult = invokeRegexMatcher(EMAIL_REGEX, netEmail);
 
         // then
         assertAll(
@@ -178,11 +178,11 @@ public class UserServiceUnitTest {
         final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
         // when
-        boolean result1 = this.invokeRegexMatcher(EMAIL_REGEX, email1);
-        boolean result2 = this.invokeRegexMatcher(EMAIL_REGEX, email2);
-        boolean result3 = this.invokeRegexMatcher(EMAIL_REGEX, email3);
-        boolean result4 = this.invokeRegexMatcher(EMAIL_REGEX, email4);
-        boolean result5 = this.invokeRegexMatcher(EMAIL_REGEX, email5);
+        boolean result1 = invokeRegexMatcher(EMAIL_REGEX, email1);
+        boolean result2 = invokeRegexMatcher(EMAIL_REGEX, email2);
+        boolean result3 = invokeRegexMatcher(EMAIL_REGEX, email3);
+        boolean result4 = invokeRegexMatcher(EMAIL_REGEX, email4);
+        boolean result5 = invokeRegexMatcher(EMAIL_REGEX, email5);
         // then
         assertAll(
                 () -> assertFalse(result1),
@@ -204,10 +204,10 @@ public class UserServiceUnitTest {
         final String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
 
         // when
-        boolean enResult = this.invokeRegexMatcher(NICKNAME_REG, enNickname);
-        boolean koResult = this.invokeRegexMatcher(NICKNAME_REG, koNickname);
-        boolean numResult = this.invokeRegexMatcher(NICKNAME_REG, numNickname);
-        boolean mixResult = this.invokeRegexMatcher(NICKNAME_REG, mixNickname);
+        boolean enResult = invokeRegexMatcher(NICKNAME_REG, enNickname);
+        boolean koResult = invokeRegexMatcher(NICKNAME_REG, koNickname);
+        boolean numResult = invokeRegexMatcher(NICKNAME_REG, numNickname);
+        boolean mixResult = invokeRegexMatcher(NICKNAME_REG, mixNickname);
 
         // then
         assertAll(
@@ -229,9 +229,9 @@ public class UserServiceUnitTest {
         final String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
 
         // when
-        boolean overResult = this.invokeRegexMatcher(NICKNAME_REG, overNickname);
-        boolean oneResult = this.invokeRegexMatcher(NICKNAME_REG, oneNickname);
-        boolean initialResult = this.invokeRegexMatcher(NICKNAME_REG, initialNickname);
+        boolean overResult = invokeRegexMatcher(NICKNAME_REG, overNickname);
+        boolean oneResult = invokeRegexMatcher(NICKNAME_REG, oneNickname);
+        boolean initialResult = invokeRegexMatcher(NICKNAME_REG, initialNickname);
 
         // then
         assertAll(
@@ -297,10 +297,10 @@ public class UserServiceUnitTest {
         final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
 
         // when
-        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
-        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
-        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
-        boolean result4 = this.invokeRegexMatcher(PASSWORD_REG, pass4);
+        boolean result1 = invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = invokeRegexMatcher(PASSWORD_REG, pass3);
+        boolean result4 = invokeRegexMatcher(PASSWORD_REG, pass4);
 
         // then
         assertAll(
@@ -322,9 +322,9 @@ public class UserServiceUnitTest {
         final String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
 
         // when
-        boolean result1 = this.invokeRegexMatcher(PASSWORD_REG, pass1);
-        boolean result2 = this.invokeRegexMatcher(PASSWORD_REG, pass2);
-        boolean result3 = this.invokeRegexMatcher(PASSWORD_REG, pass3);
+        boolean result1 = invokeRegexMatcher(PASSWORD_REG, pass1);
+        boolean result2 = invokeRegexMatcher(PASSWORD_REG, pass2);
+        boolean result3 = invokeRegexMatcher(PASSWORD_REG, pass3);
 
         // then
         assertAll(
@@ -451,22 +451,22 @@ public class UserServiceUnitTest {
     @DisplayName("유저 탈퇴")
     void resign() {
         // given
-        long seq = 3L;
+        Long userSeq = 3L;
 
         // when
         doNothing().when(userRepository).resign(any());
 
         //then
-        userService.resign(seq);
+        userService.resign(userSeq);
 
-        verify(userRepository, times(1)).resign(ResignRequestVO.create(seq));
+        verify(userRepository, times(1)).resign(ResignRequestVO.create(userSeq));
     }
 
     @Test
     @DisplayName("유저 재화 정보 가져오기")
     void getUserMoney() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
 
         // when
         when(userRepository.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000));
@@ -481,12 +481,12 @@ public class UserServiceUnitTest {
     @DisplayName("유저 재화 업데이트")
     void getUserMoneyUpdate() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
         MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
-        long targetTableSeq = 11L;
+        Long targetTableSeq = 11L;
 
         // when
         doNothing().when(userRepository).userMoneyUpdate(any());

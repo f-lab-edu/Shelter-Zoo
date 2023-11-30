@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class AbandonedDetailResponseDTO {
-    private long seq;
+    private Long seq;
     private String happenPlace;
     private String kind;
     private String kindDetail;

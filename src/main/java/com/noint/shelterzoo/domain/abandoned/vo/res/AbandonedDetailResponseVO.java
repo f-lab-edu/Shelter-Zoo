@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AbandonedDetailResponseVO {
-    private long seq;
+    private Long seq;
     private String happenPlace;
     private String kind;
     private String kindDetail;
