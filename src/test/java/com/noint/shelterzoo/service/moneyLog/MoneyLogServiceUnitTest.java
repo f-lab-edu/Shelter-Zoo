@@ -7,7 +7,6 @@ import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,19 +27,41 @@ public class MoneyLogServiceUnitTest {
     @DisplayName("유기동물 입양 예약관련 재화 로그")
     void moneyLogInsertForAdoptReservation() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
         MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
-        long targetTableSeq = 11L;
+        Long targetTableSeq = 11L;
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).moneyLogInsertForAdoptReservation(any());
+        doNothing().when(moneyLogRepository).insertLogAboutAdopt(any());
 
         // then
-        moneyLogService.moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        moneyLogService.insertLogAboutAdopt(request);
 
-        verify(moneyLogRepository, times(1)).moneyLogInsertForAdoptReservation(MoneyLogInsertRequestVO.createForAdoptReservation(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
+        verify(moneyLogRepository, times(1)).insertLogAboutAdopt(request);
+    }
+
+    @Test
+    @DisplayName("충전 후 재화 로그 작성")
+    void insertMoneyLogByCharge() {
+        // given
+        Long userSeq = 17L;
+        BigDecimal baseUserMoney = BigDecimal.valueOf(10000);
+        BigDecimal chargeAmount = BigDecimal.valueOf(50000);
+        BigDecimal totalMoney = baseUserMoney.add(chargeAmount);
+        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.DEPOSIT;
+        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.CHARGE;
+        Long targetTableSeq = 11L;
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
+
+        // when
+        doNothing().when(moneyLogRepository).insertLogByCharge(any());
+
+        // then
+        moneyLogService.insertLogByCharge(request);
+        verify(moneyLogRepository, times(1)).insertLogByCharge(request);
     }
 }

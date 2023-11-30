@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AbandonedListResponseVO {
-    private long seq;
+    private Long seq;
     private String thumbnail;
     private String kind;
     private String kindDetail;
@@ -12,5 +12,5 @@ public class AbandonedListResponseVO {
     private String gender;
     private String neuter;
     private String noticeEnd;
-    private boolean isPin;
+    private Boolean isPin;
 }

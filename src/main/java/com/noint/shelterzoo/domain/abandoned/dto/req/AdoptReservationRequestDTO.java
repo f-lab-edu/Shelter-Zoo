@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AdoptReservationRequestDTO {
-    private long userSeq;
-    private long petSeq;
+    private Long userSeq;
+    private Long petSeq;
     private String visitDate;
 }

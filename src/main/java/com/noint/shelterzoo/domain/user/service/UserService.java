@@ -1,11 +1,8 @@
 package com.noint.shelterzoo.domain.user.service;
 
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
-import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.enums.UserExceptionEnum;
 import com.noint.shelterzoo.domain.user.enums.UserStateEnum;
 import com.noint.shelterzoo.domain.user.exception.UserException;
@@ -19,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -31,7 +27,6 @@ import java.util.Objects;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final MoneyLogService moneyLogService;
 
     private final static String NICKNAME_REG = "^[가-힣a-zA-Z0-9]{2,10}$";
     private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -48,7 +43,7 @@ public class UserService {
             userRepository.signup(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
             log.warn("유저 회원가입 실패");
-            this.signupDuplicationExceptionHandling(e, request);
+            signupDuplicationExceptionHandling(e, request);
         }
     }
 
@@ -108,17 +103,15 @@ public class UserService {
         return MyInfoResponseDTO.create(userRepository.myInfo(email));
     }
 
-    public void resign(Long seq) {
-        userRepository.resign(ResignRequestVO.create(seq));
+    public void resign(Long userSeq) {
+        userRepository.resign(ResignRequestVO.create(userSeq));
     }
 
-    public BigDecimal getUserMoney(long userSeq) {
+    public BigDecimal getUserMoney(Long userSeq) {
         return userRepository.getUserMoneyForUpdate(userSeq);
     }
 
-    @Transactional
-    public void userMoneyUpdate(long userSeq, BigDecimal totalMoney, BigDecimal amount, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, long targetTableSeq) {
-        userRepository.userMoneyUpdate(MoneyUpdateRequestVO.create(userSeq, totalMoney));
-        moneyLogService.moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+    public void updateUserMoney(Long userSeq, BigDecimal totalMoney) {
+        userRepository.updateUserMoney(MoneyUpdateRequestVO.create(userSeq, totalMoney));
     }
 }

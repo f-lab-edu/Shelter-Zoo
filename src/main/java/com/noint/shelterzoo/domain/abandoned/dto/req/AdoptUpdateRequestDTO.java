@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class AdoptUpdateRequestDTO {
-    private long petSeq;
+    private Long petSeq;
     private String state;
 }

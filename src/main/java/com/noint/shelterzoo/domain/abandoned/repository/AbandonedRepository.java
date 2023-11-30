@@ -16,9 +16,9 @@ import java.util.List;
 public interface AbandonedRepository {
     List<AbandonedListResponseVO> getAbandonedList(AbandonedListRequestVO params);
 
-    AbandonedDetailResponseVO abandonedPetDetail(long petSeq);
+    AbandonedDetailResponseVO abandonedPetDetail(Long petSeq);
 
-    boolean isAdoptAble(long petSeq);
+    boolean isAdoptAble(Long petSeq);
 
     void adoptPetForReservation(AdoptReservationRequestVO params);
 

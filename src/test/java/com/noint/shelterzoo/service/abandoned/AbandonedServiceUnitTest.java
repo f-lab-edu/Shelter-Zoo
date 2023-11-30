@@ -46,9 +46,9 @@ public class AbandonedServiceUnitTest {
     @DisplayName("유기동물 페이지 리스트")
     void getAbandonedList() {
         // given
-        int pageNum = 1;
-        int pageSize = 20;
-        long userSeq = 17;
+        Integer pageNum = 1;
+        Integer pageSize = 20;
+        Long userSeq = 17L;
         AbandonedListRequestDTO request = new AbandonedListRequestDTO();
         request.setLocation("서울");
         request.setKind("고양이");
@@ -58,7 +58,7 @@ public class AbandonedServiceUnitTest {
         request.setPageSize(pageSize);
 
         AbandonedListResponseVO hopeValue = new AbandonedListResponseVO();
-        hopeValue.setSeq(955);
+        hopeValue.setSeq(955L);
         hopeValue.setThumbnail("http://www.animal.go.kr/files/shelter/2023/07/202310131510115_s.jpg");
         hopeValue.setKind("고양이");
         hopeValue.setKindDetail("스코티시폴드");
@@ -66,7 +66,7 @@ public class AbandonedServiceUnitTest {
         hopeValue.setGender("M");
         hopeValue.setNeuter("Y");
         hopeValue.setNoticeEnd("2023-10-23 00:00:00");
-        hopeValue.setPin(true);
+        hopeValue.setIsPin(true);
 
         List<AbandonedListResponseVO> hopeValueList = new ArrayList<>();
         hopeValueList.add(hopeValue);
@@ -87,10 +87,10 @@ public class AbandonedServiceUnitTest {
     @DisplayName("유기동물 상세 페이지")
     void abandonedPetDetail() {
         // given
-        long petSeq = 955L;
+        Long petSeq = 955L;
 
         AbandonedDetailResponseVO hopeValue = new AbandonedDetailResponseVO();
-        hopeValue.setSeq(955);
+        hopeValue.setSeq(955L);
         hopeValue.setHappenPlace("경상북도 포항시 북구 장량중앙로 117 포항장량5단지LH아파트");
         hopeValue.setKind("고양이");
         hopeValue.setKindDetail(" 스코티시폴드");
@@ -120,7 +120,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("유기동물 상세 페이지 실패 : 컨텐츠 없음")
     void abandonedDetailFail() {
         // given
-        long petSeq = 0L;
+        Long petSeq = 0L;
 
         // when
         when(abandonedRepository.abandonedPetDetail(petSeq)).thenReturn(null);
@@ -133,7 +133,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 성공")
     void adoptReservationSuccess() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
         request.setPetSeq(955L);
         request.setVisitDate("2023-11-20");
@@ -156,7 +156,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 실패 : 재화 부족")
     void adoptReservationFailByLackOfMoney() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
         request.setPetSeq(955L);
         request.setVisitDate("2023-11-20");
@@ -175,7 +175,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 실패 : 입양 불가능 상태")
     void adoptReservationFailByNotAdoptAble() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptReservationRequestDTO request = new AdoptReservationRequestDTO();
         request.setPetSeq(955L);
         request.setVisitDate("2023-11-20");
@@ -193,7 +193,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 TO 취소 변경")
     void adoptUpdateSuccessToCancel() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setPetSeq(955L);
         request.setState("취소");
@@ -225,7 +225,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 TO 확정 변경")
     void adoptUpdateSuccessToConfirm() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setPetSeq(955L);
         request.setState("입양");
@@ -257,7 +257,7 @@ public class AbandonedServiceUnitTest {
     @DisplayName("입양 예약 변경 실패")
     void adoptUpdateFail() {
         // given
-        long userSeq = 17L;
+        Long userSeq = 17L;
         AdoptUpdateRequestDTO request = new AdoptUpdateRequestDTO();
         request.setPetSeq(955L);
         request.setState("취소");

@@ -36,8 +36,8 @@ public class PinServiceUnitTest {
     @DisplayName("관심 동물 등록")
     void pinUp() {
         // given
-        long userSeq = 17L;
-        long petSeq = 955L;
+        Long userSeq = 17L;
+        Long petSeq = 955L;
 
         // when
         doNothing().when(pinRepository).pinUp(any());
@@ -52,8 +52,8 @@ public class PinServiceUnitTest {
     @DisplayName("관심 동물 등록 실패 : 중복")
     void pinUpFailByDuplicated() {
         // given
-        long userSeq = 17L;
-        long petSeq = 955L;
+        Long userSeq = 17L;
+        Long petSeq = 955L;
 
         // when
         doThrow(new DataIntegrityViolationException("중복 msg")).when(pinRepository).pinUp(any());
@@ -66,8 +66,8 @@ public class PinServiceUnitTest {
     @DisplayName("관심 동물 해제")
     void pinUpDel() {
         // given
-        long userSeq = 17L;
-        long petSeq = 955L;
+        Long userSeq = 17L;
+        Long petSeq = 955L;
 
         // when
         doNothing().when(pinRepository).pinUpDel(any());

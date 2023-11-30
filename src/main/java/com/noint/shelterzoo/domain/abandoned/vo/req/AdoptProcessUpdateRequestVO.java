@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class AdoptProcessUpdateRequestVO {
-    private long petSeq;
+    private Long petSeq;
     private AdoptProcessEnum adoptProcess;
 
     public static AdoptProcessUpdateRequestVO create(AdoptReservationRequestDTO dto) {
