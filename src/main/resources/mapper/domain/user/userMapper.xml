@@ -35,4 +35,14 @@
         SET state = #{stateEnum.state}
         WHERE seq = #{seq};
     </update>
+    <select id="getUserMoneyForUpdate" parameterType="long" resultType="decimal">
+        SELECT money
+        FROM user
+        WHERE seq = #{userSeq} FOR UPDATE;
+    </select>
+    <update id="userMoneyUpdate" parameterType="com.noint.shelterzoo.domain.user.vo.req.MoneyUpdateRequestVO">
+        UPDATE user
+        SET money = #{totalMoney}
+        WHERE seq = #{userSeq};
+    </update>
 </mapper>
