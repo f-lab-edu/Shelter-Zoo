@@ -5,4 +5,8 @@
         INSERT INTO money_log(user_seq, money_type, money, total_money, type, adopt_seq)
         VALUE(#{userSeq}, #{moneyTypeEnum.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{adoptSeq});
     </insert>
+    <insert id="insertLogByCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO">
+        INSERT INTO money_log(user_seq, money_type, money, total_money, type, charge_log_seq)
+            VALUE(#{userSeq}, #{moneyTypeEnum.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{chargeLogSeq});
+    </insert>
 </mapper>

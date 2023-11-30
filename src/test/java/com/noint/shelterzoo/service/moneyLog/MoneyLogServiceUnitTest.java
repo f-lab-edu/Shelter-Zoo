@@ -33,13 +33,35 @@ public class MoneyLogServiceUnitTest {
         MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
         Long targetTableSeq = 11L;
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).moneyLogInsertForAdoptReservation(any());
+        doNothing().when(moneyLogRepository).insertLogAboutAdopt(any());
 
         // then
-        moneyLogService.insertLogAboutAdopt(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        moneyLogService.insertLogAboutAdopt(request);
 
-        verify(moneyLogRepository, times(1)).moneyLogInsertForAdoptReservation(MoneyLogInsertRequestVO.createForAdoptReservation(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
+        verify(moneyLogRepository, times(1)).insertLogAboutAdopt(request);
+    }
+
+    @Test
+    @DisplayName("충전 후 재화 로그 작성")
+    void insertMoneyLogByCharge() {
+        // given
+        Long userSeq = 17L;
+        BigDecimal baseUserMoney = BigDecimal.valueOf(10000);
+        BigDecimal chargeAmount = BigDecimal.valueOf(50000);
+        BigDecimal totalMoney = baseUserMoney.add(chargeAmount);
+        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.DEPOSIT;
+        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.CHARGE;
+        Long targetTableSeq = 11L;
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
+
+        // when
+        doNothing().when(moneyLogRepository).insertLogByCharge(any());
+
+        // then
+        moneyLogService.insertLogByCharge(request);
+        verify(moneyLogRepository, times(1)).insertLogByCharge(request);
     }
 }
