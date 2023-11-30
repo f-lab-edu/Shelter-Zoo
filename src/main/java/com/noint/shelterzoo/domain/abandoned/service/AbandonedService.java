@@ -21,6 +21,8 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,7 @@ import java.math.BigDecimal;
 public class AbandonedService {
     private final AbandonedRepository abandonedRepository;
     private final UserService userService;
+    private final MoneyLogService moneyLogService;
     private final static BigDecimal RESERVATION_AMOUNT = BigDecimal.valueOf(50000);
 
     public PageInfo<AbandonedListResponseDTO> getAbandonedList(Long userSeq, AbandonedListRequestDTO request) {
@@ -66,16 +69,17 @@ public class AbandonedService {
 
         BigDecimal userMoney = userService.getUserMoney(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
-        userMoneyUpdate(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
+        updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
 
-    private void userMoneyUpdate(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
+    private void updateUserMoney(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
         BigDecimal amount = totalMoney.subtract(userMoney);
         if (totalMoney.compareTo(BigDecimal.ZERO) < 0) {
             log.warn("입양 예약 실패(재화 부족), params : {userSeq : {}, userMoney : {}, amount : {}}", userSeq, userMoney, RESERVATION_AMOUNT);
             throw new AbandonedException(AbandonedExceptionEnum.LACK_OF_MONEY);
         }
-        userService.userMoneyUpdate(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        userService.updateUserMoney(userSeq, totalMoney);
+        moneyLogService.insertLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
     }
 
     @Transactional
@@ -110,7 +114,7 @@ public class AbandonedService {
                 log.warn("입양 절차 취소/변경 이외의 값, params : {state : {}}", requestVO.getAdoptProcess());
                 throw new AbandonedException(AbandonedExceptionEnum.UNKNOWN_TYPE);
         }
-        userMoneyUpdate(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
+        updateUserMoney(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
     }
 
     private BigDecimal payBackMoneyByAdoptCancel(AdoptUpdateRequestVO requestVO) {

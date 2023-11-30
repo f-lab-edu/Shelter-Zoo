@@ -483,20 +483,14 @@ public class UserServiceUnitTest {
         // given
         Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
-        BigDecimal amount = BigDecimal.valueOf(50000);
-        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
-        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
-        Long targetTableSeq = 11L;
 
         // when
-        doNothing().when(userRepository).userMoneyUpdate(any());
-        doNothing().when(moneyLogService).moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        doNothing().when(userRepository).updateUserMoney(any());
 
         // then
-        userService.userMoneyUpdate(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        userService.updateUserMoney(userSeq, totalMoney);
 
-        verify(userRepository, times(1)).userMoneyUpdate(MoneyUpdateRequestVO.create(userSeq, totalMoney));
-        verify(moneyLogService, times(1)).moneyLogInsertForAdoptReservation(userSeq, totalMoney, amount, moneyTypeEnum, purposeEnum, targetTableSeq);
+        verify(userRepository, times(1)).updateUserMoney(MoneyUpdateRequestVO.create(userSeq, totalMoney));
     }
 
 }
