@@ -44,13 +44,13 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://10.41.169.108:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
     password: R7$fzeSIT<7#u.0IX
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: 10.41.169.108
-    port: 6379
+    host: ${REDIS_URL}
+    port: ${REDIS_PORT}
   session:
     store-type: redis
 pagehelper:
