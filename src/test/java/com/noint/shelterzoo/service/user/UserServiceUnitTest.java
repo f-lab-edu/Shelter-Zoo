@@ -1,7 +1,6 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.config.PasswordEncoderConfig;
-import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
@@ -35,8 +34,6 @@ public class UserServiceUnitTest {
 
     @MockBean
     UserRepository userRepository;
-    @MockBean
-    MoneyLogService moneyLogService;
 
     @Test
     @DisplayName("회원가입 : 성공")
@@ -86,7 +83,7 @@ public class UserServiceUnitTest {
 
     @Test
     @DisplayName("회원가입 : 비밀번호 유효성 검사 실패")
-    void signupFailByPasswordValid() {
+    void signupFailByUnknown() {
         // given
         SignupRequestDTO testUser = new SignupRequestDTO();
         testUser.setEmail("testEmail@email.com");

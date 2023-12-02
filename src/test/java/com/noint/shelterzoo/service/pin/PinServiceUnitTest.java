@@ -1,6 +1,7 @@
 package com.noint.shelterzoo.service.pin;
 
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageParam;
 import com.noint.shelterzoo.domain.pin.dto.res.PinListResponseDTO;
 import com.noint.shelterzoo.domain.pin.exception.PinException;
 import com.noint.shelterzoo.domain.pin.repository.PinRepository;
@@ -85,7 +86,7 @@ public class PinServiceUnitTest {
         Integer pageSize = 20;
         Long userSeq = 17L;
 
-        PinListRequestDTO request = new PinListRequestDTO();
+        PageParam request = new PageParam();
         request.setPageNum(pageNum);
         request.setPageSize(pageSize);
 

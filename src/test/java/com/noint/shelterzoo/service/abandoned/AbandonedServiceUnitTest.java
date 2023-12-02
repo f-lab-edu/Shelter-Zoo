@@ -17,6 +17,7 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
+import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,8 @@ public class AbandonedServiceUnitTest {
     AbandonedRepository abandonedRepository;
     @MockBean
     UserService userService;
+    @MockBean
+    MoneyLogService moneyLogService;
 
     @Test
     @DisplayName("유기동물 페이지 리스트")

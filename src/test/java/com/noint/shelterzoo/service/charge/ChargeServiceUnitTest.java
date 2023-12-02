@@ -56,6 +56,7 @@ public class ChargeServiceUnitTest {
     void chargeMoneySuccess() {
         // given
         Long userSeq = 17L;
+        BigDecimal updatedUserMoney = BigDecimal.valueOf(100000);
         ChargeMoneyRequestDTO request = new ChargeMoneyRequestDTO();
         request.setChargeId(UUID.randomUUID().toString());
         request.setChargeAmount(BigDecimal.valueOf(50000));
@@ -69,7 +70,7 @@ public class ChargeServiceUnitTest {
         // then
         chargeService.chargeMoney(userSeq, request);
         verify(chargeRepository, times(1)).countChargeId(request.getChargeId());
-        verify(chargeRepository, times(1)).addChargeLog(ChargeLogRequestVO.create(userSeq, request));
+        verify(chargeRepository, times(1)).addChargeLog(ChargeLogRequestVO.create(userSeq, updatedUserMoney, request));
         verify(userService, times(1)).getUserMoneyForUpdate(userSeq);
         verify(moneyLogService, times(1)).addMoneyLogByCharge(any());
     }
