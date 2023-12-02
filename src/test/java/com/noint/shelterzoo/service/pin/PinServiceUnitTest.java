@@ -39,12 +39,12 @@ public class PinServiceUnitTest {
         Long petSeq = 955L;
 
         // when
-        doNothing().when(pinRepository).pinUp(any());
+        doNothing().when(pinRepository).addPin(any());
 
         // then
-        pinService.pinUp(userSeq, petSeq);
+        pinService.addPin(userSeq, petSeq);
 
-        verify(pinRepository, times(1)).pinUp(PinUpRequestVO.create(userSeq, petSeq));
+        verify(pinRepository, times(1)).addPin(PinUpRequestVO.create(userSeq, petSeq));
     }
 
     @Test
@@ -55,10 +55,10 @@ public class PinServiceUnitTest {
         Long petSeq = 955L;
 
         // when
-        doThrow(new DataIntegrityViolationException("중복 msg")).when(pinRepository).pinUp(any());
+        doThrow(new DataIntegrityViolationException("중복 msg")).when(pinRepository).addPin(any());
 
         // then
-        assertThrows(PinException.class, () -> pinService.pinUp(userSeq, petSeq));
+        assertThrows(PinException.class, () -> pinService.addPin(userSeq, petSeq));
     }
 
     @Test
@@ -69,12 +69,12 @@ public class PinServiceUnitTest {
         Long petSeq = 955L;
 
         // when
-        doNothing().when(pinRepository).pinUpDel(any());
+        doNothing().when(pinRepository).delPin(any());
 
         // then
-        pinService.pinUpDel(userSeq, petSeq);
+        pinService.delPin(userSeq, petSeq);
 
-        verify(pinRepository, times(1)).pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
+        verify(pinRepository, times(1)).delPin(PinUpRequestVO.create(userSeq, petSeq));
     }
 
     @Test
@@ -104,10 +104,10 @@ public class PinServiceUnitTest {
         hopeValueList.add(hopeValue);
 
         // when
-        when(pinRepository.getPinupList(PinListRequestVO.create(userSeq, request))).thenReturn(hopeValueList);
+        when(pinRepository.getPinList(PinListRequestVO.create(userSeq, request))).thenReturn(hopeValueList);
 
         // then
-        PageInfo<PinListResponseDTO> pageInfo = pinService.getPinupList(userSeq, request);
+        PageInfo<PinListResponseDTO> pageInfo = pinService.getPinList(userSeq, request);
 
         assertAll(
                 () -> assertEquals(pageNum, pageInfo.getPageNum()),
