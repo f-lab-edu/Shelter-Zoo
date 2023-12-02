@@ -108,10 +108,10 @@ public class AbandonedServiceUnitTest {
         hopeValue.setShelterAddr("서울시 강북구 ㅁㅁ로 01길 01");
 
         // when
-        when(abandonedRepository.abandonedPetDetail(petSeq)).thenReturn(hopeValue);
+        when(abandonedRepository.getAbandonedPetDetail(petSeq)).thenReturn(hopeValue);
 
         // then
-        AbandonedDetailResponseDTO abandonedDetail = abandonedService.abandonedPetDetail(petSeq);
+        AbandonedDetailResponseDTO abandonedDetail = abandonedService.getAbandonedPetDetail(petSeq);
 
         assertEquals(abandonedDetail, AbandonedDetailResponseDTO.create(hopeValue));
     }
@@ -123,10 +123,10 @@ public class AbandonedServiceUnitTest {
         Long petSeq = 0L;
 
         // when
-        when(abandonedRepository.abandonedPetDetail(petSeq)).thenReturn(null);
+        when(abandonedRepository.getAbandonedPetDetail(petSeq)).thenReturn(null);
 
         // then
-        assertThrows(AbandonedException.class, () -> abandonedService.abandonedPetDetail(petSeq));
+        assertThrows(AbandonedException.class, () -> abandonedService.getAbandonedPetDetail(petSeq));
     }
 
     @Test
@@ -140,16 +140,16 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
-        doNothing().when(abandonedRepository).adoptPetForReservation(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).reservationPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000L));
 
         // then
-        abandonedService.adoptPetForReservation(userSeq, request);
+        abandonedService.reservationPet(userSeq, request);
 
         verify(abandonedRepository, times(1)).isAdoptAble(request.getPetSeq());
-        verify(abandonedRepository, times(1)).adoptPetForReservation(AdoptReservationRequestVO.create(userSeq, request));
-        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+        verify(abandonedRepository, times(1)).reservationPet(AdoptReservationRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
     }
 
     @Test
@@ -163,12 +163,12 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
-        doNothing().when(abandonedRepository).adoptPetForReservation(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).reservationPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000L));
 
         // then
-        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
+        assertThrows(AbandonedException.class, () -> abandonedService.reservationPet(userSeq, request));
     }
 
     @Test
@@ -182,11 +182,11 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.FALSE);
-        doNothing().when(abandonedRepository).adoptPetForReservation(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).reservationPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
 
         // then
-        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
+        assertThrows(AbandonedException.class, () -> abandonedService.reservationPet(userSeq, request));
     }
 
     @Test
@@ -208,17 +208,17 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
-        doNothing().when(abandonedRepository).adoptPetUpdate(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).updateAdoptPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
         when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
-        abandonedService.adoptPetUpdate(userSeq, request);
+        abandonedService.updateAdoptPet(userSeq, request);
 
         verify(abandonedRepository, times(1)).isReservationPet(AdoptUpdateRequestVO.create(userSeq, request));
-        verify(abandonedRepository, times(1)).adoptPetUpdate(AdoptUpdateRequestVO.create(userSeq, request));
-        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+        verify(abandonedRepository, times(1)).updateAdoptPet(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
     }
 
     @Test
@@ -240,17 +240,17 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isReservationPet(any())).thenReturn(checkHopeValue);
-        doNothing().when(abandonedRepository).adoptPetUpdate(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).updateAdoptPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
         when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
-        abandonedService.adoptPetUpdate(userSeq, request);
+        abandonedService.updateAdoptPet(userSeq, request);
 
         verify(abandonedRepository, times(1)).isReservationPet(AdoptUpdateRequestVO.create(userSeq, request));
-        verify(abandonedRepository, times(1)).adoptPetUpdate(AdoptUpdateRequestVO.create(userSeq, request));
-        verify(abandonedRepository, times(1)).adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+        verify(abandonedRepository, times(1)).updateAdoptPet(AdoptUpdateRequestVO.create(userSeq, request));
+        verify(abandonedRepository, times(1)).updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
     }
 
     @Test
@@ -268,10 +268,10 @@ public class AbandonedServiceUnitTest {
 
         // when
         when(abandonedRepository.isReservationPet(any())).thenReturn(hopeValue);
-        doNothing().when(abandonedRepository).adoptPetUpdate(any());
-        doNothing().when(abandonedRepository).adoptProcessUpdate(any());
+        doNothing().when(abandonedRepository).updateAdoptPet(any());
+        doNothing().when(abandonedRepository).updateAdoptProcess(any());
 
         // then
-        assertThrows(AbandonedException.class, () -> abandonedService.adoptPetUpdate(userSeq, request));
+        assertThrows(AbandonedException.class, () -> abandonedService.updateAdoptPet(userSeq, request));
     }
 }

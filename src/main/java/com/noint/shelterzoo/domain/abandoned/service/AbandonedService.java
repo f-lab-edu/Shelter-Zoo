@@ -47,8 +47,8 @@ public class AbandonedService {
         return AbandonedListResponseDTO.create(petsPageInfo);
     }
 
-    public AbandonedDetailResponseDTO abandonedPetDetail(Long petSeq) {
-        AbandonedDetailResponseVO abandonedDetail = abandonedRepository.abandonedPetDetail(petSeq);
+    public AbandonedDetailResponseDTO getAbandonedPetDetail(Long petSeq) {
+        AbandonedDetailResponseVO abandonedDetail = abandonedRepository.getAbandonedPetDetail(petSeq);
         if (abandonedDetail == null) {
             log.warn("유기동물 상세 페이지 가져오기 실패, params : {petSeq : {}}", petSeq);
             throw new AbandonedException(AbandonedExceptionEnum.NO_CONTENT);
@@ -57,15 +57,15 @@ public class AbandonedService {
     }
 
     @Transactional
-    public void adoptPetForReservation(Long userSeq, AdoptReservationRequestDTO request) {
+    public void reservationPet(Long userSeq, AdoptReservationRequestDTO request) {
         boolean isAdoptAble = abandonedRepository.isAdoptAble(request.getPetSeq());
         if (!isAdoptAble) {
             log.warn("입양 예약 실패(예약 불가능한 상태), params : {userSeq : {}, request : {}}", userSeq, request);
             throw new AbandonedException(AbandonedExceptionEnum.NOT_ADOPTABLE);
         }
         AdoptReservationRequestVO reservationRequest = AdoptReservationRequestVO.create(userSeq, request);
-        abandonedRepository.adoptPetForReservation(reservationRequest);
-        abandonedRepository.adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+        abandonedRepository.reservationPet(reservationRequest);
+        abandonedRepository.updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
 
         BigDecimal userMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
@@ -83,15 +83,15 @@ public class AbandonedService {
     }
 
     @Transactional
-    public void adoptPetUpdate(Long userSeq, AdoptUpdateRequestDTO request) {
+    public void updateAdoptPet(Long userSeq, AdoptUpdateRequestDTO request) {
         AdoptUpdateRequestVO requestVO = AdoptUpdateRequestVO.create(userSeq, request);
         ReservationCheckResponseVO petReservationState = abandonedRepository.isReservationPet(requestVO);
         if (!isUpdateAble(petReservationState.getState())) {
             log.warn("입양 절차 수정 실패, params : {request : {}, nowAdoptState : {}}", request, petReservationState);
             throw new AbandonedException(AbandonedExceptionEnum.NOT_UPDATABLE);
         }
-        abandonedRepository.adoptPetUpdate(requestVO);
-        abandonedRepository.adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
+        abandonedRepository.updateAdoptPet(requestVO);
+        abandonedRepository.updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
         adoptPetUpdatePayBack(requestVO, petReservationState.getAdoptSeq());
     }
 
