@@ -2,7 +2,7 @@ package com.noint.shelterzoo.domain.pin.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.noint.shelterzoo.domain.pin.dto.req.PinListRequestDTO;
+import com.github.pagehelper.PageParam;
 import com.noint.shelterzoo.domain.pin.dto.res.PinListResponseDTO;
 import com.noint.shelterzoo.domain.pin.enums.PinExceptionEnum;
 import com.noint.shelterzoo.domain.pin.exception.PinException;
@@ -34,7 +34,7 @@ public class PinService {
         pinRepository.pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
     }
 
-    public PageInfo<PinListResponseDTO> getPinupList(Long userSeq, PinListRequestDTO request) {
+    public PageInfo<PinListResponseDTO> getPinupList(Long userSeq, PageParam request) {
         PageInfo<PinListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize())
                 .doSelectPageInfo(() -> pinRepository.getPinupList(PinListRequestVO.create(userSeq, request)));
         return PinListResponseDTO.create(petsPageInfo);

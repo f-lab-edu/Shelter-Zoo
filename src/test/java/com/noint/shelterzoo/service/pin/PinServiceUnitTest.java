@@ -1,7 +1,6 @@
 package com.noint.shelterzoo.service.pin;
 
 import com.github.pagehelper.PageInfo;
-import com.noint.shelterzoo.domain.pin.dto.req.PinListRequestDTO;
 import com.noint.shelterzoo.domain.pin.dto.res.PinListResponseDTO;
 import com.noint.shelterzoo.domain.pin.exception.PinException;
 import com.noint.shelterzoo.domain.pin.repository.PinRepository;
