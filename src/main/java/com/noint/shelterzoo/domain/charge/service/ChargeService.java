@@ -31,7 +31,7 @@ public class ChargeService {
             log.warn("충전 실패 - ChargeId 중복, params : {userSeq : {}, request : {}}", userSeq, request);
             throw new ChargeException(ChargeExceptionEnum.DUPLICATE_CHARGE_ID);
         }
-        BigDecimal baseUserMoney = userService.getUserMoney(userSeq);
+        BigDecimal baseUserMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateMoney = baseUserMoney.add(request.getChargeAmount());
         ChargeLogRequestVO chargeLogRequest = ChargeLogRequestVO.create(userSeq, updateMoney, request);
         userService.updateUserMoney(userSeq, updateMoney);

@@ -5,14 +5,10 @@ import com.noint.shelterzoo.domain.charge.exception.ChargeException;
 import com.noint.shelterzoo.domain.charge.repository.ChargeRepository;
 import com.noint.shelterzoo.domain.charge.service.ChargeService;
 import com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
-import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
 import com.noint.shelterzoo.domain.user.service.UserService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -47,7 +43,7 @@ public class ChargeServiceUnitTest {
 
         // when
         when(chargeRepository.countChargeId(request.getChargeId())).thenReturn(1);
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(50000));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(50000));
         doNothing().when(chargeRepository).insertChargeLog(any());
         doNothing().when(moneyLogService).insertLogByCharge(any());
 
@@ -66,7 +62,7 @@ public class ChargeServiceUnitTest {
 
         // when
         when(chargeRepository.countChargeId(request.getChargeId())).thenReturn(0);
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(50000));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(50000));
         doNothing().when(chargeRepository).insertChargeLog(any());
         doNothing().when(moneyLogService).insertLogByCharge(any());
 
@@ -74,7 +70,7 @@ public class ChargeServiceUnitTest {
         chargeService.chargeMoney(userSeq, request);
         verify(chargeRepository, times(1)).countChargeId(request.getChargeId());
         verify(chargeRepository, times(1)).insertChargeLog(ChargeLogRequestVO.create(userSeq, request));
-        verify(userService, times(1)).getUserMoney(userSeq);
+        verify(userService, times(1)).getUserMoneyForUpdate(userSeq);
         verify(moneyLogService, times(1)).insertLogByCharge(any());
     }
 }

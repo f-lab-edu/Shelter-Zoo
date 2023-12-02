@@ -1,12 +1,10 @@
 package com.noint.shelterzoo.service.user;
 
 import com.noint.shelterzoo.config.PasswordEncoderConfig;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.user.dto.req.LoginRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.req.SignupRequestDTO;
 import com.noint.shelterzoo.domain.user.dto.res.MyInfoResponseDTO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import com.noint.shelterzoo.domain.user.repository.UserRepository;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import com.noint.shelterzoo.domain.user.vo.req.MoneyUpdateRequestVO;
@@ -472,7 +470,7 @@ public class UserServiceUnitTest {
         when(userRepository.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000));
 
         // then
-        userService.getUserMoney(userSeq);
+        userService.getUserMoneyForUpdate(userSeq);
 
         verify(userRepository, times(1)).getUserMoneyForUpdate(userSeq);
     }

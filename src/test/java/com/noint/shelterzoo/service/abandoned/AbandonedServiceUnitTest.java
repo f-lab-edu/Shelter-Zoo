@@ -142,7 +142,7 @@ public class AbandonedServiceUnitTest {
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
         doNothing().when(abandonedRepository).adoptPetForReservation(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000L));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000L));
 
         // then
         abandonedService.adoptPetForReservation(userSeq, request);
@@ -165,7 +165,7 @@ public class AbandonedServiceUnitTest {
         when(abandonedRepository.isAdoptAble(request.getPetSeq())).thenReturn(Boolean.TRUE);
         doNothing().when(abandonedRepository).adoptPetForReservation(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(10000L));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(10000L));
 
         // then
         assertThrows(AbandonedException.class, () -> abandonedService.adoptPetForReservation(userSeq, request));
@@ -211,7 +211,7 @@ public class AbandonedServiceUnitTest {
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
         when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
         abandonedService.adoptPetUpdate(userSeq, request);
@@ -243,7 +243,7 @@ public class AbandonedServiceUnitTest {
         doNothing().when(abandonedRepository).adoptPetUpdate(any());
         doNothing().when(abandonedRepository).adoptProcessUpdate(any());
         when(abandonedRepository.getDateDiffFromNow(any())).thenReturn(diffHopeValue);
-        when(userService.getUserMoney(userSeq)).thenReturn(BigDecimal.valueOf(100000));
+        when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(100000));
 
         // then
         abandonedService.adoptPetUpdate(userSeq, request);

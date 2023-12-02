@@ -107,7 +107,11 @@ public class UserService {
         userRepository.resign(ResignRequestVO.create(userSeq));
     }
 
-    public BigDecimal getUserMoney(Long userSeq) {
+    public BigDecimal getUserMoneyFor(Long userSeq) {
+        return userRepository.getUserMoney(userSeq);
+    }
+
+    public BigDecimal getUserMoneyForUpdate(Long userSeq) {
         return userRepository.getUserMoneyForUpdate(userSeq);
     }
 

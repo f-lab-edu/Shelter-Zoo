@@ -22,6 +22,8 @@ public interface UserRepository {
 
     void resign(ResignRequestVO param);
 
+    BigDecimal getUserMoney(Long userSeq);
+
     BigDecimal getUserMoneyForUpdate(Long userSeq);
 
     void updateUserMoney(MoneyUpdateRequestVO params);

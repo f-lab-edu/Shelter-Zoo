@@ -67,7 +67,7 @@ public class AbandonedService {
         abandonedRepository.adoptPetForReservation(reservationRequest);
         abandonedRepository.adoptProcessUpdate(AdoptProcessUpdateRequestVO.create(request));
 
-        BigDecimal userMoney = userService.getUserMoney(userSeq);
+        BigDecimal userMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
         updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
@@ -100,7 +100,7 @@ public class AbandonedService {
     }
 
     private void adoptPetUpdatePayBack(AdoptUpdateRequestVO requestVO, long adoptSeq) {
-        BigDecimal userMoney = userService.getUserMoney(requestVO.getUserSeq());
+        BigDecimal userMoney = userService.getUserMoneyForUpdate(requestVO.getUserSeq());
         BigDecimal updateUserMoney;
         switch (requestVO.getAdoptProcess()) {
             case ADOPTED:

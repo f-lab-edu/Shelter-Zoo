@@ -35,6 +35,11 @@
         SET state = #{stateEnum.state}
         WHERE seq = #{userSeq};
     </update>
+    <select id="getUserMoney" parameterType="long" resultType="decimal">
+        SELECT money
+        FROM user
+        WHERE seq = #{userSeq};
+    </select>
     <select id="getUserMoneyForUpdate" parameterType="long" resultType="decimal">
         SELECT money
         FROM user
