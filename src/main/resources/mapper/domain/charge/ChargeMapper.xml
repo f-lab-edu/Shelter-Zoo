@@ -6,7 +6,7 @@
         FROM charge_log
         WHERE charge_id = #{chargeId};
     </select>
-    <insert id="insertChargeLog" parameterType="com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO" useGeneratedKeys="true" keyProperty="seq">
+    <insert id="addChargeLog" parameterType="com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO" useGeneratedKeys="true" keyProperty="seq">
         INSERT INTO charge_log(user_seq, charge_amount, total_money, charge_id)
         VALUE (#{userSeq}, #{chargeAmount}, #{totalMoney}, #{chargeId});
     </insert>

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface ChargeRepository {
     int countChargeId(String chargeId);
 
-    void insertChargeLog(ChargeLogRequestVO params);
+    void addChargeLog(ChargeLogRequestVO params);
 }

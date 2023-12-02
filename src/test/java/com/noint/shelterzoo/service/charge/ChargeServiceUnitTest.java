@@ -44,7 +44,7 @@ public class ChargeServiceUnitTest {
         // when
         when(chargeRepository.countChargeId(request.getChargeId())).thenReturn(1);
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(50000));
-        doNothing().when(chargeRepository).insertChargeLog(any());
+        doNothing().when(chargeRepository).addChargeLog(any());
         doNothing().when(moneyLogService).addMoneyLogByCharge(any());
 
         // then
@@ -63,13 +63,13 @@ public class ChargeServiceUnitTest {
         // when
         when(chargeRepository.countChargeId(request.getChargeId())).thenReturn(0);
         when(userService.getUserMoneyForUpdate(userSeq)).thenReturn(BigDecimal.valueOf(50000));
-        doNothing().when(chargeRepository).insertChargeLog(any());
+        doNothing().when(chargeRepository).addChargeLog(any());
         doNothing().when(moneyLogService).addMoneyLogByCharge(any());
 
         // then
         chargeService.chargeMoney(userSeq, request);
         verify(chargeRepository, times(1)).countChargeId(request.getChargeId());
-        verify(chargeRepository, times(1)).insertChargeLog(ChargeLogRequestVO.create(userSeq, request));
+        verify(chargeRepository, times(1)).addChargeLog(ChargeLogRequestVO.create(userSeq, request));
         verify(userService, times(1)).getUserMoneyForUpdate(userSeq);
         verify(moneyLogService, times(1)).addMoneyLogByCharge(any());
     }

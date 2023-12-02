@@ -35,7 +35,7 @@ public class ChargeService {
         BigDecimal updateMoney = baseUserMoney.add(request.getChargeAmount());
         ChargeLogRequestVO chargeLogRequest = ChargeLogRequestVO.create(userSeq, updateMoney, request);
         userService.updateUserMoney(userSeq, updateMoney);
-        insertChargeLog(chargeLogRequest);
+        addChargeLog(chargeLogRequest);
         moneyLogService.addMoneyLogByCharge(
                 MoneyLogInsertRequestVO.create(userSeq, MoneyTypeEnum.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurposeEnum.CHARGE, chargeLogRequest.getSeq())
         );
@@ -45,7 +45,7 @@ public class ChargeService {
         return chargeRepository.countChargeId(chargeId) > 0;
     }
 
-    private void insertChargeLog(ChargeLogRequestVO request) {
-        chargeRepository.insertChargeLog(request);
+    private void addChargeLog(ChargeLogRequestVO request) {
+        chargeRepository.addChargeLog(request);
     }
 }
