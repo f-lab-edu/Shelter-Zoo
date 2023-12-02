@@ -33,14 +33,14 @@ public class UserService {
     private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
     private final static int EMAIL_MAX_LENGTH = 30;
 
-    public void signup(SignupRequestDTO request) {
+    public void addUser(SignupRequestDTO request) {
         String password = request.getPassword();
         if (!regexMatcher(PASSWORD_REG, password)) {
             throw new UserException(UserExceptionEnum.PASSWORD_INVALID);
         }
         request.setPassword(passwordEncoder.encode(password));
         try {
-            userRepository.signup(SignupRequestVO.create(request));
+            userRepository.addUser(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
             log.warn("유저 회원가입 실패");
             signupDuplicationExceptionHandling(e, request);
@@ -90,7 +90,7 @@ public class UserService {
             throw new UserException(UserExceptionEnum.LOGIN_FAILED);
         }
 
-        MyInfoResponseVO myInfo = userRepository.myInfo(request.getEmail());
+        MyInfoResponseVO myInfo = userRepository.getUserInfo(request.getEmail());
         if (!UserStateEnum.isStable(myInfo.getState())) {
             log.warn("로그인 실패 : 유저 가입상태 - {}", myInfo.getState());
             throw new UserException(UserExceptionEnum.LOGIN_FAILED);
@@ -99,12 +99,12 @@ public class UserService {
         return MyInfoResponseDTO.create(myInfo);
     }
 
-    public MyInfoResponseDTO myInfo(String email) {
-        return MyInfoResponseDTO.create(userRepository.myInfo(email));
+    public MyInfoResponseDTO getUserInfo(String email) {
+        return MyInfoResponseDTO.create(userRepository.getUserInfo(email));
     }
 
     public void resign(Long userSeq) {
-        userRepository.resign(ResignRequestVO.create(userSeq));
+        userRepository.updateUserState(ResignRequestVO.create(userSeq));
     }
 
     public BigDecimal getUserMoneyFor(Long userSeq) {

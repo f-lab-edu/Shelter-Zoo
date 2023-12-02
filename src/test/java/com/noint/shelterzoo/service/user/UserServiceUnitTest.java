@@ -47,12 +47,12 @@ public class UserServiceUnitTest {
         testUser.setPassword("password4");
         testUser.setNickname("testNick");
 
-        doNothing().when(userRepository).signup(any());
+        doNothing().when(userRepository).addUser(any());
         // when
-        userService.signup(testUser);
+        userService.addUser(testUser);
 
         // then
-        verify(userRepository, times(1)).signup(SignupRequestVO.create(testUser));
+        verify(userRepository, times(1)).addUser(SignupRequestVO.create(testUser));
     }
 
     @Test
@@ -64,9 +64,9 @@ public class UserServiceUnitTest {
         testUser.setPassword("password1");
         testUser.setNickname("test3");
         doThrow(new DataIntegrityViolationException("Duplicate entry 'test3@email.com' for key 'user.email_UNIQUE'"))
-                .when(userRepository).signup(any());
+                .when(userRepository).addUser(any());
         // when&then
-        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+        assertThrows(RuntimeException.class, () -> userService.addUser(testUser));
     }
 
     @Test
@@ -79,9 +79,9 @@ public class UserServiceUnitTest {
         testUser.setNickname("test3");
 
         doThrow(new DataIntegrityViolationException("Duplicate entry 'test3' for key 'user.nickname_UNIQUE'"))
-                .when(userRepository).signup(any());
+                .when(userRepository).addUser(any());
         // when&then
-        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+        assertThrows(RuntimeException.class, () -> userService.addUser(testUser));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class UserServiceUnitTest {
         testUser.setNickname("testNick");
 
         // when&then
-        assertThrows(RuntimeException.class, () -> userService.signup(testUser));
+        assertThrows(RuntimeException.class, () -> userService.addUser(testUser));
     }
 
     @Test
@@ -383,13 +383,13 @@ public class UserServiceUnitTest {
 
         when(userRepository.getPasswordByEmail(any()))
                 .thenReturn("$2a$10$dRUqYhH39O9DKfmz//CAReWHAlFxKhaBdd.Lby6fYB2YE1AJ506UC");
-        when(userRepository.myInfo(any())).thenReturn(hopeValue);
+        when(userRepository.getUserInfo(any())).thenReturn(hopeValue);
 
         // when then
         assertThrows(RuntimeException.class, () -> userService.login(login));
 
         verify(userRepository, times(1)).getPasswordByEmail(any());
-        verify(userRepository, times(1)).myInfo(any());
+        verify(userRepository, times(1)).getUserInfo(any());
     }
 
     @Test
@@ -410,7 +410,7 @@ public class UserServiceUnitTest {
 
         when(userRepository.getPasswordByEmail(any()))
                 .thenReturn("$2a$10$dRUqYhH39O9DKfmz//CAReWHAlFxKhaBdd.Lby6fYB2YE1AJ506UC");
-        when(userRepository.myInfo(any())).thenReturn(hopeValue);
+        when(userRepository.getUserInfo(any())).thenReturn(hopeValue);
 
         // when
         MyInfoResponseDTO result = userService.login(login);
@@ -419,7 +419,7 @@ public class UserServiceUnitTest {
         assertEquals(MyInfoResponseDTO.create(hopeValue), result);
 
         verify(userRepository, times(1)).getPasswordByEmail(any());
-        verify(userRepository, times(1)).myInfo(any());
+        verify(userRepository, times(1)).getUserInfo(any());
     }
 
     @Test
@@ -437,10 +437,10 @@ public class UserServiceUnitTest {
         hopeValue.setState("가입");
 
         // when
-        when(userRepository.myInfo(email)).thenReturn(hopeValue);
+        when(userRepository.getUserInfo(email)).thenReturn(hopeValue);
 
         // then
-        MyInfoResponseDTO myInfo = userService.myInfo(email);
+        MyInfoResponseDTO myInfo = userService.getUserInfo(email);
 
         assertEquals(MyInfoResponseDTO.create(hopeValue), myInfo);
     }
@@ -452,12 +452,12 @@ public class UserServiceUnitTest {
         Long userSeq = 3L;
 
         // when
-        doNothing().when(userRepository).resign(any());
+        doNothing().when(userRepository).updateUserState(any());
 
         //then
         userService.resign(userSeq);
 
-        verify(userRepository, times(1)).resign(ResignRequestVO.create(userSeq));
+        verify(userRepository, times(1)).updateUserState(ResignRequestVO.create(userSeq));
     }
 
     @Test

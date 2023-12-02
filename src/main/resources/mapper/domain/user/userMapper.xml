@@ -11,7 +11,7 @@
         FROM user
         WHERE nickname = #{nickname};
     </select>
-    <insert id="signup" parameterType="com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO">
+    <insert id="addUser" parameterType="com.noint.shelterzoo.domain.user.vo.req.SignupRequestVO">
         INSERT INTO user(email, password, nickname)
             VALUE (#{email}, #{password}, #{nickname});
     </insert>
@@ -20,7 +20,7 @@
         FROM user
         WHERE email = #{email};
     </select>
-    <select id="myInfo" parameterType="string" resultType="com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO">
+    <select id="getUserInfo" parameterType="string" resultType="com.noint.shelterzoo.domain.user.vo.res.MyInfoResponseVO">
         SELECT seq
              , email
              , nickname
@@ -30,7 +30,7 @@
         FROM user
         WHERE email = #{email};
     </select>
-    <update id="resign" parameterType="com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO">
+    <update id="updateUserState" parameterType="com.noint.shelterzoo.domain.user.vo.req.ResignRequestVO">
         UPDATE user
         SET state = #{stateEnum.state}
         WHERE seq = #{userSeq};

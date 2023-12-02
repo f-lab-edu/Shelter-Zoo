@@ -14,13 +14,13 @@ public interface UserRepository {
 
     int isExistNickname(String nickname);
 
-    void signup(SignupRequestVO params);
+    void addUser(SignupRequestVO params);
 
     String getPasswordByEmail(String email);
 
-    MyInfoResponseVO myInfo(String email);
+    MyInfoResponseVO getUserInfo(String email);
 
-    void resign(ResignRequestVO param);
+    void updateUserState(ResignRequestVO param);
 
     BigDecimal getUserMoney(Long userSeq);
 
