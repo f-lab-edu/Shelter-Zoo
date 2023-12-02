@@ -36,7 +36,7 @@ public class ChargeService {
         ChargeLogRequestVO chargeLogRequest = ChargeLogRequestVO.create(userSeq, updateMoney, request);
         userService.updateUserMoney(userSeq, updateMoney);
         insertChargeLog(chargeLogRequest);
-        moneyLogService.insertLogByCharge(
+        moneyLogService.addMoneyLogByCharge(
                 MoneyLogInsertRequestVO.create(userSeq, MoneyTypeEnum.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurposeEnum.CHARGE, chargeLogRequest.getSeq())
         );
     }

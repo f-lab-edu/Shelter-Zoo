@@ -36,12 +36,12 @@ public class MoneyLogServiceUnitTest {
         MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).insertLogAboutAdopt(any());
+        doNothing().when(moneyLogRepository).addMoneyLogAboutAdopt(any());
 
         // then
-        moneyLogService.insertLogAboutAdopt(request);
+        moneyLogService.addMoneyLogAboutAdopt(request);
 
-        verify(moneyLogRepository, times(1)).insertLogAboutAdopt(request);
+        verify(moneyLogRepository, times(1)).addMoneyLogAboutAdopt(request);
     }
 
     @Test
@@ -58,10 +58,10 @@ public class MoneyLogServiceUnitTest {
         MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).insertLogByCharge(any());
+        doNothing().when(moneyLogRepository).addMoneyLogByCharge(any());
 
         // then
-        moneyLogService.insertLogByCharge(request);
-        verify(moneyLogRepository, times(1)).insertLogByCharge(request);
+        moneyLogService.addMoneyLogByCharge(request);
+        verify(moneyLogRepository, times(1)).addMoneyLogByCharge(request);
     }
 }

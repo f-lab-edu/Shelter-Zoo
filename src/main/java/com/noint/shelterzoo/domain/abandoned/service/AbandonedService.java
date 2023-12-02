@@ -79,7 +79,7 @@ public class AbandonedService {
             throw new AbandonedException(AbandonedExceptionEnum.LACK_OF_MONEY);
         }
         userService.updateUserMoney(userSeq, totalMoney);
-        moneyLogService.insertLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
+        moneyLogService.addMoneyLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
     }
 
     @Transactional
