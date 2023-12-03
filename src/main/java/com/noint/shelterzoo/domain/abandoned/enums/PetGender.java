@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum GenderEnum {
+public enum PetGender {
     ALL("전체", "A"),
     FEMALE("암컷", "F"),
     MALE("수컷", "M"),
@@ -17,17 +17,17 @@ public enum GenderEnum {
     private final String fullText;
     private final String initial;
 
-    public static GenderEnum findEnumByFullText(String fullText) {
-        return Arrays.stream(GenderEnum.values())
+    public static PetGender findEnumByFullText(String fullText) {
+        return Arrays.stream(PetGender.values())
                 .filter(e -> fullText.equals(e.getFullText()))
                 .findAny()
-                .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_GENDER_ID));
+                .orElseThrow(() -> new AbandonedException(AbandonedExceptionBody.UNKNOWN_GENDER_ID));
     }
 
-    public static GenderEnum findEnumByInitial(String initial) {
-        return Arrays.stream(GenderEnum.values())
+    public static PetGender findEnumByInitial(String initial) {
+        return Arrays.stream(PetGender.values())
                 .filter(e -> initial.equals(e.getInitial()))
                 .findAny()
-                .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_GENDER_ID));
+                .orElseThrow(() -> new AbandonedException(AbandonedExceptionBody.UNKNOWN_GENDER_ID));
     }
 }

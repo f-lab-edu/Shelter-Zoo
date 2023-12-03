@@ -7,9 +7,9 @@ import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptReservationRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptUpdateRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
-import com.noint.shelterzoo.domain.abandoned.enums.AbandonedExceptionEnum;
-import com.noint.shelterzoo.domain.abandoned.enums.AdoptCancelPayBackPenaltyEnum;
-import com.noint.shelterzoo.domain.abandoned.enums.AdoptProcessEnum;
+import com.noint.shelterzoo.domain.abandoned.enums.AbandonedExceptionBody;
+import com.noint.shelterzoo.domain.abandoned.enums.PercentagePayBackPenalty;
+import com.noint.shelterzoo.domain.abandoned.enums.AdoptProcess;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
@@ -20,7 +20,7 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedListResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseVO;
 import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
@@ -51,7 +51,7 @@ public class AbandonedService {
         AbandonedDetailResponseVO abandonedDetail = abandonedRepository.getAbandonedPetDetail(petSeq);
         if (abandonedDetail == null) {
             log.warn("유기동물 상세 페이지 가져오기 실패, params : {petSeq : {}}", petSeq);
-            throw new AbandonedException(AbandonedExceptionEnum.NO_CONTENT);
+            throw new AbandonedException(AbandonedExceptionBody.NO_CONTENT);
         }
         return AbandonedDetailResponseDTO.create(abandonedDetail);
     }
@@ -61,7 +61,7 @@ public class AbandonedService {
         boolean isAdoptAble = abandonedRepository.isAdoptAble(request.getPetSeq());
         if (!isAdoptAble) {
             log.warn("입양 예약 실패(예약 불가능한 상태), params : {userSeq : {}, request : {}}", userSeq, request);
-            throw new AbandonedException(AbandonedExceptionEnum.NOT_ADOPTABLE);
+            throw new AbandonedException(AbandonedExceptionBody.NOT_ADOPTABLE);
         }
         AdoptReservationRequestVO reservationRequest = AdoptReservationRequestVO.create(userSeq, request);
         abandonedRepository.reservationPet(reservationRequest);
@@ -69,17 +69,17 @@ public class AbandonedService {
 
         BigDecimal userMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
-        updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyTypeEnum.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
+        updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyType.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
 
-    private void updateUserMoney(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyTypeEnum moneyTypeEnum, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
+    private void updateUserMoney(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyType moneyType, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
         BigDecimal amount = totalMoney.subtract(userMoney);
         if (totalMoney.compareTo(BigDecimal.ZERO) < 0) {
             log.warn("입양 예약 실패(재화 부족), params : {userSeq : {}, userMoney : {}, amount : {}}", userSeq, userMoney, RESERVATION_AMOUNT);
-            throw new AbandonedException(AbandonedExceptionEnum.LACK_OF_MONEY);
+            throw new AbandonedException(AbandonedExceptionBody.LACK_OF_MONEY);
         }
         userService.updateUserMoney(userSeq, totalMoney);
-        moneyLogService.addMoneyLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq));
+        moneyLogService.addMoneyLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq));
     }
 
     @Transactional
@@ -88,7 +88,7 @@ public class AbandonedService {
         ReservationCheckResponseVO petReservationState = abandonedRepository.isReservationPet(requestVO);
         if (!isUpdateAble(petReservationState.getState())) {
             log.warn("입양 절차 수정 실패, params : {request : {}, nowAdoptState : {}}", request, petReservationState);
-            throw new AbandonedException(AbandonedExceptionEnum.NOT_UPDATABLE);
+            throw new AbandonedException(AbandonedExceptionBody.NOT_UPDATABLE);
         }
         abandonedRepository.updateAdoptPet(requestVO);
         abandonedRepository.updateAdoptProcess(AdoptProcessUpdateRequestVO.create(request));
@@ -96,7 +96,7 @@ public class AbandonedService {
     }
 
     private boolean isUpdateAble(String adoptState) {
-        return StringUtils.hasLength(adoptState) && adoptState.equals(AdoptProcessEnum.RESERVATION.getStateStr());
+        return StringUtils.hasLength(adoptState) && adoptState.equals(AdoptProcess.RESERVATION.getStateStr());
     }
 
     private void adoptPetUpdatePayBack(AdoptUpdateRequestVO requestVO, long adoptSeq) {
@@ -112,9 +112,9 @@ public class AbandonedService {
                 break;
             default:
                 log.warn("입양 절차 취소/변경 이외의 값, params : {state : {}}", requestVO.getAdoptProcess());
-                throw new AbandonedException(AbandonedExceptionEnum.UNKNOWN_TYPE);
+                throw new AbandonedException(AbandonedExceptionBody.UNKNOWN_TYPE);
         }
-        updateUserMoney(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyTypeEnum.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
+        updateUserMoney(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyType.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
     }
 
     private BigDecimal payBackMoneyByAdoptCancel(AdoptUpdateRequestVO requestVO) {
@@ -127,13 +127,13 @@ public class AbandonedService {
             return RESERVATION_AMOUNT;
         }
         if (noticeEndDiff >= 5) {
-            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY5);
+            return PercentagePayBackPenalty.payBackWithPenalty(RESERVATION_AMOUNT, PercentagePayBackPenalty.DAY5);
         }
         if (noticeEndDiff >= 3) {
-            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY3);
+            return PercentagePayBackPenalty.payBackWithPenalty(RESERVATION_AMOUNT, PercentagePayBackPenalty.DAY3);
         }
         if (noticeEndDiff >= 1) {
-            return AdoptCancelPayBackPenaltyEnum.payBackWithPenalty(RESERVATION_AMOUNT, AdoptCancelPayBackPenaltyEnum.DAY1);
+            return PercentagePayBackPenalty.payBackWithPenalty(RESERVATION_AMOUNT, PercentagePayBackPenalty.DAY1);
         }
         return BigDecimal.ZERO;
     }

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum AbandonedExceptionEnum implements ExceptionEnum {
+public enum AbandonedExceptionBody implements ExceptionEnum {
     UNKNOWN_GENDER_ID(404, "알 수 없는 성별 식별자"),
     UNKNOWN_NEUTER_ID(404, "알 수 없는 중성화 식별자"),
     UNKNOWN_ADOPT_PROCESS(404, "알 수 없는 입양 절차"),
