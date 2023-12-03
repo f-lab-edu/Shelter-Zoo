@@ -8,8 +8,8 @@ import com.noint.shelterzoo.domain.abandoned.dto.req.AdoptUpdateRequestDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedDetailResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.dto.res.AbandonedListResponseDTO;
 import com.noint.shelterzoo.domain.abandoned.enums.AbandonedExceptionBody;
-import com.noint.shelterzoo.domain.abandoned.enums.PercentagePayBackPenalty;
 import com.noint.shelterzoo.domain.abandoned.enums.AdoptProcess;
+import com.noint.shelterzoo.domain.abandoned.enums.PercentagePayBackPenalty;
 import com.noint.shelterzoo.domain.abandoned.exception.AbandonedException;
 import com.noint.shelterzoo.domain.abandoned.repository.AbandonedRepository;
 import com.noint.shelterzoo.domain.abandoned.vo.req.AbandonedListRequestVO;
@@ -22,7 +22,7 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.AdoptCancelDateDiffResponseV
 import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
-import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +79,7 @@ public class AbandonedService {
             throw new AbandonedException(AbandonedExceptionBody.LACK_OF_MONEY);
         }
         userService.updateUserMoney(userSeq, totalMoney);
-        moneyLogService.addMoneyLogAboutAdopt(MoneyLogInsertRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq));
+        moneyLogService.addMoneyLogAboutAdopt(MoneyLogAddRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq));
     }
 
     @Transactional

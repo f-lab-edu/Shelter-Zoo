@@ -1,11 +1,17 @@
 package com.noint.shelterzoo.domain.moneyLog.repository;
 
-import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogListRequestVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface MoneyLogRepository {
-    void addMoneyLogAboutAdopt(MoneyLogInsertRequestVO params);
+    void addMoneyLogAboutAdopt(MoneyLogAddRequestVO params);
 
-    void addMoneyLogByCharge(MoneyLogInsertRequestVO params);
+    void addMoneyLogByCharge(MoneyLogAddRequestVO params);
+
+    List<MoneyLogListResponseVO> getMoneyLogList(MoneyLogListRequestVO params);
 }

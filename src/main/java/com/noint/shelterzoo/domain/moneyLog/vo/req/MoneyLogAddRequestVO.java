@@ -9,7 +9,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class MoneyLogInsertRequestVO {
+public class MoneyLogAddRequestVO {
     private Long userSeq;
     private MoneyType moneyType;
     private BigDecimal money;
@@ -19,8 +19,8 @@ public class MoneyLogInsertRequestVO {
     private Long supportLogSeq;
     private Long chargeLogSeq;
 
-    public static MoneyLogInsertRequestVO create(Long userSeq, MoneyType moneyType, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
-        MoneyLogInsertRequestVO vo = new MoneyLogInsertRequestVO();
+    public static MoneyLogAddRequestVO create(Long userSeq, MoneyType moneyType, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
+        MoneyLogAddRequestVO vo = new MoneyLogAddRequestVO();
         vo.setUserSeq(userSeq);
         vo.setMoneyType(moneyType);
         vo.setMoney(money);
@@ -31,7 +31,7 @@ public class MoneyLogInsertRequestVO {
         return vo;
     }
 
-    private static void matchTargetSeq(MoneyLogInsertRequestVO vo, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
+    private static void matchTargetSeq(MoneyLogAddRequestVO vo, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
         switch (purposeEnum) {
             case CHARGE:
                 vo.setChargeLogSeq(targetSeq);
