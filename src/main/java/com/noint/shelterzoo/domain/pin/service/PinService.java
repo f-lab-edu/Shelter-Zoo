@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageParam;
 import com.noint.shelterzoo.domain.pin.dto.res.PinListResponseDTO;
-import com.noint.shelterzoo.domain.pin.enums.PinExceptionEnum;
+import com.noint.shelterzoo.domain.pin.enums.PinExceptionBody;
 import com.noint.shelterzoo.domain.pin.exception.PinException;
 import com.noint.shelterzoo.domain.pin.repository.PinRepository;
 import com.noint.shelterzoo.domain.pin.vo.req.PinListRequestVO;
@@ -26,7 +26,7 @@ public class PinService {
             pinRepository.addPin(PinUpRequestVO.create(userSeq, petSeq));
         } catch (DataIntegrityViolationException e) {
             log.warn("관심 동물 추가 실패 : params : {userSeq : {}, petSeq : {}}", userSeq, petSeq);
-            throw new PinException(PinExceptionEnum.DUPLICATED_PIN);
+            throw new PinException(PinExceptionBody.DUPLICATED_PIN);
         }
     }
 

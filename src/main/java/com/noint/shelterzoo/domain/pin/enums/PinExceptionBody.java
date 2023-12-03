@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum PinExceptionEnum implements ExceptionEnum {
+public enum PinExceptionBody implements ExceptionEnum {
     DUPLICATED_PIN(400, "이미 관심 동물로 등록됨"),
     ;
 
