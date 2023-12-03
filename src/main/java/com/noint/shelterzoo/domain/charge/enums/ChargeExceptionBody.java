@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ChargeExceptionEnum implements ExceptionEnum {
+public enum ChargeExceptionBody implements ExceptionEnum {
     DUPLICATE_CHARGE_ID(400, "ChargeId 중복"),
     ;
 
