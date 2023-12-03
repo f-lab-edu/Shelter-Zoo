@@ -4,7 +4,7 @@ import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class MoneyLogServiceUnitTest {
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
         MoneyType moneyType = MoneyType.WITHDRAWAL;
-        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
+        MoneyUpdatePurpose purposeEnum = MoneyUpdatePurpose.ADOPT_RESERVATION;
         Long targetTableSeq = 11L;
         MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq);
 
@@ -53,7 +53,7 @@ public class MoneyLogServiceUnitTest {
         BigDecimal chargeAmount = BigDecimal.valueOf(50000);
         BigDecimal totalMoney = baseUserMoney.add(chargeAmount);
         MoneyType moneyType = MoneyType.DEPOSIT;
-        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.CHARGE;
+        MoneyUpdatePurpose purposeEnum = MoneyUpdatePurpose.CHARGE;
         Long targetTableSeq = 11L;
         MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
 

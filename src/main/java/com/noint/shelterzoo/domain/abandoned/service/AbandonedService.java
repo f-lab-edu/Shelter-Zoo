@@ -23,7 +23,7 @@ import com.noint.shelterzoo.domain.abandoned.vo.res.ReservationCheckResponseVO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,10 +69,10 @@ public class AbandonedService {
 
         BigDecimal userMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateUserMoney = userMoney.subtract(RESERVATION_AMOUNT);
-        updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyType.WITHDRAWAL, MoneyUpdatePurposeEnum.ADOPT_RESERVATION, reservationRequest.getSeq());
+        updateUserMoney(userSeq, userMoney, updateUserMoney, MoneyType.WITHDRAWAL, MoneyUpdatePurpose.ADOPT_RESERVATION, reservationRequest.getSeq());
     }
 
-    private void updateUserMoney(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyType moneyType, MoneyUpdatePurposeEnum purposeEnum, Long targetTableSeq) {
+    private void updateUserMoney(Long userSeq, BigDecimal userMoney, BigDecimal totalMoney, MoneyType moneyType, MoneyUpdatePurpose purposeEnum, Long targetTableSeq) {
         BigDecimal amount = totalMoney.subtract(userMoney);
         if (totalMoney.compareTo(BigDecimal.ZERO) < 0) {
             log.warn("입양 예약 실패(재화 부족), params : {userSeq : {}, userMoney : {}, amount : {}}", userSeq, userMoney, RESERVATION_AMOUNT);
@@ -114,7 +114,7 @@ public class AbandonedService {
                 log.warn("입양 절차 취소/변경 이외의 값, params : {state : {}}", requestVO.getAdoptProcess());
                 throw new AbandonedException(AbandonedExceptionBody.UNKNOWN_TYPE);
         }
-        updateUserMoney(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyType.DEPOSIT, MoneyUpdatePurposeEnum.ADOPT_PAYBACK, adoptSeq);
+        updateUserMoney(requestVO.getUserSeq(), userMoney, updateUserMoney, MoneyType.DEPOSIT, MoneyUpdatePurpose.ADOPT_PAYBACK, adoptSeq);
     }
 
     private BigDecimal payBackMoneyByAdoptCancel(AdoptUpdateRequestVO requestVO) {
