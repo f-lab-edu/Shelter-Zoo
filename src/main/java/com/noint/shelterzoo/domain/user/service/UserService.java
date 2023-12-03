@@ -42,15 +42,18 @@ public class UserService {
         try {
             userRepository.addUser(SignupRequestVO.create(request));
         } catch (DataIntegrityViolationException e) {
-            log.warn("유저 회원가입 실패");
             signupDuplicationExceptionHandling(e, request);
         }
     }
 
     private void signupDuplicationExceptionHandling(Exception e, SignupRequestDTO request) {
         String errorMsg = e.getMessage();
-        log.warn("유저 회원가입 에러. param : " + errorMsg);
-        if (Objects.requireNonNull(errorMsg).contains("nickname")) {
+        log.warn("유저 회원가입 에러.");
+        if (!StringUtils.hasLength(errorMsg)) {
+            log.warn("알 수 없는 메세지", e);
+            throw new RuntimeException(e);
+        }
+        if (errorMsg.contains("nickname")) {
             log.warn("닉네임 중복 : " + request.getNickname());
             throw new UserException(UserExceptionEnum.NICKNAME_DUPLICATE);
         } else if (errorMsg.contains("email")) {
