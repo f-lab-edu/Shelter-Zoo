@@ -9,13 +9,6 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class MoneyLogDetailWithAdoptResponseDTO extends MoneyDetailDTO {
-    private Long moneyLogSeq;
-    private Long userSeq;
-    private String moneyType;
-    private BigDecimal money;
-    private BigDecimal totalMoney;
-    private String type;
-    private String createdAt;
     private String adoptState;
     private Long petSeq;
     private String petThumbnail;

@@ -3,12 +3,15 @@ package com.noint.shelterzoo.service.moneyLog;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageParam;
 import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyDetailDTO;
+import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithAdoptResponseDTO;
+import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithChargeResponseDTO;
 import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogListResponseDTO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO;
 import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithAdoptResVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithChargeResVO;
 import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import org.junit.jupiter.api.DisplayName;
@@ -132,5 +135,32 @@ public class MoneyLogServiceUnitTest {
 
         // then
         MoneyDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
+        assertEquals(MoneyLogDetailWithAdoptResponseDTO.create(hopeValue), moneyLogDetail);
+    }
+
+    @Test
+    @DisplayName("충전관련 재화 로그 상세보기")
+    void getMoneyLogDetailWithCharge() {
+        // given
+        Long userSeq = 17L;
+        Long moneyLogSeq = 35L;
+
+        MoneyLogDetailWithChargeResVO hopeValue = new MoneyLogDetailWithChargeResVO();
+        hopeValue.setMoneyLogSeq(moneyLogSeq);
+        hopeValue.setUserSeq(userSeq);
+        hopeValue.setMoneyType("입금");
+        hopeValue.setMoney(BigDecimal.valueOf(50000));
+        hopeValue.setTotalMoney(BigDecimal.valueOf(375000));
+        hopeValue.setType("충전");
+        hopeValue.setCreatedAt("2023-11-27 06:57:00");
+        hopeValue.setChargeId("55f05654-d894-4912-bda0-8d4be74acfbc");
+
+        // when
+        when(moneyLogRepository.getMoneyLogType(any())).thenReturn("충전");
+        when(moneyLogRepository.getMoneyLogDetailWithCharge(any())).thenReturn(hopeValue);
+
+        // then
+        MoneyDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
+        assertEquals(MoneyLogDetailWithChargeResponseDTO.create(hopeValue), moneyLogDetail);
     }
 }

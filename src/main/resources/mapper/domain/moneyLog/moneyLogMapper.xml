@@ -45,4 +45,17 @@
         INNER JOIN abandoned_pet AP ON AP.seq = A.pet_seq
         WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
     </select>
+    <select id="getMoneyLogDetailWithCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithChargeResVO">
+        SELECT M.seq AS moneyLogSeq
+             , M.user_seq AS userSeq
+             , M.money_type AS moneyType
+             , M.money
+             , M.total_money AS totalMoney
+             , M.type
+             , M.created_at AS createdAt
+             , C.charge_id AS chargeId
+        FROM money_log M
+        INNER JOIN charge_log C ON C.seq = M.charge_log_seq
+        WHERE M.seq = ${moneyLogSeq} AND M.user_seq = #{userSeq};
+    </select>
 </mapper>
