@@ -2,16 +2,15 @@ package com.noint.shelterzoo.service.moneyLog;
 
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageParam;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyDetailDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithAdoptResponseDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithChargeResponseDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogListResponseDTO;
+import com.noint.shelterzoo.domain.moneyLog.dto.res.*;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
+import com.noint.shelterzoo.domain.moneyLog.exception.MoneyLogException;
 import com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO;
 import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithAdoptResVO;
 import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithChargeResVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithSupportResVO;
 import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import org.junit.jupiter.api.DisplayName;
@@ -24,8 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {MoneyLogService.class})
@@ -134,7 +132,7 @@ public class MoneyLogServiceUnitTest {
         when(moneyLogRepository.getMoneyLogDetailWithAdopt(any())).thenReturn(hopeValue);
 
         // then
-        MoneyDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
+        MoneyLogDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
         assertEquals(MoneyLogDetailWithAdoptResponseDTO.create(hopeValue), moneyLogDetail);
     }
 
@@ -160,7 +158,60 @@ public class MoneyLogServiceUnitTest {
         when(moneyLogRepository.getMoneyLogDetailWithCharge(any())).thenReturn(hopeValue);
 
         // then
-        MoneyDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
+        MoneyLogDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
         assertEquals(MoneyLogDetailWithChargeResponseDTO.create(hopeValue), moneyLogDetail);
+    }
+
+    @Test
+    @DisplayName("후원관련 재화 로그 상세보기")
+    void getMoneyLogDetailWithSupport() {
+        // given
+        Long userSeq = 17L;
+        Long moneyLogSeq = 42L;
+
+        MoneyLogDetailWithSupportResVO hopeValue = new MoneyLogDetailWithSupportResVO();
+        hopeValue.setMoneyLogSeq(moneyLogSeq);
+        hopeValue.setUserSeq(userSeq);
+        hopeValue.setMoneyType("입금");
+        hopeValue.setMoney(BigDecimal.valueOf(50000));
+        hopeValue.setTotalMoney(BigDecimal.valueOf(375000));
+        hopeValue.setType("후원");
+        hopeValue.setCreatedAt("2023-11-27 06:57:00");
+        hopeValue.setDisease("골절");
+        hopeValue.setPetThumbnail("http://www.animal.go.kr/files/shelter/2023/07/202310131710431_s.jpg");
+
+        // when
+        when(moneyLogRepository.getMoneyLogType(any())).thenReturn("후원");
+        when(moneyLogRepository.getMoneyLogDetailWithSupport(any())).thenReturn(hopeValue);
+
+        // then
+        MoneyLogDetailDTO moneyLogDetail = moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq);
+        assertEquals(MoneyLogDetailWithSupportResponseDTO.create(hopeValue), moneyLogDetail);
+    }
+
+    @Test
+    @DisplayName("재화 로그 상세보기 실패")
+    void getMoneyLogDetailFail() {
+        // given
+        Long userSeq = 17L;
+        Long moneyLogSeq = 42L;
+
+        MoneyLogDetailWithSupportResVO hopeValue = new MoneyLogDetailWithSupportResVO();
+        hopeValue.setMoneyLogSeq(moneyLogSeq);
+        hopeValue.setUserSeq(userSeq);
+        hopeValue.setMoneyType("입금");
+        hopeValue.setMoney(BigDecimal.valueOf(50000));
+        hopeValue.setTotalMoney(BigDecimal.valueOf(375000));
+        hopeValue.setType("후원");
+        hopeValue.setCreatedAt("2023-11-27 06:57:00");
+        hopeValue.setDisease("골절");
+        hopeValue.setPetThumbnail("http://www.animal.go.kr/files/shelter/2023/07/202310131710431_s.jpg");
+
+        // when
+        when(moneyLogRepository.getMoneyLogType(any())).thenReturn("기부");
+        when(moneyLogRepository.getMoneyLogDetailWithSupport(any())).thenReturn(hopeValue);
+
+        // then
+        assertThrows(MoneyLogException.class, () -> moneyLogService.getMoneyLogDetail(userSeq, moneyLogSeq));
     }
 }

@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MoneyLogDetailWithChargeResponseDTO extends MoneyDetailDTO {
+public class MoneyLogDetailWithChargeResponseDTO extends MoneyLogDetailDTO {
     private String chargeId;
 
     public static MoneyLogDetailWithChargeResponseDTO create(MoneyLogDetailWithChargeResVO vo) {

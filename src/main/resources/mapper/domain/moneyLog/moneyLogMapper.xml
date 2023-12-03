@@ -56,6 +56,22 @@
              , C.charge_id AS chargeId
         FROM money_log M
         INNER JOIN charge_log C ON C.seq = M.charge_log_seq
-        WHERE M.seq = ${moneyLogSeq} AND M.user_seq = #{userSeq};
+        WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
+    </select>
+    <select id="getMoneyLogDetailWithSupport" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithSupportResVO">
+        SELECT M.seq AS moneyLogSeq
+             , M.user_seq AS userSeq
+             , M.money_type AS moneyType
+             , M.money
+             , M.total_money AS totalMoney
+             , M.type
+             , M.created_at AS createdAt
+             , SP.disease
+             , AP.thumbnail
+        FROM money_log M
+        INNER JOIN support_log SL ON SL.seq = M.support_log_seq
+        INNER JOIN support_pet SP ON SP.seq = SL.support_seq
+        INNER JOIN abandoned_pet AP ON AP.seq = SP.pet_seq
+        WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
     </select>
 </mapper>

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class MoneyDetailDTO {
+public class MoneyLogDetailDTO {
     private Long moneyLogSeq;
     private Long userSeq;
     private String moneyType;

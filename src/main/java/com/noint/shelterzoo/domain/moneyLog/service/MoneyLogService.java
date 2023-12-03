@@ -3,10 +3,7 @@ package com.noint.shelterzoo.domain.moneyLog.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageParam;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyDetailDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithAdoptResponseDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogDetailWithChargeResponseDTO;
-import com.noint.shelterzoo.domain.moneyLog.dto.res.MoneyLogListResponseDTO;
+import com.noint.shelterzoo.domain.moneyLog.dto.res.*;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyLogExceptionEnum;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyUpdatePurpose;
 import com.noint.shelterzoo.domain.moneyLog.exception.MoneyLogException;
@@ -39,14 +36,14 @@ public class MoneyLogService {
         return MoneyLogListResponseDTO.create(moneyLogList);
     }
 
-    public MoneyDetailDTO getMoneyLogDetail(Long userSeq, Long moneyLogSeq) {
+    public MoneyLogDetailDTO getMoneyLogDetail(Long userSeq, Long moneyLogSeq) {
         MoneyLogDetailRequestVO voRequest = MoneyLogDetailRequestVO.create(userSeq, moneyLogSeq);
         String logType = moneyLogRepository.getMoneyLogType(voRequest);
         switch (MoneyUpdatePurpose.findEnumByStr(logType)) {
             case CHARGE:
                 return MoneyLogDetailWithChargeResponseDTO.create(moneyLogRepository.getMoneyLogDetailWithCharge(voRequest));
-//            case SUPPORT:
-//                return MoneyLogDetailWithChargeResponseDTO.create(moneyLogRepository.getMoneyLogDetailWithCharge(voRequest));
+            case SUPPORT:
+                return MoneyLogDetailWithSupportResponseDTO.create(moneyLogRepository.getMoneyLogDetailWithSupport(voRequest));
             case ADOPT_PAYBACK:
             case ADOPT_RESERVATION:
                 return MoneyLogDetailWithAdoptResponseDTO.create(moneyLogRepository.getMoneyLogDetailWithAdopt(voRequest));
