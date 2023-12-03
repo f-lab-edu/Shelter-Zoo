@@ -1,7 +1,7 @@
 package com.noint.shelterzoo.domain.moneyLog.vo.req;
 
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyLogExceptionEnum;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.exception.MoneyLogException;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 public class MoneyLogInsertRequestVO {
     private Long userSeq;
-    private MoneyTypeEnum moneyTypeEnum;
+    private MoneyType moneyType;
     private BigDecimal money;
     private BigDecimal totalMoney;
     private MoneyUpdatePurposeEnum purposeEnum;
@@ -19,10 +19,10 @@ public class MoneyLogInsertRequestVO {
     private Long supportLogSeq;
     private Long chargeLogSeq;
 
-    public static MoneyLogInsertRequestVO create(Long userSeq, MoneyTypeEnum moneyTypeEnum, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurposeEnum purposeEnum, Long targetSeq) {
+    public static MoneyLogInsertRequestVO create(Long userSeq, MoneyType moneyType, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurposeEnum purposeEnum, Long targetSeq) {
         MoneyLogInsertRequestVO vo = new MoneyLogInsertRequestVO();
         vo.setUserSeq(userSeq);
-        vo.setMoneyTypeEnum(moneyTypeEnum);
+        vo.setMoneyType(moneyType);
         vo.setMoney(money);
         vo.setTotalMoney(totalMoney);
         vo.setPurposeEnum(purposeEnum);

@@ -1,6 +1,6 @@
 package com.noint.shelterzoo.service.moneyLog;
 
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
@@ -30,10 +30,10 @@ public class MoneyLogServiceUnitTest {
         Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
-        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
+        MoneyType moneyType = MoneyType.WITHDRAWAL;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
         Long targetTableSeq = 11L;
-        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
         doNothing().when(moneyLogRepository).addMoneyLogAboutAdopt(any());
@@ -52,10 +52,10 @@ public class MoneyLogServiceUnitTest {
         BigDecimal baseUserMoney = BigDecimal.valueOf(10000);
         BigDecimal chargeAmount = BigDecimal.valueOf(50000);
         BigDecimal totalMoney = baseUserMoney.add(chargeAmount);
-        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.DEPOSIT;
+        MoneyType moneyType = MoneyType.DEPOSIT;
         MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.CHARGE;
         Long targetTableSeq = 11L;
-        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
         doNothing().when(moneyLogRepository).addMoneyLogByCharge(any());
