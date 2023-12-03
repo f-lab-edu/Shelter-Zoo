@@ -26,6 +26,6 @@ logging:
     com:
       noint:
         shelterzoo:
-          domain:
-            abandoned:
-              repository: trace
+          domain: trace
+#            abandoned:
+#              repository: trace
