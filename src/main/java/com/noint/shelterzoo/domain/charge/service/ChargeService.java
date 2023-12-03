@@ -7,7 +7,7 @@ import com.noint.shelterzoo.domain.charge.repository.ChargeRepository;
 import com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO;
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
-import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
+import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO;
 import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class ChargeService {
         userService.updateUserMoney(userSeq, updateMoney);
         addChargeLog(chargeLogRequest);
         moneyLogService.addMoneyLogByCharge(
-                MoneyLogInsertRequestVO.create(userSeq, MoneyType.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurpose.CHARGE, chargeLogRequest.getSeq())
+                MoneyLogAddRequestVO.create(userSeq, MoneyType.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurpose.CHARGE, chargeLogRequest.getSeq())
         );
     }
 
