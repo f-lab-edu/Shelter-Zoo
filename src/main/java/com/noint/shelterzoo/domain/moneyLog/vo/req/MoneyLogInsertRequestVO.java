@@ -1,9 +1,9 @@
 package com.noint.shelterzoo.domain.moneyLog.vo.req;
 
 import com.noint.shelterzoo.domain.moneyLog.enums.MoneyLogExceptionEnum;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.exception.MoneyLogException;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,18 +11,18 @@ import java.math.BigDecimal;
 @Data
 public class MoneyLogInsertRequestVO {
     private Long userSeq;
-    private MoneyTypeEnum moneyTypeEnum;
+    private MoneyType moneyType;
     private BigDecimal money;
     private BigDecimal totalMoney;
-    private MoneyUpdatePurposeEnum purposeEnum;
+    private MoneyUpdatePurpose purposeEnum;
     private Long adoptSeq;
     private Long supportLogSeq;
     private Long chargeLogSeq;
 
-    public static MoneyLogInsertRequestVO create(Long userSeq, MoneyTypeEnum moneyTypeEnum, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurposeEnum purposeEnum, Long targetSeq) {
+    public static MoneyLogInsertRequestVO create(Long userSeq, MoneyType moneyType, BigDecimal money, BigDecimal totalMoney, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
         MoneyLogInsertRequestVO vo = new MoneyLogInsertRequestVO();
         vo.setUserSeq(userSeq);
-        vo.setMoneyTypeEnum(moneyTypeEnum);
+        vo.setMoneyType(moneyType);
         vo.setMoney(money);
         vo.setTotalMoney(totalMoney);
         vo.setPurposeEnum(purposeEnum);
@@ -31,7 +31,7 @@ public class MoneyLogInsertRequestVO {
         return vo;
     }
 
-    private static void matchTargetSeq(MoneyLogInsertRequestVO vo, MoneyUpdatePurposeEnum purposeEnum, Long targetSeq) {
+    private static void matchTargetSeq(MoneyLogInsertRequestVO vo, MoneyUpdatePurpose purposeEnum, Long targetSeq) {
         switch (purposeEnum) {
             case CHARGE:
                 vo.setChargeLogSeq(targetSeq);

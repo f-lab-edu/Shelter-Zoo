@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MoneyTypeEnum {
+public enum MoneyType {
     DEPOSIT("입금"),
     WITHDRAWAL("출금"),
     ;

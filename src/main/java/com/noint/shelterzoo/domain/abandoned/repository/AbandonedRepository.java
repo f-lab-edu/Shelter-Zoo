@@ -16,17 +16,17 @@ import java.util.List;
 public interface AbandonedRepository {
     List<AbandonedListResponseVO> getAbandonedList(AbandonedListRequestVO params);
 
-    AbandonedDetailResponseVO abandonedPetDetail(Long petSeq);
+    AbandonedDetailResponseVO getAbandonedPetDetail(Long petSeq);
 
     boolean isAdoptAble(Long petSeq);
 
-    void adoptPetForReservation(AdoptReservationRequestVO params);
+    void reservationPet(AdoptReservationRequestVO params);
 
-    void adoptProcessUpdate(AdoptProcessUpdateRequestVO params);
+    void updateAdoptProcess(AdoptProcessUpdateRequestVO params);
 
     ReservationCheckResponseVO isReservationPet(AdoptUpdateRequestVO params);
 
-    void adoptPetUpdate(AdoptUpdateRequestVO params);
+    void updateAdoptPet(AdoptUpdateRequestVO params);
 
     AdoptCancelDateDiffResponseVO getDateDiffFromNow(AdoptUpdateRequestVO params);
 }

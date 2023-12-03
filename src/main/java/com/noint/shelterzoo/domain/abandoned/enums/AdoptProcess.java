@@ -8,17 +8,17 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum AdoptProcessEnum {
+public enum AdoptProcess {
     RESERVATION("예약"),
     CANCEL("취소"),
     ADOPTED("입양"),
     ;
     private final String stateStr;
 
-    public static AdoptProcessEnum findEnumByStateStr(String state) {
-        return Arrays.stream(AdoptProcessEnum.values())
+    public static AdoptProcess findEnumByStateStr(String state) {
+        return Arrays.stream(AdoptProcess.values())
                 .filter(e -> state.equals(e.getStateStr()))
                 .findAny()
-                .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_ADOPT_PROCESS));
+                .orElseThrow(() -> new AbandonedException(AbandonedExceptionBody.UNKNOWN_ADOPT_PROCESS));
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository">
-    <insert id="insertLogAboutAdopt" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO">
+    <insert id="addMoneyLogAboutAdopt" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO">
         INSERT INTO money_log(user_seq, money_type, money, total_money, type, adopt_seq)
-        VALUE(#{userSeq}, #{moneyTypeEnum.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{adoptSeq});
+        VALUE(#{userSeq}, #{moneyType.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{adoptSeq});
     </insert>
-    <insert id="insertLogByCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO">
+    <insert id="addMoneyLogByCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO">
         INSERT INTO money_log(user_seq, money_type, money, total_money, type, charge_log_seq)
-            VALUE(#{userSeq}, #{moneyTypeEnum.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{chargeLogSeq});
+            VALUE(#{userSeq}, #{moneyType.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{chargeLogSeq});
     </insert>
 </mapper>

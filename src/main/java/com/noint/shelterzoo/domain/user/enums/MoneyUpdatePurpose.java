@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum MoneyUpdatePurposeEnum {
+public enum MoneyUpdatePurpose {
     ADOPT_RESERVATION("예약보증"),
     ADOPT_PAYBACK("보증반환"),
     CHARGE("충전"),

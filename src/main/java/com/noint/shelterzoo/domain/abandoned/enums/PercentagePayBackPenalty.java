@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @RequiredArgsConstructor
-public enum AdoptCancelPayBackPenaltyEnum {
+public enum PercentagePayBackPenalty {
     DAY5(BigDecimal.valueOf(0.8)),
     DAY3(BigDecimal.valueOf(0.5)),
     DAY1(BigDecimal.valueOf(0.2)),
@@ -15,7 +15,7 @@ public enum AdoptCancelPayBackPenaltyEnum {
 
     private final BigDecimal percent;
 
-    public static BigDecimal payBackWithPenalty(BigDecimal reservation, AdoptCancelPayBackPenaltyEnum penaltyEnum) {
-        return reservation.multiply(penaltyEnum.percent);
+    public static BigDecimal payBackWithPenalty(BigDecimal reservation, PercentagePayBackPenalty percentage) {
+        return reservation.multiply(percentage.percent);
     }
 }

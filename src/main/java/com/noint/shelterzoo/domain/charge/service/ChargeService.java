@@ -1,14 +1,14 @@
 package com.noint.shelterzoo.domain.charge.service;
 
 import com.noint.shelterzoo.domain.charge.dto.req.ChargeMoneyRequestDTO;
-import com.noint.shelterzoo.domain.charge.enums.ChargeExceptionEnum;
+import com.noint.shelterzoo.domain.charge.enums.ChargeExceptionBody;
 import com.noint.shelterzoo.domain.charge.exception.ChargeException;
 import com.noint.shelterzoo.domain.charge.repository.ChargeRepository;
 import com.noint.shelterzoo.domain.charge.vo.req.ChargeLogRequestVO;
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import com.noint.shelterzoo.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,15 +29,15 @@ public class ChargeService {
     public void chargeMoney(Long userSeq, ChargeMoneyRequestDTO request) {
         if (isDuplicateChargeId(request.getChargeId())) {
             log.warn("충전 실패 - ChargeId 중복, params : {userSeq : {}, request : {}}", userSeq, request);
-            throw new ChargeException(ChargeExceptionEnum.DUPLICATE_CHARGE_ID);
+            throw new ChargeException(ChargeExceptionBody.DUPLICATE_CHARGE_ID);
         }
-        BigDecimal baseUserMoney = userService.getUserMoney(userSeq);
+        BigDecimal baseUserMoney = userService.getUserMoneyForUpdate(userSeq);
         BigDecimal updateMoney = baseUserMoney.add(request.getChargeAmount());
         ChargeLogRequestVO chargeLogRequest = ChargeLogRequestVO.create(userSeq, updateMoney, request);
         userService.updateUserMoney(userSeq, updateMoney);
-        insertChargeLog(chargeLogRequest);
-        moneyLogService.insertLogByCharge(
-                MoneyLogInsertRequestVO.create(userSeq, MoneyTypeEnum.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurposeEnum.CHARGE, chargeLogRequest.getSeq())
+        addChargeLog(chargeLogRequest);
+        moneyLogService.addMoneyLogByCharge(
+                MoneyLogInsertRequestVO.create(userSeq, MoneyType.DEPOSIT, request.getChargeAmount(), updateMoney, MoneyUpdatePurpose.CHARGE, chargeLogRequest.getSeq())
         );
     }
 
@@ -45,7 +45,7 @@ public class ChargeService {
         return chargeRepository.countChargeId(chargeId) > 0;
     }
 
-    private void insertChargeLog(ChargeLogRequestVO request) {
-        chargeRepository.insertChargeLog(request);
+    private void addChargeLog(ChargeLogRequestVO request) {
+        chargeRepository.addChargeLog(request);
     }
 }

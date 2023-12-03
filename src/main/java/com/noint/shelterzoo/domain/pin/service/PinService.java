@@ -2,9 +2,9 @@ package com.noint.shelterzoo.domain.pin.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.noint.shelterzoo.domain.pin.dto.req.PinListRequestDTO;
+import com.github.pagehelper.PageParam;
 import com.noint.shelterzoo.domain.pin.dto.res.PinListResponseDTO;
-import com.noint.shelterzoo.domain.pin.enums.PinExceptionEnum;
+import com.noint.shelterzoo.domain.pin.enums.PinExceptionBody;
 import com.noint.shelterzoo.domain.pin.exception.PinException;
 import com.noint.shelterzoo.domain.pin.repository.PinRepository;
 import com.noint.shelterzoo.domain.pin.vo.req.PinListRequestVO;
@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -21,22 +22,23 @@ import org.springframework.stereotype.Service;
 public class PinService {
     private final PinRepository pinRepository;
 
-    public void pinUp(Long userSeq, Long petSeq) {
+    @Transactional
+    public void addPin(Long userSeq, Long petSeq) {
         try {
-            pinRepository.pinUp(PinUpRequestVO.create(userSeq, petSeq));
+            pinRepository.addPin(PinUpRequestVO.create(userSeq, petSeq));
         } catch (DataIntegrityViolationException e) {
             log.warn("관심 동물 추가 실패 : params : {userSeq : {}, petSeq : {}}", userSeq, petSeq);
-            throw new PinException(PinExceptionEnum.DUPLICATED_PIN);
+            throw new PinException(PinExceptionBody.DUPLICATED_PIN);
         }
     }
 
-    public void pinUpDel(Long userSeq, Long petSeq) {
-        pinRepository.pinUpDel(PinUpRequestVO.create(userSeq, petSeq));
+    public void delPin(Long userSeq, Long petSeq) {
+        pinRepository.delPin(PinUpRequestVO.create(userSeq, petSeq));
     }
 
-    public PageInfo<PinListResponseDTO> getPinupList(Long userSeq, PinListRequestDTO request) {
+    public PageInfo<PinListResponseDTO> getPinList(Long userSeq, PageParam request) {
         PageInfo<PinListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize())
-                .doSelectPageInfo(() -> pinRepository.getPinupList(PinListRequestVO.create(userSeq, request)));
+                .doSelectPageInfo(() -> pinRepository.getPinList(PinListRequestVO.create(userSeq, request)));
         return PinListResponseDTO.create(petsPageInfo);
     }
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface PinRepository {
-    void pinUp(PinUpRequestVO params);
+    void addPin(PinUpRequestVO params);
 
-    void pinUpDel(PinUpRequestVO params);
+    void delPin(PinUpRequestVO params);
 
-    List<PinListResponseVO> getPinupList(PinListRequestVO params);
+    List<PinListResponseVO> getPinList(PinListRequestVO params);
 }

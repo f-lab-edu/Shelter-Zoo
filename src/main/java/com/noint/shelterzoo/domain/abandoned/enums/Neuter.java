@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum NeuterEnum {
+public enum Neuter {
     ALL("전체", "A"),
     TRUE("중성화", "Y"),
     FALSE("비중성화", "N"),
@@ -17,17 +17,17 @@ public enum NeuterEnum {
     private final String fullText;
     private final String initial;
 
-    public static NeuterEnum findEnumByFullText(String fullText) {
-        return Arrays.stream(NeuterEnum.values())
+    public static Neuter findEnumByFullText(String fullText) {
+        return Arrays.stream(Neuter.values())
                 .filter(e -> fullText.equals(e.getFullText()))
                 .findAny()
-                .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_NEUTER_ID));
+                .orElseThrow(() -> new AbandonedException(AbandonedExceptionBody.UNKNOWN_NEUTER_ID));
     }
 
-    public static NeuterEnum findEnumByInitial(String initial) {
-        return Arrays.stream(NeuterEnum.values())
+    public static Neuter findEnumByInitial(String initial) {
+        return Arrays.stream(Neuter.values())
                 .filter(e -> initial.equals(e.getInitial()))
                 .findAny()
-                .orElseThrow(() -> new AbandonedException(AbandonedExceptionEnum.UNKNOWN_NEUTER_ID));
+                .orElseThrow(() -> new AbandonedException(AbandonedExceptionBody.UNKNOWN_NEUTER_ID));
     }
 }

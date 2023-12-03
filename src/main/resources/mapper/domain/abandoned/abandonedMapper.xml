@@ -32,7 +32,7 @@
         ORDER BY A.seq DESC
        <!-- LIMIT 0, #{pageSize} -->
     </select>
-    <select id="abandonedPetDetail" parameterType="long" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO">
+    <select id="getAbandonedPetDetail" parameterType="long" resultType="com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO">
         SELECT A.seq
              , A.happen_place  AS happenPlace
              , A.kind
@@ -58,12 +58,12 @@
         FROM abandoned_pet
         WHERE seq = #{petSeq} AND adopt_process IS NULL FOR UPDATE;
     </select>
-    <insert id="adoptPetForReservation" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO"
+    <insert id="reservationPet" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptReservationRequestVO"
             useGeneratedKeys="true" keyProperty="seq">
         INSERT INTO adopt(user_seq, pet_seq, state, visit_at)
         VALUE(#{userSeq}, #{petSeq}, #{adoptProcess.stateStr}, #{visitDate});
     </insert>
-    <update id="adoptProcessUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO">
+    <update id="updateAdoptProcess" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptProcessUpdateRequestVO">
         UPDATE abandoned_pet
         <set>
             <if test="adoptProcess.stateStr == '취소'">
@@ -83,7 +83,7 @@
         ORDER BY seq DESC
         LIMIT 1;
     </select>
-    <update id="adoptPetUpdate" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO">
+    <update id="updateAdoptPet" parameterType="com.noint.shelterzoo.domain.abandoned.vo.req.AdoptUpdateRequestVO">
         UPDATE adopt
         SET state = #{adoptProcess.stateStr}, update_at = NOW()
         WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq}

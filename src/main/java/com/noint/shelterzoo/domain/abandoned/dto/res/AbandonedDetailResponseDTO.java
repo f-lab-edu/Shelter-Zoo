@@ -1,7 +1,7 @@
 package com.noint.shelterzoo.domain.abandoned.dto.res;
 
-import com.noint.shelterzoo.domain.abandoned.enums.GenderEnum;
-import com.noint.shelterzoo.domain.abandoned.enums.NeuterEnum;
+import com.noint.shelterzoo.domain.abandoned.enums.PetGender;
+import com.noint.shelterzoo.domain.abandoned.enums.Neuter;
 import com.noint.shelterzoo.domain.abandoned.vo.res.AbandonedDetailResponseVO;
 import lombok.Data;
 
@@ -34,8 +34,8 @@ public class AbandonedDetailResponseDTO {
         dto.setBirth(vo.getBirth());
         dto.setWeight(vo.getWeight());
         dto.setNoticeEnd(vo.getNoticeEnd());
-        dto.setGender(GenderEnum.findEnumByInitial(vo.getGender()).getFullText());
-        dto.setNeuter(NeuterEnum.findEnumByInitial(vo.getNeuter()).getFullText());
+        dto.setGender(PetGender.findEnumByInitial(vo.getGender()).getFullText());
+        dto.setNeuter(Neuter.findEnumByInitial(vo.getNeuter()).getFullText());
         dto.setSpecialMark(vo.getSpecialMark());
         dto.setImg(vo.getImg());
         dto.setAdoptProcess(vo.getAdoptProcess());
