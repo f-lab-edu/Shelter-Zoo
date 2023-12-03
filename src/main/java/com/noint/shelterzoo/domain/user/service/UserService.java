@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -32,6 +33,7 @@ public class UserService {
     private final static String PASSWORD_REG = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
     private final static int EMAIL_MAX_LENGTH = 30;
 
+    @Transactional
     public void addUser(SignupRequestDTO request) {
         String password = request.getPassword();
         if (!regexMatcher(PASSWORD_REG, password)) {
@@ -105,6 +107,7 @@ public class UserService {
         return MyInfoResponseDTO.create(userRepository.getUserInfo(email));
     }
 
+    @Transactional
     public void resign(Long userSeq) {
         userRepository.updateUserState(ResignRequestVO.create(userSeq));
     }

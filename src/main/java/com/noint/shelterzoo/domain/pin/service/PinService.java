@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 public class PinService {
     private final PinRepository pinRepository;
 
+    @Transactional
     public void addPin(Long userSeq, Long petSeq) {
         try {
             pinRepository.addPin(PinUpRequestVO.create(userSeq, petSeq));
