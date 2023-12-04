@@ -17,6 +17,8 @@ public interface MoneyLogRepository {
 
     void addMoneyLogByCharge(MoneyLogAddRequestVO params);
 
+    void addMoneyLogBySupport(MoneyLogAddRequestVO params);
+
     List<MoneyLogListResponseVO> getMoneyLogList(MoneyLogListRequestVO params);
 
     String getMoneyLogType(MoneyLogDetailRequestVO params);
