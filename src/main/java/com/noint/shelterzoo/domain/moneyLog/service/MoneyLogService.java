@@ -30,6 +30,10 @@ public class MoneyLogService {
         moneyLogRepository.addMoneyLogByCharge(request);
     }
 
+    public void addMoneyLogBySupport(MoneyLogAddRequestVO requestVO) {
+        moneyLogRepository.addMoneyLogBySupport(requestVO);
+    }
+
     public PageInfo<MoneyLogListResponseDTO> getMoneyLogList(Long userSeq, PageParam request) {
         PageInfo<MoneyLogListResponseVO> moneyLogList = PageHelper.startPage(request.getPageNum(), request.getPageSize())
                 .doSelectPageInfo(() -> moneyLogRepository.getMoneyLogList(MoneyLogListRequestVO.create(userSeq, request)));
