@@ -32,9 +32,7 @@ logging:
     com:
       noint:
         shelterzoo:
-          domain:
-            abandoned:
-              repository: trace
+          domain: trace
 
 ---
 server:
