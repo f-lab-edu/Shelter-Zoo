@@ -1,10 +1,10 @@
 package com.noint.shelterzoo.service.moneyLog;
 
-import com.noint.shelterzoo.domain.moneyLog.enums.MoneyTypeEnum;
+import com.noint.shelterzoo.domain.moneyLog.enums.MoneyType;
 import com.noint.shelterzoo.domain.moneyLog.repository.MoneyLogRepository;
 import com.noint.shelterzoo.domain.moneyLog.service.MoneyLogService;
 import com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogInsertRequestVO;
-import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurposeEnum;
+import com.noint.shelterzoo.domain.user.enums.MoneyUpdatePurpose;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +30,18 @@ public class MoneyLogServiceUnitTest {
         Long userSeq = 17L;
         BigDecimal totalMoney = BigDecimal.valueOf(50000);
         BigDecimal amount = BigDecimal.valueOf(50000);
-        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.WITHDRAWAL;
-        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.ADOPT_RESERVATION;
+        MoneyType moneyType = MoneyType.WITHDRAWAL;
+        MoneyUpdatePurpose purposeEnum = MoneyUpdatePurpose.ADOPT_RESERVATION;
         Long targetTableSeq = 11L;
-        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, amount, totalMoney, purposeEnum, targetTableSeq);
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, amount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).insertLogAboutAdopt(any());
+        doNothing().when(moneyLogRepository).addMoneyLogAboutAdopt(any());
 
         // then
-        moneyLogService.insertLogAboutAdopt(request);
+        moneyLogService.addMoneyLogAboutAdopt(request);
 
-        verify(moneyLogRepository, times(1)).insertLogAboutAdopt(request);
+        verify(moneyLogRepository, times(1)).addMoneyLogAboutAdopt(request);
     }
 
     @Test
@@ -52,16 +52,16 @@ public class MoneyLogServiceUnitTest {
         BigDecimal baseUserMoney = BigDecimal.valueOf(10000);
         BigDecimal chargeAmount = BigDecimal.valueOf(50000);
         BigDecimal totalMoney = baseUserMoney.add(chargeAmount);
-        MoneyTypeEnum moneyTypeEnum = MoneyTypeEnum.DEPOSIT;
-        MoneyUpdatePurposeEnum purposeEnum = MoneyUpdatePurposeEnum.CHARGE;
+        MoneyType moneyType = MoneyType.DEPOSIT;
+        MoneyUpdatePurpose purposeEnum = MoneyUpdatePurpose.CHARGE;
         Long targetTableSeq = 11L;
-        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyTypeEnum, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
+        MoneyLogInsertRequestVO request = MoneyLogInsertRequestVO.create(userSeq, moneyType, chargeAmount, totalMoney, purposeEnum, targetTableSeq);
 
         // when
-        doNothing().when(moneyLogRepository).insertLogByCharge(any());
+        doNothing().when(moneyLogRepository).addMoneyLogByCharge(any());
 
         // then
-        moneyLogService.insertLogByCharge(request);
-        verify(moneyLogRepository, times(1)).insertLogByCharge(request);
+        moneyLogService.addMoneyLogByCharge(request);
+        verify(moneyLogRepository, times(1)).addMoneyLogByCharge(request);
     }
 }

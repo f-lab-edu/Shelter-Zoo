@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.noint.shelterzoo.domain.pin.repository.PinRepository">
-    <insert id="pinUp" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
+    <insert id="addPin" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
         INSERT INTO pin_up(user_seq, pet_seq)
         VALUES (#{userSeq}, #{petSeq});
     </insert>
-    <delete id="pinUpDel" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
+    <delete id="delPin" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinUpRequestVO">
         DELETE
         FROM pin_up
         WHERE user_seq = #{userSeq} AND pet_seq = #{petSeq};
     </delete>
-    <select id="getPinupList" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinListRequestVO" resultType="com.noint.shelterzoo.domain.pin.vo.res.PinListResponseVO">
+    <select id="getPinList" parameterType="com.noint.shelterzoo.domain.pin.vo.req.PinListRequestVO" resultType="com.noint.shelterzoo.domain.pin.vo.res.PinListResponseVO">
         SELECT AA.seq
              , AA.thumbnail
              , AA.kind

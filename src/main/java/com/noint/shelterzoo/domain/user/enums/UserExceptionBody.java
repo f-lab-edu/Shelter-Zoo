@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserExceptionEnum implements ExceptionEnum {
+public enum UserExceptionBody implements ExceptionEnum {
     EMAIL_DUPLICATE(400, "중복된 이메일"),
     EMAIL_INVALID(400, "이메일 유효성 검사 실패"),
     NICKNAME_DUPLICATE(400, "중복된 닉네임"),

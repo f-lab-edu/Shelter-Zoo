@@ -18,18 +18,18 @@ public class UserController {
     private final HttpSession session;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Void> signup(@RequestBody SignupRequestDTO request) {
-        userService.signup(request);
+    public ResponseEntity<Void> addUser(@RequestBody SignupRequestDTO request) {
+        userService.addUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/check/email/{email}")
-    public ResponseEntity<Boolean> emailDuplicateCheck(@PathVariable String email) {
+    public ResponseEntity<Boolean> validateEmail(@PathVariable String email) {
         return new ResponseEntity<>(userService.isExistEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/check/nickname/{nickname}")
-    public ResponseEntity<Boolean> nicknameDuplicateCheck(@PathVariable String nickname) {
+    public ResponseEntity<Boolean> validateNickname(@PathVariable String nickname) {
         return new ResponseEntity<>(userService.isExistNickname(nickname), HttpStatus.OK);
     }
 
@@ -45,9 +45,9 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MyInfoResponseDTO> myInfo() {
+    public ResponseEntity<MyInfoResponseDTO> getUserInfo() {
         String email = (String) session.getAttribute("userEmail");
-        return new ResponseEntity<>(userService.myInfo(email), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserInfo(email), HttpStatus.OK);
     }
 
     @PutMapping("/resign")

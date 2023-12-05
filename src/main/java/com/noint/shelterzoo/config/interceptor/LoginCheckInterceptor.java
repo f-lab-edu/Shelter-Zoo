@@ -1,6 +1,6 @@
 package com.noint.shelterzoo.config.interceptor;
 
-import com.noint.shelterzoo.domain.user.enums.UserExceptionEnum;
+import com.noint.shelterzoo.domain.user.enums.UserExceptionBody;
 import com.noint.shelterzoo.domain.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         Object seq = session.getAttribute("userSeq");
         if (ObjectUtils.isEmpty(seq)) {
             log.warn("로그인 정보 없음.");
-            throw new UserException(UserExceptionEnum.LOGIN_INFO_EMPTY);
+            throw new UserException(UserExceptionBody.LOGIN_INFO_EMPTY);
         }
         return true;
     }
