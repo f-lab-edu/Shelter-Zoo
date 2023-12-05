@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noint.shelterzoo.domain.support.repository.SupportRepository">
+    <select id="getSupportPetList" parameterType="com.noint.shelterzoo.domain.support.vo.req.SupportPetListRequestVO" resultType="com.noint.shelterzoo.domain.support.vo.res.SupportPetListResponseVO">
+        SELECT S.seq             AS supportPetSeq
+             , S.pet_seq         AS petSeq
+             , S.required_money  AS requiredMoney
+             , S.supported_money AS supportedMoney
+             , S.disease
+             , S.created_at      AS createdAt
+             , A.kind
+             , A.kind_detail     AS kindDetail
+             , A.birth
+             , A.thumbnail
+        FROM support_pet S
+        INNER JOIN abandoned_pet A ON A.seq = S.pet_seq
+        WHERE S.complate_at IS NULL
+        ORDER BY S.seq DESC
+    </select>
+</mapper>
