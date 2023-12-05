@@ -65,7 +65,7 @@ public class MoneyLogListResponseDTO {
         dto.setAdoptSeq(vo.getAdoptSeq());
         dto.setSupportLogSeq(vo.getSupportLogSeq());
         dto.setChargeLogSeq(vo.getChargeLogSeq());
-        dto.setCreateAt(vo.getCreateAt());
+        dto.setCreateAt(vo.getCreatedAt());
 
         return dto;
     }

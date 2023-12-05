@@ -19,9 +19,59 @@
              , adopt_seq AS adoptSeq
              , support_log_seq AS supportLogSeq
              , charge_log_seq AS chargeLogSeq
-             , created_at AS createAt
+             , created_at AS createdAt
         FROM money_log
         WHERE user_seq = #{userSeq}
         ORDER BY seq DESC
+    </select>
+    <select id="getMoneyLogType" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="string">
+        SELECT type
+        FROM money_log
+        WHERE seq = #{moneyLogSeq} AND user_seq = #{userSeq}
+    </select>
+    <select id="getMoneyLogDetailWithAdopt" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithAdoptResVO">
+        SELECT M.seq AS moneyLogSeq
+             , M.user_seq AS userSeq
+             , M.money_type AS moneyType
+             , M.money
+             , M.total_money AS totalMoney
+             , M.type
+             , M.created_at AS createdAt
+             , A.state AS adoptState
+             , AP.seq AS petSeq
+             , AP.thumbnail AS petThumbnail
+        FROM money_log M
+        INNER JOIN adopt A ON A.seq = M.adopt_seq
+        INNER JOIN abandoned_pet AP ON AP.seq = A.pet_seq
+        WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
+    </select>
+    <select id="getMoneyLogDetailWithCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithChargeResVO">
+        SELECT M.seq AS moneyLogSeq
+             , M.user_seq AS userSeq
+             , M.money_type AS moneyType
+             , M.money
+             , M.total_money AS totalMoney
+             , M.type
+             , M.created_at AS createdAt
+             , C.charge_id AS chargeId
+        FROM money_log M
+        INNER JOIN charge_log C ON C.seq = M.charge_log_seq
+        WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
+    </select>
+    <select id="getMoneyLogDetailWithSupport" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogDetailRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogDetailWithSupportResVO">
+        SELECT M.seq AS moneyLogSeq
+             , M.user_seq AS userSeq
+             , M.money_type AS moneyType
+             , M.money
+             , M.total_money AS totalMoney
+             , M.type
+             , M.created_at AS createdAt
+             , SP.disease
+             , AP.thumbnail
+        FROM money_log M
+        INNER JOIN support_log SL ON SL.seq = M.support_log_seq
+        INNER JOIN support_pet SP ON SP.seq = SL.support_seq
+        INNER JOIN abandoned_pet AP ON AP.seq = SP.pet_seq
+        WHERE M.seq = #{moneyLogSeq} AND M.user_seq = #{userSeq}
     </select>
 </mapper>
