@@ -15,6 +15,7 @@ import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -34,12 +35,14 @@ public class MoneyLogService {
         moneyLogRepository.addMoneyLogBySupport(requestVO);
     }
 
+    @Transactional(readOnly = true)
     public PageInfo<MoneyLogListResponseDTO> getMoneyLogList(Long userSeq, PageParam request) {
         PageInfo<MoneyLogListResponseVO> moneyLogList = PageHelper.startPage(request.getPageNum(), request.getPageSize())
                 .doSelectPageInfo(() -> moneyLogRepository.getMoneyLogList(MoneyLogListRequestVO.create(userSeq, request)));
         return MoneyLogListResponseDTO.create(moneyLogList);
     }
 
+    @Transactional(readOnly = true)
     public MoneyLogDetailDTO getMoneyLogDetail(Long userSeq, Long moneyLogSeq) {
         MoneyLogDetailRequestVO voRequest = MoneyLogDetailRequestVO.create(userSeq, moneyLogSeq);
         String logType = moneyLogRepository.getMoneyLogType(voRequest);
