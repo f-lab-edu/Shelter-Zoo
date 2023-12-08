@@ -4,10 +4,16 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:mysql://localhost:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: admin
-    password: admin
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    master:
+      url: jdbc:mysql://172.24.76.215:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: admin
+      password: admin
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      url: jdbc:mysql://127.0.0.1:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: admin
+      password: admin
+      driver-class-name: com.mysql.cj.jdbc.Driver
 server:
   port: 8080
 pagehelper:

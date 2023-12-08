@@ -51,8 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/resign")
-    public ResponseEntity<Void> resign() {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> resign(@RequestAttribute("userSeq") Long userSeq) {
         userService.resign(userSeq);
         session.invalidate();
         return ResponseEntity.noContent().build();

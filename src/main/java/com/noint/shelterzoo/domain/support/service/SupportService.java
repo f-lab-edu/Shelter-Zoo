@@ -33,6 +33,7 @@ public class SupportService {
     private final UserService userService;
     private final MoneyLogService moneyLogService;
 
+    @Transactional(readOnly = true)
     public PageInfo<SupportPetListResponseDTO> getSupportPetList(PageParam request) {
         PageInfo<SupportPetListResponseVO> pageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize())
                 .doSelectPageInfo(() -> supportRepository.getSupportPetList(SupportPetListRequestVO.create(request)));
