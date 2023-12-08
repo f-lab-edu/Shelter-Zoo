@@ -19,22 +19,19 @@ public class PinController {
 
 
     @PostMapping("/pins/pets/{petSeq}")
-    public ResponseEntity<Void> addPin(@PathVariable Long petSeq) {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> addPin(@RequestAttribute("userSeq") Long userSeq, @PathVariable Long petSeq) {
         pinService.addPin(userSeq, petSeq);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/pins/pets/{petSeq}")
-    public ResponseEntity<Void> delPin(@PathVariable Long petSeq) {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> delPin(@RequestAttribute("userSeq") Long userSeq, @PathVariable Long petSeq) {
         pinService.delPin(userSeq, petSeq);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/pins/pets")
-    public ResponseEntity<PageInfo<PinListResponseDTO>> getPinList(@ModelAttribute PageParam request) {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<PageInfo<PinListResponseDTO>> getPinList(@RequestAttribute("userSeq") Long userSeq, @ModelAttribute PageParam request) {
         return new ResponseEntity<>(pinService.getPinList(userSeq, request), HttpStatus.OK);
     }
 }
