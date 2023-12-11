@@ -7,7 +7,11 @@
     </insert>
     <insert id="addMoneyLogByCharge" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO">
         INSERT INTO money_log(user_seq, money_type, money, total_money, type, charge_log_seq)
-            VALUE(#{userSeq}, #{moneyType.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{chargeLogSeq});
+        VALUE(#{userSeq}, #{moneyType.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{chargeLogSeq});
+    </insert>
+    <insert id="addMoneyLogBySupport" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogAddRequestVO">
+        INSERT INTO money_log(user_seq, money_type, money, total_money, type, support_log_seq)
+        VALUE(#{userSeq}, #{moneyType.typeStr}, #{money}, #{totalMoney}, #{purposeEnum.purposeStr}, #{supportLogSeq});
     </insert>
     <select id="getMoneyLogList" parameterType="com.noint.shelterzoo.domain.moneyLog.vo.req.MoneyLogListRequestVO" resultType="com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO">
         SELECT seq AS moneyLogSeq
