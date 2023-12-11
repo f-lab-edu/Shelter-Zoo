@@ -33,5 +33,3 @@ logging:
       noint:
         shelterzoo:
           domain: trace
-#            abandoned:
-#              repository: trace
