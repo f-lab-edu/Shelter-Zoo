@@ -42,11 +42,13 @@ public class AbandonedService {
     private final MoneyLogService moneyLogService;
     private final static BigDecimal RESERVATION_AMOUNT = BigDecimal.valueOf(50000);
 
+    @Transactional(readOnly = true)
     public PageInfo<AbandonedListResponseDTO> getAbandonedList(Long userSeq, AbandonedListRequestDTO request) {
         PageInfo<AbandonedListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize()).doSelectPageInfo(() -> abandonedRepository.getAbandonedList(AbandonedListRequestVO.create(userSeq, request)));
         return AbandonedListResponseDTO.create(petsPageInfo);
     }
 
+    @Transactional(readOnly = true)
     public AbandonedDetailResponseDTO getAbandonedPetDetail(Long petSeq) {
         AbandonedDetailResponseVO abandonedDetail = abandonedRepository.getAbandonedPetDetail(petSeq);
         if (abandonedDetail == null) {

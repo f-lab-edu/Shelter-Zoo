@@ -1,7 +1,7 @@
-package com.noint.shelterzoo.domain.moneyLog.dto.res;
+package com.noint.shelterzoo.domain.support.dto.res;
 
 import com.github.pagehelper.PageInfo;
-import com.noint.shelterzoo.domain.moneyLog.vo.res.MoneyLogListResponseVO;
+import com.noint.shelterzoo.domain.support.vo.res.SupportPetListResponseVO;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -9,20 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class MoneyLogListResponseDTO {
-    private Long moneyLogSeq;
-    private Long userSeq;
-    private String moneyType;
-    private BigDecimal money;
-    private BigDecimal totalMoney;
-    private String type;
-    private Long adoptSeq;
-    private Long supportLogSeq;
-    private Long chargeLogSeq;
-    private String createAt;
+public class SupportPetListResponseDTO {
+    private Long supportPetSeq;
+    private Long petSeq;
+    private BigDecimal requiredMoney;
+    private BigDecimal remainingMoney;
+    private String disease;
+    private String createdAt;
+    private String kind;
+    private String kindDetail;
+    private String birth;
+    private String thumbnail;
 
-    public static PageInfo<MoneyLogListResponseDTO> create(PageInfo<MoneyLogListResponseVO> voPageInfo) {
-        PageInfo<MoneyLogListResponseDTO> dtoPageInfo = new PageInfo<>();
+    public static PageInfo<SupportPetListResponseDTO> create(PageInfo<SupportPetListResponseVO> voPageInfo) {
+        PageInfo<SupportPetListResponseDTO> dtoPageInfo = new PageInfo<>();
         dtoPageInfo.setList(create(voPageInfo.getList()));
         dtoPageInfo.setIsFirstPage(voPageInfo.isIsFirstPage());
         dtoPageInfo.setIsLastPage(voPageInfo.isIsLastPage());
@@ -46,8 +46,8 @@ public class MoneyLogListResponseDTO {
         return dtoPageInfo;
     }
 
-    public static List<MoneyLogListResponseDTO> create(List<MoneyLogListResponseVO> voList) {
-        List<MoneyLogListResponseDTO> dtoList = new ArrayList<>();
+    public static List<SupportPetListResponseDTO> create(List<SupportPetListResponseVO> voList) {
+        List<SupportPetListResponseDTO> dtoList = new ArrayList<>();
         for (var vo : voList) {
             dtoList.add(create(vo));
         }
@@ -55,17 +55,18 @@ public class MoneyLogListResponseDTO {
         return dtoList;
     }
 
-    public static MoneyLogListResponseDTO create(MoneyLogListResponseVO vo) {
-        MoneyLogListResponseDTO dto = new MoneyLogListResponseDTO();
-        dto.setMoneyLogSeq(vo.getMoneyLogSeq());
-        dto.setUserSeq(vo.getUserSeq());
-        dto.setMoneyType(vo.getMoneyType());
-        dto.setMoney(vo.getMoney());
-        dto.setTotalMoney(vo.getTotalMoney());
-        dto.setAdoptSeq(vo.getAdoptSeq());
-        dto.setSupportLogSeq(vo.getSupportLogSeq());
-        dto.setChargeLogSeq(vo.getChargeLogSeq());
-        dto.setCreateAt(vo.getCreatedAt());
+    public static SupportPetListResponseDTO create(SupportPetListResponseVO vo) {
+        SupportPetListResponseDTO dto = new SupportPetListResponseDTO();
+        dto.setSupportPetSeq(vo.getSupportPetSeq());
+        dto.setPetSeq(vo.getPetSeq());
+        dto.setRequiredMoney(vo.getRequiredMoney());
+        dto.setRemainingMoney(vo.getRequiredMoney().subtract(vo.getSupportedMoney()));
+        dto.setDisease(vo.getDisease());
+        dto.setCreatedAt(vo.getCreatedAt());
+        dto.setKind(vo.getKind());
+        dto.setKindDetail(vo.getKindDetail());
+        dto.setBirth(vo.getBirth());
+        dto.setThumbnail(vo.getThumbnail());
 
         return dto;
     }

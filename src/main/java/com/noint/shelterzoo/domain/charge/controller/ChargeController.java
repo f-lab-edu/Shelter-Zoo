@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +19,7 @@ public class ChargeController {
     private final HttpSession session;
 
     @PostMapping("/charge")
-    public ResponseEntity<Void> chargeMoney(@RequestBody ChargeMoneyRequestDTO request) {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> chargeMoney(@RequestAttribute("userSeq") Long userSeq, @RequestBody ChargeMoneyRequestDTO request) {
         chargeService.chargeMoney(userSeq, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
