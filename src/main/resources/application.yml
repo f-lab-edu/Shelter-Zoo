@@ -55,8 +55,8 @@ spring:
       on-profile: dev
   datasource:
     url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: admin
-    password: R7$fzeSIT<7#u.0IX
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: ${REDIS_URL}
@@ -73,3 +73,4 @@ pagehelper:
   auto-runtime-dialect: false
   close-conn: true
   default-count: true
+
