@@ -36,6 +36,7 @@ public class PinService {
         pinRepository.delPin(PinUpRequestVO.create(userSeq, petSeq));
     }
 
+    @Transactional(readOnly = true)
     public PageInfo<PinListResponseDTO> getPinList(Long userSeq, PageParam request) {
         PageInfo<PinListResponseVO> petsPageInfo = PageHelper.startPage(request.getPageNum(), request.getPageSize())
                 .doSelectPageInfo(() -> pinRepository.getPinList(PinListRequestVO.create(userSeq, request)));

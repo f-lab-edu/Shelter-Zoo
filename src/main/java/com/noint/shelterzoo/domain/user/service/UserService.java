@@ -81,6 +81,7 @@ public class UserService {
         return target.matches(regex);
     }
 
+    @Transactional(readOnly = true)
     public MyInfoResponseDTO login(LoginRequestDTO request) {
         String hashedPassword = userRepository.getPasswordByEmail(request.getEmail());
         if (!StringUtils.hasLength(hashedPassword)) {
@@ -103,6 +104,7 @@ public class UserService {
         return MyInfoResponseDTO.create(myInfo);
     }
 
+    @Transactional(readOnly = true)
     public MyInfoResponseDTO getUserInfo(String email) {
         return MyInfoResponseDTO.create(userRepository.getUserInfo(email));
     }

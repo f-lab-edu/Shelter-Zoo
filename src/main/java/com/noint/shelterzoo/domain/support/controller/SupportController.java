@@ -24,8 +24,7 @@ public class SupportController {
     }
 
     @PostMapping("/supports/pets/{supportPetSeq}")
-    public ResponseEntity<Void> doDonate(@PathVariable Long supportPetSeq, @RequestBody DonateRequestDTO request) {
-        Long userSeq = (Long) session.getAttribute("userSeq");
+    public ResponseEntity<Void> doDonate(@RequestAttribute("userSeq") Long userSeq, @PathVariable Long supportPetSeq, @RequestBody DonateRequestDTO request) {
         request.setSupportPetSeq(supportPetSeq);
         supportService.doDonate(userSeq, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
