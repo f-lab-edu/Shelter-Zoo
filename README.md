@@ -16,3 +16,4 @@
 - [Use Case](https://github.com/f-lab-edu/Shelter-Zoo/wiki/Use-Case)
 - [DB 설계](https://github.com/f-lab-edu/Shelter-Zoo/wiki/DB-%EC%84%A4%EA%B3%84)
 - [API 정의 목록](https://github.com/f-lab-edu/Shelter-Zoo/wiki/API-%EC%A0%95%EC%9D%98-%EB%AA%A9%EB%A1%9D)
+
