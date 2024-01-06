@@ -48,21 +48,16 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-#  datasource:
-#    master:
-#      url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-#      username: ${MYSQL_USER}
-#      password: ${MYSQL_PASSWORD}
-#      driver-class-name: com.mysql.cj.jdbc.Driver
-#    slave:
-#      url: jdbc:mysql://${MYSQL_SLAVE_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-#      username: ${MYSQL_USER}
-#      password: ${MYSQL_PASSWORD}
-#      driver-class-name: com.mysql.cj.jdbc.Driver
+    master:
+      url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      url: jdbc:mysql://${MYSQL_SLAVE_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: ${REDIS_URL}
     port: ${REDIS_PORT}
@@ -85,3 +80,36 @@ pagehelper:
   close-conn: true
   default-count: true
 
+---
+server:
+  shutdown: graceful
+spring:
+  config:
+    activate:
+      on-profile: dev1DB
+  datasource:
+    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: ${REDIS_URL}
+    port: ${REDIS_PORT}
+  session:
+    store-type: redis
+  tomcat:
+    threads:
+      max: 50 # 생성할 수 있는 thread의 총 개수
+      min-spare: 10 # 항상 활성화 되어있는(idle) thread의 개수
+    accept-count: 50 # 작업큐의 사이즈
+    connection-timeout: 30000
+pagehelper:
+  helper-dialect: h2
+  auto-dialect: true
+  page-size-zero: false
+  reasonable: true
+  offset-as-page-num: false
+  row-bounds-with-count: false
+  auto-runtime-dialect: false
+  close-conn: true
+  default-count: true
