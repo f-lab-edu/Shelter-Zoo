@@ -14,8 +14,8 @@ import java.io.IOException;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.noint.shelterzoo.domain.*.repository")
-@Profile("dev")
-public class LocalDBConfig {
+@Profile("{local, dev1DB}")
+public class DBConfigByOne {
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws IOException {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
