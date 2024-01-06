@@ -25,7 +25,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.noint.shelterzoo.domain.*.repository")
-//@Profile("local")
+@Profile("local")
 public class DBConfig {
     @Value("${spring.datasource.master.url}")
     private String masterUrl;
