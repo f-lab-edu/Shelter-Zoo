@@ -48,10 +48,16 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    master:
+      url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      url: jdbc:mysql://${MYSQL_SLAVE_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+      username: ${MYSQL_USER}
+      password: ${MYSQL_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: ${REDIS_URL}
     port: ${REDIS_PORT}
