@@ -57,9 +57,21 @@ public class DBConfig {
         hikariConfig.setPassword(masterPassword);
         hikariConfig.setMaximumPoolSize(masterMaxPoolSize);
         hikariConfig.setMinimumIdle(masterMinIdle);
+        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        hikariConfig.addDataSourceProperty("useServerPrepStmts", "true");
+        hikariConfig.addDataSourceProperty("useLocalSessionState", "true");
+        hikariConfig.addDataSourceProperty("rewriteBatchedStatements", "true");
+        hikariConfig.addDataSourceProperty("cacheResultSetMetadata", "true");
+        hikariConfig.addDataSourceProperty("cacheServerConfiguration", "true");
+        hikariConfig.addDataSourceProperty("elideSetAutoCommits", "true");
+        hikariConfig.addDataSourceProperty("maintainTimeStats", "false");
+
         HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
         log.info("Master-Max-Pool-Size : {}", hikariDataSource.getMaximumPoolSize());
         log.info("Master-Min-Idle : {}", hikariDataSource.getMinimumIdle());
+        log.info("isCached : {}", hikariDataSource.getDataSourceProperties().get("cachePrepStmts"));
         return hikariDataSource;
     }
 
@@ -71,9 +83,20 @@ public class DBConfig {
         hikariConfig.setPassword(slavePassword);
         hikariConfig.setMaximumPoolSize(slaveMaxPoolSize);
         hikariConfig.setMinimumIdle(slaveMinIdle);
+        hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+        hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        hikariConfig.addDataSourceProperty("useServerPrepStmts", "true");
+        hikariConfig.addDataSourceProperty("useLocalSessionState", "true");
+        hikariConfig.addDataSourceProperty("rewriteBatchedStatements", "true");
+        hikariConfig.addDataSourceProperty("cacheResultSetMetadata", "true");
+        hikariConfig.addDataSourceProperty("cacheServerConfiguration", "true");
+        hikariConfig.addDataSourceProperty("elideSetAutoCommits", "true");
+        hikariConfig.addDataSourceProperty("maintainTimeStats", "false");
         HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
         log.info("Slave-Max-Pool-Size : {}", hikariDataSource.getMaximumPoolSize());
         log.info("Slave-Min-Idle : {}", hikariDataSource.getMinimumIdle());
+        log.info("isCached : {}", hikariDataSource.getDataSourceProperties().get("cachePrepStmts"));
         return hikariDataSource;
     }
 
