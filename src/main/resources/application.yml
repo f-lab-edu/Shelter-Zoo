@@ -10,11 +10,15 @@ spring:
       username: admin
       password: admin
       driver-class-name: com.mysql.cj.jdbc.Driver
+      minimum-idle: 100
+      maximum-pool-size: 100
     slave:
       url: jdbc:mysql://127.0.0.1:3306/shelter-zoo?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
       username: admin
       password: admin
       driver-class-name: com.mysql.cj.jdbc.Driver
+      minimum-idle: 100
+      maximum-pool-size: 100
   redis:
     host: 127.0.0.1
     port: 6379
@@ -53,11 +57,15 @@ spring:
       username: ${MYSQL_USER}
       password: ${MYSQL_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
+      minimum-idle: 100
+      maximum-pool-size: 100
     slave:
       url: jdbc:mysql://${MYSQL_SLAVE_URL}:${MYSQL_PORT}/${MYSQL_PROJECT_DB}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
       username: ${MYSQL_USER}
       password: ${MYSQL_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
+      minimum-idle: 100
+      maximum-pool-size: 100
   redis:
     host: ${REDIS_URL}
     port: ${REDIS_PORT}
@@ -92,6 +100,9 @@ spring:
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 100
+      maximum-pool-size: 100
   redis:
     host: ${REDIS_URL}
     port: ${REDIS_PORT}

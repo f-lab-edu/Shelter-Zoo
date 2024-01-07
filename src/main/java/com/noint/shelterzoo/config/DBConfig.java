@@ -1,10 +1,11 @@
 package com.noint.shelterzoo.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -25,7 +26,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @MapperScan(basePackages = "com.noint.shelterzoo.domain.*.repository")
-@Profile("dev")
+@Profile(value = {"local", "dev"})
 public class DBConfig {
     @Value("${spring.datasource.master.url}")
     private String masterUrl;
@@ -33,30 +34,47 @@ public class DBConfig {
     private String masterUsername;
     @Value("${spring.datasource.master.password}")
     private String masterPassword;
+    @Value("${spring.datasource.master.maximum-pool-size}")
+    private int masterMaxPoolSize;
+    @Value("${spring.datasource.master.minimum-idle}")
+    private int masterMinIdle;
     @Value("${spring.datasource.slave.url}")
     private String slaveUrl;
     @Value("${spring.datasource.slave.username}")
     private String slaveUsername;
     @Value("${spring.datasource.slave.password}")
     private String slavePassword;
-
+    @Value("${spring.datasource.slave.maximum-pool-size}")
+    private int slaveMaxPoolSize;
+    @Value("${spring.datasource.slave.minimum-idle}")
+    private int slaveMinIdle;
 
     @Bean
     public DataSource masterDataSource() {
-        return DataSourceBuilder.create()
-                .url(masterUrl)
-                .username(masterUsername)
-                .password(masterPassword)
-                .build();
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(masterUrl);
+        hikariConfig.setUsername(masterUsername);
+        hikariConfig.setPassword(masterPassword);
+        hikariConfig.setMaximumPoolSize(masterMaxPoolSize);
+        hikariConfig.setMinimumIdle(masterMinIdle);
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+        log.info("Master-Max-Pool-Size : {}", hikariDataSource.getMaximumPoolSize());
+        log.info("Master-Min-Idle : {}", hikariDataSource.getMinimumIdle());
+        return hikariDataSource;
     }
 
     @Bean
     public DataSource slaveDataSource() {
-        return DataSourceBuilder.create()
-                .url(slaveUrl)
-                .username(slaveUsername)
-                .password(slavePassword)
-                .build();
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(slaveUrl);
+        hikariConfig.setUsername(slaveUsername);
+        hikariConfig.setPassword(slavePassword);
+        hikariConfig.setMaximumPoolSize(slaveMaxPoolSize);
+        hikariConfig.setMinimumIdle(slaveMinIdle);
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+        log.info("Slave-Max-Pool-Size : {}", hikariDataSource.getMaximumPoolSize());
+        log.info("Slave-Min-Idle : {}", hikariDataSource.getMinimumIdle());
+        return hikariDataSource;
     }
 
     @Bean
